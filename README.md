@@ -3,6 +3,8 @@
 A student verification sign-up application.
 
 ## Setup
+In git bash:
+git clone https://github.com/Evamatrix/Adaptation-Revelation.git
 
 1. Install dependencies:
 ```bash
