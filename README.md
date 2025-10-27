@@ -6,18 +6,19 @@ An application for verified students to meet each other, join clubs, and create 
 1. Clone repository
 ```bash
 git clone https://github.com/Evamatrix/Adaptation-Revelation.git
+```
 
-1. Install dependencies:
+2. Install dependencies
 ```bash
 npm install
 ```
 
-2. Run the development server:
+3. Run the development server:
 ```bash
 npm run dev
 ```
 
-3. Build for production:
+4. Build for production:
 ```bash
 npm run build
 ```
