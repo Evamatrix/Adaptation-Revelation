@@ -1,12 +1,14 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './SignUp.css';
 
 export default function SignUp() {
   const [email, setEmail] = useState('');
+  const navigate = useNavigate();
 
   const handleVerify = () => {
     if (email && email.includes('@') && email.includes('.edu')) {
-      alert(`Verification email sent to ${email}`);
+      navigate('/verified', { state: { email } });
     } else {
       alert('Please enter a valid school email address');
     }
@@ -23,6 +25,11 @@ export default function SignUp() {
           placeholder="name@school.edu"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              handleVerify();
+            }
+          }}
         />
       </div>
       <button className="verify-button" onClick={handleVerify}>
