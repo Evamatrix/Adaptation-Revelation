@@ -3,7 +3,8 @@
 An application for verified students to meet each other, join clubs, and create lasting relationships.
 
 ## Setup
-In git bash:
+1. Clone repository
+```bash
 git clone https://github.com/Evamatrix/Adaptation-Revelation.git
 
 1. Install dependencies:
