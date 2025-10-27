@@ -1,6 +1,6 @@
 # Adaptation-Revelation
 
-A student verification sign-up application.
+An application for verified students to meet each other, join clubs, and create lasting relationships.
 
 ## Setup
 
