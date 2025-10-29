@@ -16,6 +16,7 @@ function App() {
           <Route path="/profile" element={<UserProfile />} />
           <Route path="*" element={<Navigate to="/" />} />
           <Route path="/create-account" element={<AccountPage1 />} />
+          <Route path="/create-account2" element={<CreateAccountPg2 />} />
         </Routes>
       </div>
     </Router>

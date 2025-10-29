@@ -90,7 +90,7 @@ export function Buttons() {
 
   //CHANGE AFTER ADDING NEXT PAGE
   const goNext = () => {
-    navigate('/verified');
+    navigate('/create-account2');
   };
 
   return (

@@ -1,5 +1,7 @@
 import { useState } from 'react';
-import './CreateAccountPg2.css';  
+import './CreateAccountPg2.css';
+import { useNavigate } from 'react-router-dom';
+
 
 export default function CreateAccountPg2() {
   const [form, setForm] = useState({
@@ -42,9 +44,10 @@ export default function CreateAccountPg2() {
           <span className="button-text">← BACK</span>
         </button>
 
-        <button className="createaccount-button">
-          <span className="button-text">FINISH</span>
-        </button>
+        <div className="createaccount-button">
+          <Buttons />
+        </div>
+
       </div>
 
       <div style={{ display: 'flex', justifyContent: 'center', marginTop: '40px', gap: '10px' }}>
@@ -54,3 +57,30 @@ export default function CreateAccountPg2() {
     </div>
   );
 }
+
+
+/**
+ *    <div>
+          <button className="createaccount-button">
+            <span className="button-text">FINISH</span>
+          </button>
+        </div>
+ */
+
+export function Buttons() {
+  const navigate = useNavigate();
+
+  //CHANGE AFTER ADDING NEXT PAGE
+  const goFinish = () => {
+    navigate('/profile');
+  };
+
+  return (
+    <div>
+      <button onClick={goFinish} className="createaccount-button" style={{ width: '100%', maxWidth: '400px' }}>
+        <span className="button-text">FINISH</span>
+      </button>
+    </div>
+  );
+}
+
