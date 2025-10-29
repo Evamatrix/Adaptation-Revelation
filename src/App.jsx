@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import SignUp from './components/SignUp';
 import UserVerified from './components/UserVerified';
 import AccountPage1 from './components/AccountPage1';
+import CreateAccountPg2 from './components/CreateAccountPg2';
 import './App.css';
 
 function App() {
