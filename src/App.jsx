@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import SignUp from './components/SignUp';
 import UserVerified from './components/UserVerified';
+import AccountPage1 from './components/AccountPage1';
 import CreateAccountPg2 from './components/CreateAccountPg2';
 import './App.css';
 
@@ -11,8 +12,8 @@ function App() {
         <Routes>
           <Route path="/" element={<SignUp />} />
           <Route path="/verified" element={<UserVerified />} />
-          <Route path="/create-account" element={<CreateAccountPg2 />} />
           <Route path="*" element={<Navigate to="/" />} />
+          <Route path="/create-account" element={<AccountPage1 />} />
         </Routes>
       </div>
     </Router>
