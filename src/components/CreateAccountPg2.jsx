@@ -39,16 +39,8 @@ export default function CreateAccountPg2() {
         ))}
       </div>
 
-      <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', maxWidth: '400px' }}>
-        <button className="createaccount-button">
-          <span className="button-text">← BACK</span>
-        </button>
-
-        <div className="createaccount-button">
-          <Buttons />
-        </div>
-
-      </div>
+      {/*back and finish buttons */}
+      <Buttons />
 
       <div style={{ display: 'flex', justifyContent: 'center', marginTop: '40px', gap: '10px' }}>
         <span style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#D3D3D3' }}></span>
@@ -70,13 +62,20 @@ export default function CreateAccountPg2() {
 export function Buttons() {
   const navigate = useNavigate();
 
-  //CHANGE AFTER ADDING NEXT PAGE
+  const goBack = () => {
+    navigate('/create-account');
+  }
+
   const goFinish = () => {
     navigate('/profile');
   };
 
   return (
-    <div>
+    <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', maxWidth: '400px'}}>
+      <button onClick={goBack} className="createaccount-button" style={{ width: '100%', maxWidth: '400px' }}>
+        <span className="button-text">BACK</span>
+      </button>
+
       <button onClick={goFinish} className="createaccount-button" style={{ width: '100%', maxWidth: '400px' }}>
         <span className="button-text">FINISH</span>
       </button>
