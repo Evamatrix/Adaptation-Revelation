@@ -23,7 +23,9 @@ npm install
 npm run dev
 ```
 
-5. Build for production:
+5. Copy the provided localhost web address after "LOCAL:" and paste in browser search bar
+
+6. Build for production:
 ```bash
 npm run build
 ```
