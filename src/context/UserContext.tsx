@@ -25,25 +25,20 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [allUsers, setAllUsers] = useState<Record<string, UserData>>({});
   const [currentEmail, setCurrentEmail] = useState<string | null>(null);
-
-  // ✅ Get data for specific email
-  // ✅ Get data for specific email safely
+ 
 const getUserDataForEmail = (email: string | null): UserData => {
-    if (!email) return {}; // Prevent null access
+    if (!email) return {};  
     const user = allUsers[email];
     return user ? user : {};
   };
-  
-
-  // ✅ Update (or create) user data for specific email
+   
   const setUserDataForEmail = (email: string, data: Partial<UserData>) => {
     setAllUsers((prev) => ({
       ...prev,
       [email]: { ...prev[email], ...data },
     }));
   };
-
-  // ✅ Clear data for one user
+ 
   const clearUserData = (email: string) => {
     setAllUsers((prev) => {
       const updated = { ...prev };

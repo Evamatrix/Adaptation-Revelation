@@ -21,16 +21,14 @@ export default function CreateAccountPg2() {
     getUserDataForEmail,
     setUserDataForEmail,
   } = useUser();
-
-  // ✅ Load user-specific data
+ 
   const userData = currentEmail ? getUserDataForEmail(currentEmail) : {};
 
   const [nationality, setNationality] = useState(userData.nationality || '');
   const [languages, setLanguages] = useState(userData.languages || '');
   const [religion, setReligion] = useState(userData.religion || '');
   const [interests, setInterests] = useState(userData.interests || '');
-
-  // ✅ Load existing data when email changes
+ 
   useEffect(() => {
     if (currentEmail) {
       const existingData = getUserDataForEmail(currentEmail);
@@ -69,11 +67,9 @@ export default function CreateAccountPg2() {
       <ScrollView
         contentContainerStyle={styles.container}
         showsVerticalScrollIndicator={false}
-      >
-        {/* TITLE */}
+      > 
         <Text style={styles.title}>SELECT</Text>
-
-        {/* INPUT FIELDS */}
+ 
         <Text style={styles.label}>NATIONALITY:</Text>
         <TextInput
           style={styles.input}
@@ -109,8 +105,7 @@ export default function CreateAccountPg2() {
           value={interests}
           onChangeText={setInterests}
         />
-
-        {/* BUTTONS */}
+ 
         <View style={styles.buttonRow}>
           <TouchableOpacity style={styles.button} onPress={handleBack}>
             <Text style={styles.buttonText}>BACK</Text>
@@ -124,8 +119,7 @@ export default function CreateAccountPg2() {
     </View>
   );
 }
-
-// ---------- Styles ----------
+ 
 const { width } = Dimensions.get('window');
 const FIXED_WIDTH = Math.min(width * 0.85, 380);
 

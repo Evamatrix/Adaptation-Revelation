@@ -29,36 +29,32 @@ export default function UserVerified() {
   }
 
   return (
-    <View style={styles.container}>
-      {/* Green Check Icon */}
+    <View style={styles.container}> 
       <View style={styles.checkIcon}>
         <View style={styles.checkCircle}>
           <Text style={styles.checkMark}>✓</Text>
         </View>
       </View>
-
-      {/* Titles */}
+ 
       <Text style={styles.title}>user verified</Text>
       <Text style={styles.signInLabel}>verified email:</Text>
-
-      {/* Email Display Box */}
+ 
       <View style={styles.inputWrapper}>
         <TextInput
           style={styles.input}
           value={email || 'name@school.edu'}
-          editable={false} // read-only
+          editable={false} 
           selectTextOnFocus={false}
         />
       </View>
-
-      {/* NEXT Button */}
+ 
       <TouchableOpacity
         style={styles.button}
         activeOpacity={0.8}
         onPress={() =>
           router.push({
             pathname: '/account-page1',
-            params: { email }, // pass email to next page if needed
+            params: { email }, 
           })
         }
       >

@@ -18,11 +18,9 @@ export default function UserProfile() {
     setCurrentEmail,
   } = useUser();
   const router = useRouter();
-
-  // ✅ Load current user's data safely
+ 
   const userData = currentEmail ? getUserDataForEmail(currentEmail) : {};
-
-  // ✅ Fallback values
+ 
   const {
     firstName = 'First',
     lastName = 'Last',
@@ -35,17 +33,15 @@ export default function UserProfile() {
 
   const safeValue = (value?: string) =>
     value && value.trim() !== '' ? value : 'N/A';
-
-  // ✅ Sign out logic
+ 
   const handleSignOut = () => {
     if (currentEmail) clearUserData(currentEmail);
-    setCurrentEmail(null); // clear session
-    router.replace('/signup'); // back to first screen
+    setCurrentEmail(null);  
+    router.replace('/signup'); 
   };
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      {/* 🔹 Sign Out Button */}
+    <SafeAreaView style={styles.safeArea}> 
       <TouchableOpacity
         style={styles.signOutButton}
         onPress={handleSignOut}
@@ -57,8 +53,7 @@ export default function UserProfile() {
       <ScrollView
         contentContainerStyle={styles.container}
         showsVerticalScrollIndicator={false}
-      >
-        {/* Profile Header */}
+      > 
         <View style={styles.header}>
           <View style={styles.photo} />
           <View style={styles.headerText}>
@@ -69,8 +64,7 @@ export default function UserProfile() {
             <Text style={styles.pronouns}>{pronoun.toUpperCase()}</Text>
           </View>
         </View>
-
-        {/* Info Section */}
+ 
         <View style={styles.info}>
           {[
             { label: 'NATIONALITY', value: safeValue(nationality) },
@@ -84,8 +78,7 @@ export default function UserProfile() {
             </View>
           ))}
         </View>
-
-        {/* Buttons */}
+ 
         <View style={styles.buttonRow}>
           <TouchableOpacity
             style={styles.navButton}
@@ -101,8 +94,7 @@ export default function UserProfile() {
             <Text style={styles.buttonText}>EDIT PROFILE</Text>
           </TouchableOpacity>
         </View>
-
-        {/* Bottom Menu */}
+ 
         <View style={styles.menu}>
           <Text style={styles.menuIcon}>🏠</Text>
           <Text style={styles.menuIcon}>🧭</Text>
@@ -113,8 +105,7 @@ export default function UserProfile() {
     </SafeAreaView>
   );
 }
-
-// ---------- Styles ----------
+ 
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,

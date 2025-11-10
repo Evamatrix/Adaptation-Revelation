@@ -22,8 +22,7 @@ export default function AccountPage1() {
     getUserDataForEmail,
     setUserDataForEmail,
   } = useUser();
-
-  // ✅ Load the data for the currently logged-in email
+ 
   const userData = currentEmail ? getUserDataForEmail(currentEmail) : {};
 
   const [firstName, setFirstName] = useState(userData.firstName || '');
@@ -154,8 +153,7 @@ export default function AccountPage1() {
     </View>
   );
 }
-
-// ---------- Styles ----------
+ 
 const { width } = Dimensions.get('window');
 const FIXED_WIDTH = Math.min(width * 0.85, 380);
 

@@ -12,8 +12,7 @@ export default function AccountPage1(): JSX.Element {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>Welcome!</Text>
-
-      {/* First Name */}
+ 
       <View style={styles.fieldContainer}>
         <Text style={styles.label}>FIRST NAME:</Text>
         <TextInput
@@ -23,8 +22,7 @@ export default function AccountPage1(): JSX.Element {
           onChangeText={setFirstName}
         />
       </View>
-
-      {/* Last Name */}
+ 
       <View style={styles.fieldContainer}>
         <Text style={styles.label}>LAST NAME:</Text>
         <TextInput
@@ -34,8 +32,7 @@ export default function AccountPage1(): JSX.Element {
           onChangeText={setLastName}
         />
       </View>
-
-      {/* Pronouns */}
+ 
       <View style={styles.pronounSection}>
         <Text style={styles.label}>Pronoun(s):</Text>
 
@@ -65,8 +62,7 @@ export default function AccountPage1(): JSX.Element {
           />
         </View>
       </View>
-
-      {/* Buttons */}
+ 
       <View style={styles.buttonRow}>
         <TouchableOpacity
           style={[styles.button, { backgroundColor: '#ffc5cd' }]}
