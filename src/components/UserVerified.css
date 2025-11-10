@@ -1,0 +1,76 @@
+.verified-container {
+  width: 100%;
+  max-width: 440px;
+  min-height: 100vh;
+  background: #FFF;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.check-icon {
+  margin: 60px 0 40px;
+}
+
+.check-circle {
+  width: 130px;
+  height: 130px;
+  background-color: #39ba4d;
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.check-mark {
+  color: #a9f59f;
+  font-size: 60px;
+}
+
+.verified-title {
+  font-family: 'Koulen', sans-serif;
+  font-size: 50px;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.signin-label {
+  font-family: 'Koulen', sans-serif;
+  font-size: 40px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.email-input-wrapper {
+  width: 100%;
+  max-width: 294px;
+  margin-bottom: 25px;
+}
+
+.email-input {
+  width: 100%;
+  height: 48px;
+  background-color: snow;
+  border: 1px solid black;
+  padding: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 25px;
+  text-align: center;
+  color: #5c5c5c;
+}
+
+.enter-button {
+  width: 160px;
+  height: 48px;
+  background-color: snow;
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+.enter-button .button-text {
+  font-family: 'Koulen', sans-serif;
+  font-size: 30px;
+  text-align: center;
+}
