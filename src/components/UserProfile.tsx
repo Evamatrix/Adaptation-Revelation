@@ -1,14 +1,14 @@
-import React from 'react';
+import { useRouter } from 'expo-router';
 import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
   SafeAreaView,
   ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-import { useRouter } from 'expo-router';
 import { useUser } from '../context/UserContext';
+import Footer from './footer';
 
 export default function UserProfile() {
   const {
@@ -18,9 +18,9 @@ export default function UserProfile() {
     setCurrentEmail,
   } = useUser();
   const router = useRouter();
- 
+
   const userData = currentEmail ? getUserDataForEmail(currentEmail) : {};
- 
+
   const {
     firstName = 'First',
     lastName = 'Last',
@@ -33,15 +33,16 @@ export default function UserProfile() {
 
   const safeValue = (value?: string) =>
     value && value.trim() !== '' ? value : 'N/A';
- 
+
   const handleSignOut = () => {
     if (currentEmail) clearUserData(currentEmail);
-    setCurrentEmail(null);  
-    router.replace('/signup'); 
+    setCurrentEmail(null);
+    router.replace('/signup');
   };
 
   return (
-    <SafeAreaView style={styles.safeArea}> 
+    <SafeAreaView style={styles.safeArea}>
+      {/* Sign Out */}
       <TouchableOpacity
         style={styles.signOutButton}
         onPress={handleSignOut}
@@ -53,7 +54,8 @@ export default function UserProfile() {
       <ScrollView
         contentContainerStyle={styles.container}
         showsVerticalScrollIndicator={false}
-      > 
+      >
+        {/* Header Section */}
         <View style={styles.header}>
           <View style={styles.photo} />
           <View style={styles.headerText}>
@@ -64,7 +66,8 @@ export default function UserProfile() {
             <Text style={styles.pronouns}>{pronoun.toUpperCase()}</Text>
           </View>
         </View>
- 
+
+        {/* Info Section */}
         <View style={styles.info}>
           {[
             { label: 'NATIONALITY', value: safeValue(nationality) },
@@ -78,7 +81,8 @@ export default function UserProfile() {
             </View>
           ))}
         </View>
- 
+
+        {/* Buttons */}
         <View style={styles.buttonRow}>
           <TouchableOpacity
             style={styles.navButton}
@@ -94,18 +98,14 @@ export default function UserProfile() {
             <Text style={styles.buttonText}>EDIT PROFILE</Text>
           </TouchableOpacity>
         </View>
- 
-        <View style={styles.menu}>
-          <Text style={styles.menuIcon}>🏠</Text>
-          <Text style={styles.menuIcon}>🧭</Text>
-          <Text style={styles.menuIcon}>💬</Text>
-          <Text style={styles.menuIcon}>👤</Text>
-        </View>
+
+        {/* ✅ Shared Footer Component */}
+        <Footer />
       </ScrollView>
     </SafeAreaView>
   );
 }
- 
+
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
@@ -165,14 +165,22 @@ const styles = StyleSheet.create({
     color: '#000',
     marginBottom: -4,
   },
-  name: { fontSize: 40, fontFamily: 'Koulen', color: '#000' },
+  name: {
+    fontSize: 40,
+    fontFamily: 'Koulen',
+    color: '#000',
+  },
   pronouns: {
     fontSize: 20,
     color: '#5C5C5C',
     fontFamily: 'Koulen',
     marginTop: 4,
   },
-  info: { width: '100%', marginTop: 10, marginBottom: 30 },
+  info: {
+    width: '100%',
+    marginTop: 10,
+    marginBottom: 30,
+  },
   infoBlock: { marginBottom: 22 },
   infoLabel: {
     fontSize: 22,
@@ -205,16 +213,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  buttonText: { fontSize: 22, fontFamily: 'Koulen', color: '#000' },
-  menu: {
-    width: '100%',
-    height: 90,
-    backgroundColor: '#88E9FF',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    borderRadius: 25,
-    marginTop: -10,
+  buttonText: {
+    fontSize: 22,
+    fontFamily: 'Koulen',
+    color: '#000',
   },
-  menuIcon: { fontSize: 28 },
 });
