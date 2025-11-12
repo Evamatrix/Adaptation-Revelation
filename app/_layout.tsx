@@ -1,11 +1,13 @@
-import React from 'react';
-import { Slot } from 'expo-router';       
-import { UserProvider } from '../src/context/UserContext';   
+import { Slot } from 'expo-router';
+import { ClubProvider } from '../src/context/ClubConText';
+import { UserProvider } from '../src/context/UserContext';
 
 export default function Layout() {
   return (
     <UserProvider>
-      <Slot />  
+      <ClubProvider>
+        <Slot />
+      </ClubProvider>
     </UserProvider>
   );
 }

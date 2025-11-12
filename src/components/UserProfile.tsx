@@ -1,5 +1,6 @@
 import { useRouter } from 'expo-router';
 import {
+  Platform,
   SafeAreaView,
   ScrollView,
   StyleSheet,
@@ -8,19 +9,12 @@ import {
   View,
 } from 'react-native';
 import { useUser } from '../context/UserContext';
-import Footer from './footer';
 
 export default function UserProfile() {
-  const {
-    currentEmail,
-    getUserDataForEmail,
-    clearUserData,
-    setCurrentEmail,
-  } = useUser();
+  const { currentEmail, getUserDataForEmail, clearUserData, setCurrentEmail } = useUser();
   const router = useRouter();
 
   const userData = currentEmail ? getUserDataForEmail(currentEmail) : {};
-
   const {
     firstName = 'First',
     lastName = 'Last',
@@ -31,8 +25,7 @@ export default function UserProfile() {
     interests,
   } = userData;
 
-  const safeValue = (value?: string) =>
-    value && value.trim() !== '' ? value : 'N/A';
+  const safeValue = (value?: string) => (value && value.trim() !== '' ? value : 'N/A');
 
   const handleSignOut = () => {
     if (currentEmail) clearUserData(currentEmail);
@@ -41,8 +34,7 @@ export default function UserProfile() {
   };
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      {/* Sign Out */}
+    <SafeAreaView style={styles.safeArea}> 
       <TouchableOpacity
         style={styles.signOutButton}
         onPress={handleSignOut}
@@ -51,11 +43,7 @@ export default function UserProfile() {
         <Text style={styles.signOutText}>SIGN OUT</Text>
       </TouchableOpacity>
 
-      <ScrollView
-        contentContainerStyle={styles.container}
-        showsVerticalScrollIndicator={false}
-      >
-        {/* Header Section */}
+      <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}> 
         <View style={styles.header}>
           <View style={styles.photo} />
           <View style={styles.headerText}>
@@ -66,8 +54,7 @@ export default function UserProfile() {
             <Text style={styles.pronouns}>{pronoun.toUpperCase()}</Text>
           </View>
         </View>
-
-        {/* Info Section */}
+ 
         <View style={styles.info}>
           {[
             { label: 'NATIONALITY', value: safeValue(nationality) },
@@ -81,13 +68,9 @@ export default function UserProfile() {
             </View>
           ))}
         </View>
-
-        {/* Buttons */}
+ 
         <View style={styles.buttonRow}>
-          <TouchableOpacity
-            style={styles.navButton}
-            onPress={() => router.back()}
-          >
+          <TouchableOpacity style={styles.navButton} onPress={() => router.back()}>
             <Text style={styles.buttonText}>BACK</Text>
           </TouchableOpacity>
 
@@ -98,10 +81,27 @@ export default function UserProfile() {
             <Text style={styles.buttonText}>EDIT PROFILE</Text>
           </TouchableOpacity>
         </View>
-
-        {/* ✅ Shared Footer Component */}
-        <Footer />
       </ScrollView>
+ 
+      <View style={styles.footerContainer}>
+        <View style={styles.menu}>
+          <TouchableOpacity onPress={() => router.push('/homescreen')}>
+            <Text style={styles.menuIcon}>🏠</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => router.push('/connect')}>
+            <Text style={styles.menuIcon}>🧭</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity>
+            <Text style={styles.menuIcon}>💬</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => router.push('/user-profile')}>
+            <Text style={styles.menuIcon}>👤</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     </SafeAreaView>
   );
 }
@@ -122,10 +122,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     paddingVertical: 6,
     zIndex: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
   },
   signOutText: {
     fontSize: 16,
@@ -134,18 +130,13 @@ const styles = StyleSheet.create({
   },
   container: {
     flexGrow: 1,
-    width: '100%',
-    maxWidth: 440,
-    alignSelf: 'center',
     paddingHorizontal: 24,
     paddingTop: 60,
-    paddingBottom: 60,
+    paddingBottom: 120,  
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    width: '100%',
-    gap: 18,
     marginBottom: 30,
   },
   photo: {
@@ -153,55 +144,20 @@ const styles = StyleSheet.create({
     height: 120,
     backgroundColor: '#E6E6E6',
     borderRadius: 60,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.2,
-    shadowRadius: 8,
+    marginRight: 20,
   },
-  headerText: { flex: 1, justifyContent: 'center' },
-  greeting: {
-    fontSize: 26,
-    fontFamily: 'Koulen',
-    color: '#000',
-    marginBottom: -4,
-  },
-  name: {
-    fontSize: 40,
-    fontFamily: 'Koulen',
-    color: '#000',
-  },
-  pronouns: {
-    fontSize: 20,
-    color: '#5C5C5C',
-    fontFamily: 'Koulen',
-    marginTop: 4,
-  },
-  info: {
-    width: '100%',
-    marginTop: 10,
-    marginBottom: 30,
-  },
+  headerText: { flex: 1 },
+  greeting: { fontSize: 26, fontFamily: 'Koulen', color: '#000' },
+  name: { fontSize: 40, fontFamily: 'Koulen', color: '#000' },
+  pronouns: { fontSize: 20, color: '#5C5C5C', fontFamily: 'Koulen' },
+  info: { marginBottom: 30 },
   infoBlock: { marginBottom: 22 },
-  infoLabel: {
-    fontSize: 22,
-    fontFamily: 'Koulen',
-    color: '#000',
-    marginBottom: 4,
-  },
-  infoValue: {
-    fontSize: 18,
-    color: '#5C5C5C',
-    fontFamily: 'Koulen',
-    textTransform: 'capitalize',
-    marginTop: 4,
-  },
+  infoLabel: { fontSize: 22, fontFamily: 'Koulen', color: '#000' },
+  infoValue: { fontSize: 18, fontFamily: 'Koulen', color: '#5C5C5C' },
   buttonRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: '100%',
-    maxWidth: 440,
-    marginTop: -30,
-    marginBottom: 40,
+    marginBottom: 80,
   },
   navButton: {
     width: '48%',
@@ -213,9 +169,25 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  buttonText: {
-    fontSize: 22,
-    fontFamily: 'Koulen',
-    color: '#000',
+  buttonText: { fontSize: 22, fontFamily: 'Koulen', color: '#000' },
+  footerContainer: {
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF',
+    paddingBottom: Platform.OS === 'ios' ? 30 : 20,
+  },
+  menu: {
+    width: '90%',
+    height: 80,
+    backgroundColor: '#88E9FF',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    borderRadius: 25,
+  },
+  menuIcon: {
+    fontSize: 28,
   },
 });
