@@ -93,7 +93,7 @@ export default function UserProfile() {
             <Text style={styles.menuIcon}>🧭</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => router.push('/chat-room')}>
             <Text style={styles.menuIcon}>💬</Text>
           </TouchableOpacity>
 

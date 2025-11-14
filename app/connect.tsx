@@ -1,11 +1,11 @@
 import { useRouter } from 'expo-router';
 import {
-    Platform,
-    SafeAreaView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  Platform,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 
 export default function Connect() {
@@ -53,7 +53,7 @@ export default function Connect() {
             <Text style={styles.menuIcon}>🧭</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => router.push('/chat-room')}>
             <Text style={styles.menuIcon}>💬</Text>
           </TouchableOpacity>
 

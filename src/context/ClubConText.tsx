@@ -1,38 +1,114 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState } from "react";
+import uuid from "react-native-uuid";
 
-type Club = {
+
+// -----------------------------------------
+// TYPES
+// -----------------------------------------
+export interface Club {
   name: string;
   members: number;
   description: string;
-};
+}
 
-type ClubContextType = {
+export interface Message {
+  id: string;
+  clubName: string;
+  sender: string;
+  text: string;
+  timestamp: number;
+}
+
+export interface Notification {
+  id: string;
+  text: string;
+  timestamp: number;
+}
+
+export interface ClubContextType {
   clubs: Club[];
-  addClub: (newClub: Club) => void;
-  setClubs: React.Dispatch<React.SetStateAction<Club[]>>;  
-};
+  setClubs: React.Dispatch<React.SetStateAction<Club[]>>;
 
-const ClubContext = createContext<ClubContextType | undefined>(undefined);
+  messages: Message[];
+  addMessage: (clubName: string, sender: string, text: string) => void;
+
+  notifications: Notification[];
+  addNotification: (text: string) => void;
+}
+
+// -----------------------------------------
+// CONTEXT
+// -----------------------------------------
+export const ClubContext = createContext<ClubContextType | undefined>(
+  undefined
+);
 
 export const ClubProvider = ({ children }: { children: React.ReactNode }) => {
   const [clubs, setClubs] = useState<Club[]>([
-    { name: 'Aardvark Club', members: 24, description: 'A club for aardvark lovers.' },
-    { name: 'Screen Writers', members: 5, description: 'We love movies and scripts!' },
+    { name: "Screen Writers", members: 5, description: "Writing & film club" },
+    { name: "Eating Club", members: 15, description: "Food lovers" },
+    { name: "Unicycle Club", members: 5, description: "Balance and fun!" },
   ]);
 
-  const addClub = (newClub: Club) => {
-    setClubs((prev) => [newClub, ...prev]);  
+  const [messages, setMessages] = useState<Message[]>([]);
+
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+
+  // -----------------------------------------
+  // ADD MESSAGE
+  // -----------------------------------------
+  const addMessage = (clubName: string, sender: string, text: string) => {
+    setMessages((prev) => [
+      ...prev,
+      {
+        id: uuid.v4().toString(),
+        clubName,
+        sender,
+        text,
+        timestamp: Date.now(),
+      },
+    ]);
+  };
+
+  // -----------------------------------------
+  // ADD NOTIFICATION
+  // -----------------------------------------
+  const addNotification = (text: string) => {
+    setNotifications((prev) => [
+      ...prev,
+      {
+        id: uuid.v4().toString(),
+        text,
+        timestamp: Date.now(),
+      },
+    ]);
   };
 
   return (
-    <ClubContext.Provider value={{ clubs, addClub, setClubs }}>
+    <ClubContext.Provider
+      value={{
+        clubs,
+        setClubs,
+
+        messages,
+        addMessage,
+
+        notifications,
+        addNotification,
+      }}
+    >
       {children}
     </ClubContext.Provider>
   );
 };
 
+// -----------------------------------------
+// HOOK
+// -----------------------------------------
 export const useClubs = () => {
-  const context = useContext(ClubContext);
-  if (!context) throw new Error('useClubs must be used within a ClubProvider');
-  return context;
+  const ctx = useContext(ClubContext);
+  if (!ctx) {
+    throw new Error("useClubs must be used inside ClubProvider");
+  }
+  return ctx;
 };

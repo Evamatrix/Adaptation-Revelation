@@ -1,13 +1,13 @@
 import { useRouter } from 'expo-router';
 import {
-    Image,
-    Platform,
-    SafeAreaView,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  Image,
+  Platform,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 
 export default function HomeScreen() {
@@ -70,7 +70,7 @@ export default function HomeScreen() {
             <Text style={styles.menuIcon}>🧭</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => router.push('/chat-room')}>
             <Text style={styles.menuIcon}>💬</Text>
           </TouchableOpacity>
 

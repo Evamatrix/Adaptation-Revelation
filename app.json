@@ -9,6 +9,7 @@
     "scheme": "native",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+    
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.anonymous.native"

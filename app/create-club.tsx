@@ -1,14 +1,14 @@
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import {
-    Image,
-    Platform,
-    SafeAreaView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  Image,
+  Platform,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import { useClubs } from '../src/context/ClubConText';
 
@@ -30,12 +30,14 @@ export default function CreateClub() {
       members: 1,
       description: description.trim() || 'No description provided.',
     });
- 
+
     router.replace('/clubs');
   };
 
   return (
-    <SafeAreaView style={styles.safeArea}> 
+    <SafeAreaView style={styles.safeArea}>
+      
+      {/* BACK BUTTON (copied styling) */}
       <TouchableOpacity
         style={styles.backButton}
         onPress={() => router.back()}
@@ -43,14 +45,14 @@ export default function CreateClub() {
       >
         <Text style={styles.backText}>BACK</Text>
       </TouchableOpacity>
- 
+
       <Text style={styles.title}>CREATE CLUB</Text>
- 
+
       <Image
         source={require('../assets/images/splash-icon.png')}
         style={styles.icon}
       />
- 
+
       <Text style={styles.label}>CLUB NAME</Text>
       <TextInput
         style={styles.input}
@@ -58,7 +60,7 @@ export default function CreateClub() {
         value={name}
         onChangeText={setName}
       />
- 
+
       <Text style={styles.label}>DESCRIPTION</Text>
       <TextInput
         style={[styles.input, styles.descriptionInput]}
@@ -67,7 +69,7 @@ export default function CreateClub() {
         value={description}
         onChangeText={setDescription}
       />
- 
+
       <TouchableOpacity
         style={styles.addButton}
         onPress={handleAddClub}
@@ -75,7 +77,7 @@ export default function CreateClub() {
       >
         <Text style={styles.addText}>ADD</Text>
       </TouchableOpacity>
- 
+
       <View style={styles.footer}>
         <View style={styles.menu}>
           <Text style={styles.menuIcon}>🏠</Text>
@@ -90,29 +92,35 @@ export default function CreateClub() {
 
 const styles = StyleSheet.create({
   safeArea: { flex: 1, backgroundColor: '#FFFFFF', alignItems: 'center' },
+
+  // ✅ COPIED EXACT FROM Clubs.tsx
   backButton: {
     position: 'absolute',
     top: 40,
-    left: 20,
-    borderWidth: 1.5,
+    left: 15,
+    borderWidth: 2,
     borderColor: '#000',
-    paddingHorizontal: 12,
-    paddingVertical: 4,
-    zIndex: 10,
+    borderRadius: 4,
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    backgroundColor: '#FFFFFF',
   },
-  backText: { fontFamily: 'Koulen', fontSize: 18, color: '#000' },
+  backText: { fontSize: 16, fontFamily: 'Koulen', color: '#000' },
+
   title: {
     fontFamily: 'Koulen',
     fontSize: 36,
     marginTop: 80,
     color: '#000',
   },
+
   icon: {
     width: 100,
     height: 100,
     marginVertical: 20,
     tintColor: '#000',
   },
+
   label: {
     fontFamily: 'Koulen',
     fontSize: 20,
@@ -121,6 +129,7 @@ const styles = StyleSheet.create({
     marginBottom: 6,
     color: '#000',
   },
+
   input: {
     width: '85%',
     backgroundColor: '#D9D9D9',
@@ -130,10 +139,12 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 20,
   },
+
   descriptionInput: {
     height: 120,
     textAlignVertical: 'top',
   },
+
   addButton: {
     backgroundColor: '#FFF8F9',
     borderWidth: 2,
@@ -143,11 +154,13 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     marginTop: 10,
   },
+
   addText: {
     fontFamily: 'Koulen',
     fontSize: 22,
     color: '#000',
   },
+
   footer: {
     position: 'absolute',
     bottom: 0,
@@ -156,6 +169,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingBottom: Platform.OS === 'ios' ? 30 : 20,
   },
+
   menu: {
     width: '90%',
     height: 80,
@@ -165,5 +179,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
   },
+
   menuIcon: { fontSize: 26 },
 });
