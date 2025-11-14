@@ -20,7 +20,7 @@ npm install
 
 4. Run the development server:
 ```bash
-npm run dev
+npm run start
 ```
 
 5. Copy the provided localhost web address after "LOCAL:" and paste in browser search bar
