@@ -27,7 +27,7 @@ export default function Notifications() {
           <ScrollView>
             {notifications.map((n) => (
               <Text key={n.id} style={styles.item}>
-                • {n.message} ({n.time})
+                • {n.text} ({n.timestamp})
               </Text>
             ))}
           </ScrollView>

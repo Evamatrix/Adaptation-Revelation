@@ -1,10 +1,6 @@
 import React, { createContext, useContext, useState } from "react";
 import uuid from "react-native-uuid";
-
-
-// -----------------------------------------
-// TYPES
-// -----------------------------------------
+ 
 export interface Club {
   name: string;
   members: number;
@@ -28,6 +24,7 @@ export interface Notification {
 export interface ClubContextType {
   clubs: Club[];
   setClubs: React.Dispatch<React.SetStateAction<Club[]>>;
+  addClub: (club: Club) => void;   
 
   messages: Message[];
   addMessage: (clubName: string, sender: string, text: string) => void;
@@ -36,9 +33,7 @@ export interface ClubContextType {
   addNotification: (text: string) => void;
 }
 
-// -----------------------------------------
-// CONTEXT
-// -----------------------------------------
+ 
 export const ClubContext = createContext<ClubContextType | undefined>(
   undefined
 );
@@ -54,9 +49,12 @@ export const ClubProvider = ({ children }: { children: React.ReactNode }) => {
 
   const [notifications, setNotifications] = useState<Notification[]>([]);
 
-  // -----------------------------------------
-  // ADD MESSAGE
-  // -----------------------------------------
+ 
+  const addClub = (club: Club) => {
+    setClubs((prev) => [...prev, club]);
+  };
+
+ 
   const addMessage = (clubName: string, sender: string, text: string) => {
     setMessages((prev) => [
       ...prev,
@@ -70,9 +68,7 @@ export const ClubProvider = ({ children }: { children: React.ReactNode }) => {
     ]);
   };
 
-  // -----------------------------------------
-  // ADD NOTIFICATION
-  // -----------------------------------------
+  
   const addNotification = (text: string) => {
     setNotifications((prev) => [
       ...prev,
@@ -89,6 +85,7 @@ export const ClubProvider = ({ children }: { children: React.ReactNode }) => {
       value={{
         clubs,
         setClubs,
+        addClub,    
 
         messages,
         addMessage,
@@ -102,9 +99,7 @@ export const ClubProvider = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-// -----------------------------------------
-// HOOK
-// -----------------------------------------
+ 
 export const useClubs = () => {
   const ctx = useContext(ClubContext);
   if (!ctx) {

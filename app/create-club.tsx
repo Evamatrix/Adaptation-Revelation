@@ -37,7 +37,7 @@ export default function CreateClub() {
   return (
     <SafeAreaView style={styles.safeArea}>
       
-      {/* BACK BUTTON (copied styling) */}
+ 
       <TouchableOpacity
         style={styles.backButton}
         onPress={() => router.back()}
@@ -93,7 +93,7 @@ export default function CreateClub() {
 const styles = StyleSheet.create({
   safeArea: { flex: 1, backgroundColor: '#FFFFFF', alignItems: 'center' },
 
-  // ✅ COPIED EXACT FROM Clubs.tsx
+ 
   backButton: {
     position: 'absolute',
     top: 40,

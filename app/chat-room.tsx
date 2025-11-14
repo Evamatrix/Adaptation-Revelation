@@ -18,9 +18,7 @@ export default function ChatRoom() {
 
   const [text, setText] = useState("");
   const listRef = useRef<FlatList<any>>(null);
-
-  const aiUsers = ["Evelyn H.", "Jordan P.", "Riley S.", "Sam K."];
-
+ 
   const clubMessages = messages
     .filter((m) => m.clubName === club)
     .sort((a, b) => a.timestamp - b.timestamp);
@@ -30,56 +28,17 @@ export default function ChatRoom() {
       listRef.current?.scrollToEnd({ animated: true });
     }, 200);
   };
-
-  // -----------------------------------------
-  // SEND MESSAGE
-  // -----------------------------------------
+ 
   const sendMessage = () => {
     if (!text.trim()) return;
 
     addMessage(String(club), "You", text.trim());
     setText("");
     scrollToBottom();
-    triggerAIReply(text.trim());
   };
 
-  // -----------------------------------------
-  // AI REPLY
-  // -----------------------------------------
-  const triggerAIReply = (userMsg: string) => {
-    const responder = aiUsers[Math.floor(Math.random() * aiUsers.length)];
-    const reply = generateAIReply(userMsg);
-
-    setTimeout(() => {
-      addMessage(String(club), responder, reply);
-      scrollToBottom();
-    }, 1200);
-  };
-
-  const generateAIReply = (msg: string) => {
-    msg = msg.toLowerCase();
-
-    if (msg.includes("hw") || msg.includes("homework"))
-      return "Homework 3 is hard… what part are you on?";
-
-    if (msg.includes("hi") || msg.includes("hello"))
-      return "Hey! How’s your day going?";
-
-    if (msg.includes("i’m") || msg.includes("i am"))
-      return "Oh really? Tell me more!";
-
-    if (msg.includes("thanks")) return "Of course! 😊";
-
-    return "Got it — sounds good to me!";
-  };
-
-  // -----------------------------------------
-  // UI
-  // -----------------------------------------
   return (
-    <SafeAreaView style={styles.safeArea}>
-
-      {/* BACK BUTTON (copied from Clubs.tsx) */}
+    <SafeAreaView style={styles.safeArea}> 
       <TouchableOpacity
         style={styles.backButton}
         onPress={() => router.back()}
@@ -87,11 +46,11 @@ export default function ChatRoom() {
       >
         <Text style={styles.backText}>BACK</Text>
       </TouchableOpacity>
-
+ 
       <Text style={styles.roomTitle}>{club}</Text>
       <Text style={styles.subtitle}>GENERAL CHAT</Text>
       <Text style={styles.today}>TODAY</Text>
-
+ 
       <FlatList
         ref={listRef}
         data={clubMessages}
@@ -120,8 +79,7 @@ export default function ChatRoom() {
         )}
         onContentSizeChange={scrollToBottom}
       />
-
-      {/* INPUT BAR */}
+ 
       <View style={styles.inputRow}>
         <TextInput
           style={styles.input}
@@ -139,13 +97,9 @@ export default function ChatRoom() {
   );
 }
 
-// -------------------------------------------------------
-// STYLES
-// -------------------------------------------------------
 const styles = StyleSheet.create({
   safeArea: { flex: 1, backgroundColor: "#FFF", alignItems: "center" },
 
-  /* NEW BACK BUTTON (copied from Clubs.tsx) */
   backButton: {
     position: "absolute",
     top: 40,
