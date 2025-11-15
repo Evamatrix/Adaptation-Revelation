@@ -55,7 +55,7 @@ export default function CreateAccountPg2() {
         interests,
       });
     }
-    router.push('/homescreen');
+    router.push('/user-profile');
   };
 
   const handleBack = () => {
