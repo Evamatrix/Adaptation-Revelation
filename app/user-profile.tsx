@@ -238,9 +238,9 @@ const styles = StyleSheet.create({
 
   headerText: { flex: 1 },
 
-  greeting: { fontSize: 26, fontFamily: 'Koulen_400Regular', color: '#000', lineHeight: 28, marginBottom: 4},
-  name: { fontSize: 60, fontWeight: '200', fontFamily: 'Koulen_400Regular', color: '#000', lineHeight: 70, marginBottom: 2},
-  pronouns: { fontSize: 20, color: '#5C5C5C', fontFamily: 'Koulen_400Regular', lineHeight: 22},
+  greeting: { fontSize: 26, fontFamily: 'Koulen_400Regular', color: '#000' },
+  name: { fontSize: 40, fontWeight: '200', fontFamily: 'Koulen_400Regular', color: '#000' },
+  pronouns: { fontSize: 20, color: '#5C5C5C', fontFamily: 'Koulen_400Regular' },
   
   info: { marginBottom: 30 },
   infoBlock: { marginBottom: 22 },
