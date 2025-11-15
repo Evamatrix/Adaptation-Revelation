@@ -70,7 +70,7 @@ export default function HomeScreen() {
             <Text style={styles.menuIcon}>🧭</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => router.push('/chat-room')}>
+          <TouchableOpacity onPress={() => router.push('/chats')}>
             <Text style={styles.menuIcon}>💬</Text>
           </TouchableOpacity>
 

@@ -28,7 +28,7 @@ export default function Other() {
             <Text style={styles.menuIcon}>🧭</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => router.push('/chats')}>
             <Text style={styles.menuIcon}>💬</Text>
           </TouchableOpacity>
 

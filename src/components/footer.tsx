@@ -15,11 +15,14 @@ export default function Footer() {
           <Text style={styles.menuIcon}>🧭</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => router.push('/chats')}>
           <Text style={styles.menuIcon}>💬</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => router.push('/user-profile')}>
+        <TouchableOpacity onPress={() => router.push({
+          pathname: '/user-profile',
+          params: { from: 'menu' },
+        })}>
           <Text style={styles.menuIcon}>👤</Text>
         </TouchableOpacity>
       </View>
