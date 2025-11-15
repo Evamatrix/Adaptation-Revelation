@@ -19,8 +19,10 @@ export default function UserProfile() {
   const from = params.from;
 
   const handleBack = () => {
-  if (from && from !== 'menu') {
-    router.back(); // only go back if it’s a real page
+  if (from === 'createAccount') {
+    router.replace('/create-account-pg2'); 
+  } else if (router.canGoBack()) {
+      router.back();
   } else {
     router.replace('/homescreen'); // fallback for menu navigation
   }
@@ -79,15 +81,13 @@ export default function UserProfile() {
 
   return (
     <SafeAreaView style={styles.safeArea}> 
-      {from !== 'createAccount' && (
-        <TouchableOpacity
+      <TouchableOpacity
         style={styles.topRightButton}
         onPress={handleBack}
         activeOpacity={0.8}
       >
         <Text style={styles.signOutText}>BACK</Text>
       </TouchableOpacity>
-      )}
 
       <View style={styles.container}>
         <View style={styles.header}>
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
   },
   signOutText: {
     fontSize: 16,
-    fontFamily: 'Koulen',
+    fontFamily: 'JetBrainsMono_400Regular',
     color: '#000',
   },
   container: {
@@ -237,13 +237,17 @@ const styles = StyleSheet.create({
 
 
   headerText: { flex: 1 },
-  greeting: { fontSize: 26, fontFamily: 'Koulen', color: '#000' },
-  name: { fontSize: 40, fontFamily: 'Koulen', color: '#000' },
-  pronouns: { fontSize: 20, color: '#5C5C5C', fontFamily: 'Koulen' },
+
+  greeting: { fontSize: 26, fontFamily: 'JetBrainsMono_400Regular', color: '#000' },
+  name: { fontSize: 40, fontFamily: 'JetBrainsMono_400Regular', color: '#000' },
+  pronouns: { fontSize: 20, color: '#5C5C5C', fontFamily: 'JetBrainsMono_400Regular' },
+  
   info: { marginBottom: 30 },
   infoBlock: { marginBottom: 22 },
-  infoLabel: { fontSize: 22, fontFamily: 'Koulen', color: '#000' },
-  infoValue: { fontSize: 18, fontFamily: 'Koulen', color: '#5C5C5C' },
+
+  infoLabel: { fontSize: 22, fontFamily: 'JetBrainsMono_400Regular', color: '#000' },
+  infoValue: { fontSize: 18, fontFamily: 'JetBrainsMono_400Regular', color: '#5C5C5C' },
+  
   buttonRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -260,7 +264,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  buttonText: { fontSize: 22, fontFamily: 'Koulen', color: '#000' },
+  buttonText: { fontSize: 22, fontFamily: 'JetBrainsMono_400Regular', color: '#000' },
   footerContainer: {
     position: 'absolute',
     bottom: 0,

@@ -146,7 +146,7 @@ export default function CreateAccountPg2() {
         interests,
       });
     }
-    router.push('/user-profile');
+    router.push({ pathname: '/user-profile', params: { from: 'createAccount' } });
   };
 
   const handleBack = () => {
