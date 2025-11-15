@@ -9,11 +9,97 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native';
 import { useUser } from '../src/context/UserContext';
+
+/*Options*/
+const NAT_OPTS = ["American", "Indian", "Chinese", "Vietnamese", "Mexican", "Other"];
+const LANG_OPTS = ["English", "Spanish", "Mandarin", "Hindi", "Vietnamese", "Arabic", "Other"];
+const REL_OPTS = ["Christian", "Muslim", "Hindu", "Jewish", "Other"];
+const INT_OPTS = ["Sports", "Music", "Reading", "Writing", "Film", "Cooking", "Finance", "Engineering"];
+
+type CheckboxProps = {
+  label: string;
+  checked: boolean;
+  onChange: () => void;
+};
+
+type DropdownSectionProps = {
+  title: string;
+  expanded: boolean;
+  setExpanded: (value: boolean) => void;
+  options: string[];
+  selected: string[];
+  toggleSelection: (opt: string) => void;
+};
+
+/*Checkboxes for options instead of textbox for easier recommending*/
+const Checkbox = ({ label, checked, onChange }: CheckboxProps) => (
+  <TouchableOpacity
+    onPress={onChange}
+    style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 6 }}
+  >
+    <View
+      style={{
+        width: 20,
+        height: 20,
+        borderWidth: 2,
+        borderColor: '#000',
+        backgroundColor: checked ? '#000' : 'transparent',
+        marginRight: 10,
+      }}
+    />
+    <Text style={{ fontFamily: 'JetBrainsMono_400Regular', fontSize: 16 }}>
+      {label}
+    </Text>
+  </TouchableOpacity>
+);
+
+const DropdownSection = ({
+  title,
+  expanded,
+  setExpanded,
+  options,
+  selected,
+  toggleSelection,
+}: DropdownSectionProps) => (
+  <View style={{ width: FIXED_WIDTH, marginBottom: 20 }}>
+    <TouchableOpacity
+      style={{
+        paddingVertical: 10,
+        borderBottomWidth: 2,
+        borderColor: '#000',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+      }}
+      onPress={() => setExpanded(!expanded)}
+      >
+        <Text style={{ fontFamily: 'JetBrainsMono_400Regular', fontSize: 18 }}>
+          {title}
+        </Text>
+
+        <Text style={{ fontSize: 18 }}>
+          {expanded ? "▲" : "▼"}
+        </Text>
+    </TouchableOpacity>
+
+    {expanded && (
+      <View style={{ marginTop: 10 }}>
+        {options.map((opt) => (
+          <Checkbox
+            key={opt}
+            label={opt}
+            checked={selected.includes(opt)}
+            onChange={() => toggleSelection(opt)}
+          />
+        ))}
+        </View>
+    )}
+  </View>
+);
 
 export default function CreateAccountPg2() {
   const {
@@ -24,18 +110,23 @@ export default function CreateAccountPg2() {
  
   const userData = currentEmail ? getUserDataForEmail(currentEmail) : {};
 
-  const [nationality, setNationality] = useState(userData.nationality || '');
-  const [languages, setLanguages] = useState(userData.languages || '');
-  const [religion, setReligion] = useState(userData.religion || '');
-  const [interests, setInterests] = useState(userData.interests || '');
+  const [nationality, setNationality] = useState(userData.nationality || []);
+  const [languages, setLanguages] = useState(userData.languages || []);
+  const [religion, setReligion] = useState(userData.religion || []);
+  const [interests, setInterests] = useState(userData.interests || []);
  
+  const [showNationality, setShowNationality] = useState(false);
+  const [showLanguages, setShowLanguages] = useState(false);
+  const [showReligion, setShowReligion] = useState(false);
+  const [showInterests, setShowInterests] = useState(false);
+
   useEffect(() => {
     if (currentEmail) {
       const existingData = getUserDataForEmail(currentEmail);
-      setNationality(existingData.nationality || '');
-      setLanguages(existingData.languages || '');
-      setReligion(existingData.religion || '');
-      setInterests(existingData.interests || '');
+      setNationality(existingData.nationality || []);
+      setLanguages(existingData.languages || []);
+      setReligion(existingData.religion || []);
+      setInterests(existingData.interests || []);
     }
   }, [currentEmail]);
 
@@ -55,7 +146,7 @@ export default function CreateAccountPg2() {
         interests,
       });
     }
-    router.push('/homescreen');
+    router.push({ pathname: '/user-profile', params: { from: 'createAccount' } });
   };
 
   const handleBack = () => {
@@ -70,41 +161,58 @@ export default function CreateAccountPg2() {
       > 
         <Text style={styles.title}>SELECT</Text>
  
-        <Text style={styles.label}>NATIONALITY:</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter Nationality"
-          placeholderTextColor="#A0A0A0"
-          value={nationality}
-          onChangeText={setNationality}
+        <DropdownSection
+          title="NATIONALITY"
+          expanded={showNationality}
+          setExpanded={setShowNationality}
+          options={NAT_OPTS}
+          selected={nationality}
+          toggleSelection={(opt) =>
+            setNationality((prev) =>
+            prev.includes(opt) ? prev.filter(i => i != opt) : [...prev, opt]
+            )
+          }
         />
 
-        <Text style={styles.label}>LANGUAGES:</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter Languages"
-          placeholderTextColor="#A0A0A0"
-          value={languages}
-          onChangeText={setLanguages}
+        <DropdownSection
+          title="LANGUAGES"
+          expanded={showLanguages}
+          setExpanded={setShowLanguages}
+          options={LANG_OPTS}
+          selected={languages}
+          toggleSelection={(opt) =>
+            setLanguages((prev) =>
+            prev.includes(opt) ? prev.filter(i => i != opt) : [...prev, opt]
+            )
+          }
         />
 
-        <Text style={styles.label}>RELIGION:</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter Religion"
-          placeholderTextColor="#A0A0A0"
-          value={religion}
-          onChangeText={setReligion}
+        <DropdownSection
+          title="RELIGION"
+          expanded={showReligion}
+          setExpanded={setShowReligion}
+          options={REL_OPTS}
+          selected={religion}
+          toggleSelection={(opt) =>
+            setReligion((prev) =>
+              prev.includes(opt) ? prev.filter(i => i !== opt) : [...prev, opt]
+            )
+          }
         />
 
-        <Text style={styles.label}>INTERESTS:</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter Interests"
-          placeholderTextColor="#A0A0A0"
-          value={interests}
-          onChangeText={setInterests}
+        <DropdownSection
+          title="INTERESTS"
+          expanded={showInterests}
+          setExpanded={setShowInterests}
+          options={INT_OPTS}
+          selected={interests}
+          toggleSelection={(opt) =>
+            setInterests((prev) =>
+              prev.includes(opt) ? prev.filter(i => i !== opt) : [...prev, opt]
+            )
+          }
         />
+
  
         <View style={styles.buttonRow}>
           <TouchableOpacity style={styles.button} onPress={handleBack}>

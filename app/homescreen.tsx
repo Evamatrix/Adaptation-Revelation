@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     zIndex: 10,
   },
-  signOutText: { fontSize: 16, fontFamily: 'Koulen', color: '#000' },
+  signOutText: { fontSize: 16, fontFamily: 'JetBrainsMono_400Regular', color: '#000' },
 
   container: {
     flexGrow: 1,
@@ -108,9 +108,11 @@ const styles = StyleSheet.create({
 
   infoLabel: {
     fontSize: 22,
-    fontFamily: 'Koulen',
+    fontFamily: 'Koulen_400Regular',
+    fontWeight: '300',
     color: '#000',
     marginBottom: 10,
+    textTransform: 'uppercase',
   },
  
   networkBox: {
@@ -142,14 +144,14 @@ const styles = StyleSheet.create({
   },
   friendName: {
     fontSize: 20,
-    fontFamily: 'Koulen',
+    fontFamily: 'JetBrainsMono_400Regular',
     color: '#000',
   },
 
   infoBlock: { marginBottom: 26 },
   infoValue: {
     fontSize: 18,
-    fontFamily: 'Koulen',
+    fontFamily: 'JetBrainsMono_400Regular',
     color: '#5C5C5C',
     textAlign: 'center',
   },
@@ -178,7 +180,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  buttonText: { fontSize: 22, fontFamily: 'Koulen', color: '#000' },
+  buttonText: { fontSize: 22, fontFamily: 'JetBrainsMono_400Regular', color: '#000' },
  
   footerContainer: {
     position: 'absolute',

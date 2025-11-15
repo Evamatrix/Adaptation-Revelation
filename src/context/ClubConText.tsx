@@ -5,6 +5,7 @@ export interface Club {
   name: string;
   members: number;
   description: string;
+  tags: string[];
 }
 
 export interface Message {
@@ -40,9 +41,24 @@ export const ClubContext = createContext<ClubContextType | undefined>(
 
 export const ClubProvider = ({ children }: { children: React.ReactNode }) => {
   const [clubs, setClubs] = useState<Club[]>([
-    { name: "Screen Writers", members: 5, description: "Writing & film club" },
-    { name: "Eating Club", members: 15, description: "Food lovers" },
-    { name: "Unicycle Club", members: 5, description: "Balance and fun!" },
+    { 
+      name: "Screen Writers", 
+      members: 5, 
+      description: "We like to write and discuss movie scripts!",
+      tags: ["Film", "Writing"]
+    },
+    { 
+      name: "Eating Club", 
+      members: 15, 
+      description: "Trying local restaurants and cafes...",
+      tags: ["Food", "Social"] 
+    },
+    { 
+      name: "Unicycle Club", 
+      members: 5, 
+      description: "Join if you want to learn/ride unicycles",
+      tags: ["Sports"]
+     },
   ]);
 
   const [messages, setMessages] = useState<Message[]>([]);

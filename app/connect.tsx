@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
   },
   backText: {
     fontSize: 16,
-    fontFamily: 'Koulen',
+    fontFamily: 'JetBrainsMono_400Regular',
     color: '#000',
   },
   headerContainer: {
@@ -94,9 +94,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    fontSize: 32,
-    fontFamily: 'Koulen',
     color: '#000',
+    textAlign: 'center',
+    fontFamily: 'Koulen_400Regular',
+    fontSize: Platform.select({ web: 48, default: 45 }),
+    fontWeight: '400',
+    marginBottom: 60,
+    textTransform: 'uppercase',
   },
   buttonContainer: {
     width: '85%',
@@ -115,7 +119,7 @@ const styles = StyleSheet.create({
   },
   optionText: {
     fontSize: 26,
-    fontFamily: 'Koulen',
+    fontFamily: 'JetBrainsMono_400Regular',
     color: '#000',
   },
   footerContainer: {

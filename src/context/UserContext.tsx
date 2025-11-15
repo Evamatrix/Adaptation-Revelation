@@ -1,14 +1,14 @@
 // src/context/UserContext.tsx
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import { createContext, ReactNode, useContext, useState } from 'react';
 
 interface UserData {
   firstName?: string;
   lastName?: string;
   pronoun?: string;
-  nationality?: string;
-  languages?: string;
-  religion?: string;
-  interests?: string;
+  nationality?: string[];
+  languages?: string[];
+  religion?: string[];
+  interests?: string[];
 }
 
 interface UserContextType {
