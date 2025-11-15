@@ -10,24 +10,57 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { useClubs } from '../src/context/ClubConText';
 
 export default function Clubs() {
   const router = useRouter(); 
-  const { clubs, setClubs, addNotification } = useClubs();
-
   const [showShare, setShowShare] = useState<number | null>(null);
+  const [search, setSearch] = useState("");
 
-  const handleJoinClub = (index: number) => {
-    const clubName = clubs[index].name;
+  const [clubs, setClubs] = useState([
+    {
+      id: 1,
+      name: "Drama Club",
+      members: 20,
+      description: "We do performances",
+      tags: ["Theatre", "Acting"],
+      joined: false,       // <— add this
+    },
+    {
+      id: 2,
+      name: "Chess Club",
+      members: 15,
+      description: "Competitive and casual chess",
+      tags: ["Strategy"],
+      joined: false,
+    },
+  ]);
 
-    setClubs((prev) =>
-      prev.map((club, i) =>
-        i === index ? { ...club, members: club.members + 1 } : club
-      )
+    const filteredClubs = clubs.filter((club) =>
+      club.name.toLowerCase().includes(search.toLowerCase())
     );
 
-    addNotification(`Joined club: ${clubName}`);
+  const handleToggleJoin = (index: number) => {
+    setClubs(prev =>
+      prev.map((club, i) => {
+        if (i !== index) return club;
+
+        const joining = !club.joined;
+
+        return {
+          ...club,
+          joined: joining,
+          members: club.members + (joining ? 1 : -1),
+        };
+      })
+    );
+
+    const club = clubs[index];
+    /* addNotification(
+      club.joined
+        ? `Left club: ${club.name}`
+        : `Joined club: ${club.name}`
+    );
+    */
   };
 
   return (
@@ -42,15 +75,30 @@ export default function Clubs() {
       </TouchableOpacity>
   
       <View style={styles.searchContainer}>
-        <TextInput
-          placeholder="search clubs"
-          style={styles.searchInput}
-          placeholderTextColor="#777"
-        />
+        <View style={styles.searchInputWrapper}>
+          <TextInput
+            placeholder="search clubs"
+            style={styles.searchInput}
+            placeholderTextColor="#777"
+            value={search}
+            onChangeText={setSearch}
+          />
+
+          {search.length > 0 && (
+            <TouchableOpacity
+              style={styles.clearButton}
+              onPress={() => setSearch("")}
+            >
+              <Text style={styles.clearText}>✕</Text>
+            </TouchableOpacity>
+          )}
+        </View>
+
         <TouchableOpacity style={styles.filterButton}>
           <Text style={styles.filterText}>FILTER</Text>
         </TouchableOpacity>
       </View>
+
   
       <TouchableOpacity
         style={styles.createButton}
@@ -65,7 +113,7 @@ export default function Clubs() {
         contentContainerStyle={{ paddingBottom: 140 }}
         showsVerticalScrollIndicator={false}
       >
-        {clubs.map((club, index) => (
+        {filteredClubs.map((club, index) => (
           <View key={index} style={styles.clubCard}>
  
             <View style={styles.clubHeader}>
@@ -73,12 +121,16 @@ export default function Clubs() {
 
               <View style={styles.buttonGroup}>
                 <TouchableOpacity
-                  style={[styles.actionButton, styles.joinButton]}
-                  onPress={() => handleJoinClub(index)}
+                  style={[
+                    styles.actionButton,
+                    club.joined ? styles.leaveButton : styles.joinButton,
+                  ]}
+                  onPress={() => handleToggleJoin(index)}
                 >
-                  <Text style={styles.buttonText}>JOIN</Text>
+                  <Text style={styles.buttonText}>
+                    {club.joined ? "LEAVE" : "JOIN"}
+                  </Text>
                 </TouchableOpacity>
-
                 <TouchableOpacity
                   style={[styles.actionButton, styles.shareButton]}
                   onPress={() =>
@@ -185,7 +237,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   searchInput: {
-    width: '68%',
+    width: '100%',
     height: 40,
     borderWidth: 2,
     borderColor: '#000',
@@ -265,6 +317,11 @@ const styles = StyleSheet.create({
   joinButton: {
     backgroundColor: '#C9FDC9',
   },
+
+  leaveButton: {
+    backgroundColor: "#FDC9C9", // light red
+   },
+
 
   shareButton: {
     backgroundColor: '#D9E9FD',
@@ -383,4 +440,27 @@ const styles = StyleSheet.create({
   menuIcon: {
     fontSize: 28,
   },
+
+  searchInputWrapper: {
+  position: 'relative',
+  width: '68%',
+},
+
+clearButton: {
+  position: 'absolute',
+  right: 8,
+  top: 8,
+  backgroundColor: '#ddd',
+  width: 24,
+  height: 24,
+  borderRadius: 12,
+  justifyContent: 'center',
+  alignItems: 'center',
+},
+
+clearText: {
+  fontSize: 14,
+  color: '#333',
+},
+
 });
