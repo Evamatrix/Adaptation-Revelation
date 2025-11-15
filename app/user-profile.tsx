@@ -245,7 +245,7 @@ const styles = StyleSheet.create({
   info: { marginBottom: 30 },
   infoBlock: { marginBottom: 22 },
 
-  infoLabel: { fontSize: 22, fontFamily: 'JetBrainsMono_400Regular', color: '#000' },
+  infoLabel: { fontSize: 22, fontFamily: 'Koulen_400Regular', color: '#000' },
   infoValue: { fontSize: 18, fontFamily: 'JetBrainsMono_400Regular', color: '#5C5C5C' },
   
   buttonRow: {
@@ -264,7 +264,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  buttonText: { fontSize: 22, fontFamily: 'JetBrainsMono_400Regular', color: '#000' },
+  buttonText: { fontSize: 20, fontFamily: 'JetBrainsMono_400Regular', color: '#000' },
   footerContainer: {
     position: 'absolute',
     bottom: 0,

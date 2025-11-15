@@ -10,58 +10,17 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { useClubs } from '../src/context/ClubConText';
 
 export default function Clubs() {
   const router = useRouter(); 
+  const { clubs, toggleJoinClub } = useClubs();
   const [showShare, setShowShare] = useState<number | null>(null);
   const [search, setSearch] = useState("");
 
-  const [clubs, setClubs] = useState([
-    {
-      id: 1,
-      name: "Drama Club",
-      members: 20,
-      description: "We do performances",
-      tags: ["Theatre", "Acting"],
-      joined: false,       // <— add this
-    },
-    {
-      id: 2,
-      name: "Chess Club",
-      members: 15,
-      description: "Competitive and casual chess",
-      tags: ["Strategy"],
-      joined: false,
-    },
-  ]);
-
-    const filteredClubs = clubs.filter((club) =>
-      club.name.toLowerCase().includes(search.toLowerCase())
-    );
-
-  const handleToggleJoin = (index: number) => {
-    setClubs(prev =>
-      prev.map((club, i) => {
-        if (i !== index) return club;
-
-        const joining = !club.joined;
-
-        return {
-          ...club,
-          joined: joining,
-          members: club.members + (joining ? 1 : -1),
-        };
-      })
-    );
-
-    const club = clubs[index];
-    /* addNotification(
-      club.joined
-        ? `Left club: ${club.name}`
-        : `Joined club: ${club.name}`
-    );
-    */
-  };
+  const filteredClubs = clubs.filter((club) =>
+    club.name.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
     <SafeAreaView style={styles.safeArea}> 
@@ -99,7 +58,6 @@ export default function Clubs() {
         </TouchableOpacity>
       </View>
 
-  
       <TouchableOpacity
         style={styles.createButton}
         activeOpacity={0.8}
@@ -115,22 +73,19 @@ export default function Clubs() {
       >
         {filteredClubs.map((club, index) => (
           <View key={index} style={styles.clubCard}>
- 
             <View style={styles.clubHeader}>
               <Text style={styles.clubTitle}>{club.name}</Text>
 
               <View style={styles.buttonGroup}>
                 <TouchableOpacity
-                  style={[
-                    styles.actionButton,
-                    club.joined ? styles.leaveButton : styles.joinButton,
-                  ]}
-                  onPress={() => handleToggleJoin(index)}
+                  style={[styles.actionButton, club.joined ? styles.leaveButton : styles.joinButton]}
+                  onPress={() => toggleJoinClub(club.name)}
                 >
                   <Text style={styles.buttonText}>
                     {club.joined ? "LEAVE" : "JOIN"}
                   </Text>
                 </TouchableOpacity>
+
                 <TouchableOpacity
                   style={[styles.actionButton, styles.shareButton]}
                   onPress={() =>
@@ -171,7 +126,7 @@ export default function Clubs() {
                       <TouchableOpacity
                         key={i}
                         style={styles.shareUserButton}
-                        onPress={() => {}} // placeholder for future functionality
+                        onPress={() => {}} 
                       >
                         <Text style={styles.shareUserText}>{userName}</Text>
                       </TouchableOpacity>
@@ -181,7 +136,6 @@ export default function Clubs() {
 
               </View>
             )}
-
           </View>
         ))}
       </ScrollView>

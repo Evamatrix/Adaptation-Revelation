@@ -1,17 +1,20 @@
 import { useRouter } from 'expo-router';
 import {
-  Image,
   Platform,
   SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native';
+import { useClubs } from '../src/context/ClubConText';
 
 export default function HomeScreen() {
   const router = useRouter();
+  const { clubs } = useClubs();
+  const joinedClubs = clubs.filter(c => c.joined);
+
  
   const friends = [
     { id: 1, name: 'Alex', avatar: 'https://i.pravatar.cc/100?img=1' },
@@ -34,7 +37,8 @@ export default function HomeScreen() {
         <Text style={styles.signOutText}>SIGN OUT</Text>
       </TouchableOpacity>
 
-      <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}> 
+      <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false} scrollEnabled={joinedClubs.length * 60 > 220}
+> 
         <Text style={styles.infoLabel}>MY NETWORK</Text>
 
         <View style={styles.networkBox}>
@@ -43,12 +47,20 @@ export default function HomeScreen() {
             showsVerticalScrollIndicator={true}
             contentContainerStyle={{ paddingVertical: 8 }}
           >
-            {friends.map((friend) => (
-              <TouchableOpacity key={friend.id} style={styles.friendRow} activeOpacity={0.8}>
-                <Image source={{ uri: friend.avatar }} style={styles.avatar} />
-                <Text style={styles.friendName}>{friend.name}</Text>
-              </TouchableOpacity>
-            ))}
+        {joinedClubs.length === 0 ? (
+          <Text style={{ fontFamily: 'JetBrainsMono_400Regular', fontSize: 16, textAlign: 'center', marginTop: 10 }}>
+            You haven’t joined any clubs yet.
+          </Text>
+        ) : (
+          joinedClubs.map((club) => (
+            <TouchableOpacity key={club.name} style={styles.friendRow} activeOpacity={0.8}>
+              <View style={styles.clubIcon}>
+                <Text style={{ fontSize: 22 }}>🏷️</Text>
+              </View>
+              <Text style={styles.friendName}>{club.name}</Text>
+            </TouchableOpacity>
+          ))
+        )}
           </ScrollView>
         </View>
  
@@ -201,4 +213,17 @@ const styles = StyleSheet.create({
     borderRadius: 25,
   },
   menuIcon: { fontSize: 28 },
+
+  clubIcon: {
+  width: 55,
+  height: 55,
+  borderRadius: 30,
+  borderWidth: 2,
+  borderColor: '#000',
+  backgroundColor: '#FFF',
+  justifyContent: 'center',
+  alignItems: 'center',
+  marginRight: 14,
+},
+
 });
