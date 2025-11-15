@@ -61,8 +61,15 @@ export default function UserProfile() {
   console.log('Current email:', currentEmail);
   console.log('User data:', userData);
 
+  const safeValue = (value?: string | string[]) => {
+    if(!value) return 'N/A';
 
-  const safeValue = (value?: string) => (value && value.trim() !== '' ? value : 'N/A');
+    if (Array.isArray(value)) {
+      return value.length > 0 ? value.join(',') : 'N/A';
+    }
+
+    return value.trim() !== '' ? value : 'N/A';
+  }
 
   const handleSignOut = () => {
     if (currentEmail) clearUserData(currentEmail);
