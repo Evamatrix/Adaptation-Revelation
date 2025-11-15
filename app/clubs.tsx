@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
   },
   backText: {
     fontSize: 16,
-    fontFamily: 'Koulen',
+    fontFamily: 'JetBrainsMono_400Regular',
     color: '#000',
   },
  
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
   },
   filterText: {
     fontSize: 16,
-    fontFamily: 'Koulen',
+    fontFamily: 'JetBrainsMono_400Regular',
   },
  
   createButton: {
@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
   },
   createText: {
     fontSize: 18,
-    fontFamily: 'Koulen',
+    fontFamily: 'JetBrainsMono_400Regular',
     color: '#000',
   },
 
@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
 
   clubTitle: {
     fontSize: 22,
-    fontFamily: 'Koulen',
+    fontFamily: 'JetBrainsMono_400Regular',
     color: '#000',
   },
 
@@ -219,21 +219,21 @@ const styles = StyleSheet.create({
   },
 
   buttonText: {
-    fontFamily: 'Koulen',
+    fontFamily: 'JetBrainsMono_400Regular',
     fontSize: 14,
     color: '#000',
   },
 
   clubSubtext: {
     fontSize: 14,
-    fontFamily: 'Koulen',
+    fontFamily: 'JetBrainsMono_400Regular',
     color: '#333',
     marginTop: 6,
   },
 
   clubDescription: {
     fontSize: 14,
-    fontFamily: 'Koulen',
+    fontFamily: 'JetBrainsMono_400Regular',
     color: '#666',
     marginTop: 4,
   },
