@@ -18,9 +18,9 @@ cd /path/Adaptation-Revelation
 npm install
 ```
 
-4. Run the development server:
+4. Start the app
 ```bash
-npm run start
+npx expo start
 ```
 
 5. Copy the provided localhost web address after "LOCAL:" and paste in browser search bar
@@ -35,3 +35,10 @@ npm run build
 - Student email verification
 - Clean, accessible UI
 - Email validation for .edu domains
+
+In the output, you'll find options to open the app in a
+
+- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
+- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
+- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
+- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
