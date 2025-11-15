@@ -27,14 +27,6 @@ export default function Clubs() {
     addNotification(`Joined club: ${clubName}`);
   };
 
-  const handleDeleteClub = (index: number) => {
-    const clubName = clubs[index].name;
-
-    setClubs((prev) => prev.filter((_, i) => i !== index));
-
-    addNotification(`Deleted club: ${clubName}`);
-  };
-
   return (
     <SafeAreaView style={styles.safeArea}> 
        
@@ -82,13 +74,6 @@ export default function Clubs() {
                   onPress={() => handleJoinClub(index)}
                 >
                   <Text style={styles.buttonText}>JOIN</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  style={[styles.actionButton, styles.deleteButton]}
-                  onPress={() => handleDeleteClub(index)}
-                >
-                  <Text style={styles.buttonText}>DELETE</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -231,9 +216,6 @@ const styles = StyleSheet.create({
 
   joinButton: {
     backgroundColor: '#C9FDC9',
-  },
-  deleteButton: {
-    backgroundColor: '#FDC9C9',
   },
 
   buttonText: {
