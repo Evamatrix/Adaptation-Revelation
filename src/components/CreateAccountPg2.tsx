@@ -1,6 +1,7 @@
-import { useNavigation } from '@react-navigation/native';
+import { useRouter } from 'expo-router';
 import { JSX, useState } from 'react';
 import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+
 
 export default function CreateAccountPg2(): JSX.Element {
   const [form, setForm] = useState({
@@ -10,7 +11,7 @@ export default function CreateAccountPg2(): JSX.Element {
     interests: '',
   });
 
-  const navigation = useNavigation();
+  const router = useRouter();
 
   const handleChange = (field: keyof typeof form, value: string) => {
     setForm({ ...form, [field]: value });
@@ -35,14 +36,13 @@ export default function CreateAccountPg2(): JSX.Element {
       <View style={styles.buttonRow}>
         <TouchableOpacity
           style={[styles.button, { backgroundColor: '#fffafa' }]}
-          onPress={() => navigation.navigate('AccountPage1' as never)}
-        >
+          onPress={() => router.back()}        >
           <Text style={styles.buttonText}>BACK</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={[styles.button, { backgroundColor: '#fffafa' }]}
-          onPress={() => navigation.navigate('UserProfile' as never)}
+          onPress={() => router.push({pathname: '/user-profile', params: { from: 'createAccount' } })}
         >
           <Text style={styles.buttonText}>FINISH</Text>
         </TouchableOpacity>

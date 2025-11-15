@@ -100,16 +100,17 @@ export default function ChatRoom() {
 const styles = StyleSheet.create({
   safeArea: { flex: 1, backgroundColor: "#FFF", alignItems: "center" },
 
-  backButton: {
-    position: "absolute",
-    top: 40,
-    left: 15,
+ backButton: {
+    position: 'absolute',
+    top: 60,
+    right: 20,
+    backgroundColor: '#FFF8F9',
     borderWidth: 2,
-    borderColor: "#000",
-    borderRadius: 4,
-    paddingHorizontal: 8,
-    paddingVertical: 2,
-    backgroundColor: "#FFFFFF",
+    borderColor: '#000',
+    borderRadius: 8,
+    paddingHorizontal: 14,
+    paddingVertical: 6,
+    zIndex: 10,
   },
   backText: {
     fontSize: 16,

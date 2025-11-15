@@ -129,14 +129,15 @@ const styles = StyleSheet.create({
  
   backButton: {
     position: 'absolute',
-    top: 40,
-    left: 15,
+    top: 60,
+    right: 20,
+    backgroundColor: '#FFF8F9',
     borderWidth: 2,
     borderColor: '#000',
-    borderRadius: 4,
-    paddingHorizontal: 8,
-    paddingVertical: 2,
-    backgroundColor: '#FFFFFF',
+    borderRadius: 8,
+    paddingHorizontal: 14,
+    paddingVertical: 6,
+    zIndex: 10,
   },
   backText: {
     fontSize: 16,
