@@ -18,7 +18,7 @@ import { useUser } from '../src/context/UserContext';
 const NAT_OPTS = ["American", "Indian", "Chinese", "Vietnamese", "Mexican", "Other"];
 const LANG_OPTS = ["English", "Spanish", "Mandarin", "Hindi", "Vietnamese", "Arabic", "Other"];
 const REL_OPTS = ["Christian", "Muslim", "Hindu", "Jewish", "Other"];
-const INT_OPTS = ["Sports", "Music", "Reading", "Writing", "Film", "Cooking", "Finance", "Engineering"];
+const INT_OPTS = ["Sports", "Music", "Reading", "Writing", "Film", "Cooking", "Finance", "Engineering", "Social"];
 
 type CheckboxProps = {
   label: string;
