@@ -22,7 +22,7 @@ export default function UserProfile() {
   if (from && from !== 'menu') {
     router.back(); // only go back if it’s a real page
   } else {
-    router.replace('/home'); // fallback for menu navigation
+    router.replace('/homescreen'); // fallback for menu navigation
   }
 };
 

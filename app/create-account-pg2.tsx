@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import { JetBrainsMono_400Regular } from '@expo-google-fonts/jetbrains-mono';
+import { Koulen_400Regular, useFonts } from '@expo-google-fonts/koulen';
+import AppLoading from 'expo-app-loading';
+import { router } from 'expo-router';
+import { useEffect, useState } from 'react';
 import {
-  View,
+  Dimensions,
+  Platform,
+  ScrollView,
+  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  ScrollView,
-  StyleSheet,
-  Platform,
-  Dimensions,
+  View,
 } from 'react-native';
-import { router } from 'expo-router';
 import { useUser } from '../src/context/UserContext';
-import { useFonts, Koulen_400Regular } from '@expo-google-fonts/koulen';
-import { JetBrainsMono_400Regular } from '@expo-google-fonts/jetbrains-mono';
-import AppLoading from 'expo-app-loading';
 
 export default function CreateAccountPg2() {
   const {
@@ -55,7 +55,7 @@ export default function CreateAccountPg2() {
         interests,
       });
     }
-    router.push('/user-profile');
+    router.push('/homescreen');
   };
 
   const handleBack = () => {

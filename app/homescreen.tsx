@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
   safeArea: { flex: 1, backgroundColor: '#FFFFFF' },
   signOutButton: {
     position: 'absolute',
-    top: 125,
+    top: 60,
     right: 20,
     backgroundColor: '#FFF8F9',
     borderWidth: 2,
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     paddingHorizontal: 24,
-    paddingTop: 120,
+    paddingTop: 50,
     paddingBottom: 140,  
   },
 
