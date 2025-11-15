@@ -1,5 +1,8 @@
+import * as ImagePicker from 'expo-image-picker';
 import { useRouter } from 'expo-router';
+import { useState } from 'react';
 import {
+  Image,
   Platform,
   SafeAreaView,
   ScrollView,
@@ -14,6 +17,26 @@ export default function UserProfile() {
   const { currentEmail, getUserDataForEmail, clearUserData, setCurrentEmail } = useUser();
   const router = useRouter();
 
+  const [profileImage, setProfileImage] = useState<string | null>(null);
+  // Pick image function
+  const pickImage = async () => {
+    console.log('Pick image pressed');
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== 'granted') {
+      alert('Permission required to access photos.');
+      return;
+    }
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+    if (!result.canceled) {
+      setProfileImage(result.assets[0].uri);
+    }
+  };
+
   const userData = currentEmail ? getUserDataForEmail(currentEmail) : {};
   const {
     firstName = 'First',
@@ -24,6 +47,10 @@ export default function UserProfile() {
     religion,
     interests,
   } = userData;
+
+  console.log('Current email:', currentEmail);
+  console.log('User data:', userData);
+
 
   const safeValue = (value?: string) => (value && value.trim() !== '' ? value : 'N/A');
 
@@ -45,7 +72,18 @@ export default function UserProfile() {
 
       <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}> 
         <View style={styles.header}>
-          <View style={styles.photo} />
+          <TouchableOpacity
+            onPress={pickImage}
+            activeOpacity={0.8}
+            style={styles.photoContainer}
+          >
+            {profileImage ? (
+              <Image source={{ uri: profileImage }} style={styles.photoImage} />
+            ) : (
+              <Text style={styles.plusSign}>+</Text>
+            )}
+          </TouchableOpacity>
+
           <View style={styles.headerText}>
             <Text style={styles.greeting}>HELLO,</Text>
             <Text style={styles.name}>
@@ -139,13 +177,32 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 30,
   },
-  photo: {
+
+  photoContainer: {
     width: 120,
     height: 120,
-    backgroundColor: '#E6E6E6',
     borderRadius: 60,
+    backgroundColor: '#E6E6E6',
+    justifyContent: 'center',
+    alignItems: 'center',
+    overflow: 'hidden',
     marginRight: 20,
   },
+
+  photoImage: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 60,              // keeps it circular
+  },
+
+  plusSign: {
+    fontSize: 48,                  // adjust to taste
+    fontWeight: 'bold',
+    color: '#888',
+    textAlign: 'center',
+  },
+
+
   headerText: { flex: 1 },
   greeting: { fontSize: 26, fontFamily: 'Koulen', color: '#000' },
   name: { fontSize: 40, fontFamily: 'Koulen', color: '#000' },
