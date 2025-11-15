@@ -1,4 +1,5 @@
 import { useRouter } from 'expo-router';
+import { useState } from 'react';
 import {
   Platform,
   SafeAreaView,
@@ -14,6 +15,8 @@ import { useClubs } from '../src/context/ClubConText';
 export default function Clubs() {
   const router = useRouter(); 
   const { clubs, setClubs, addNotification } = useClubs();
+
+  const [showShare, setShowShare] = useState<number | null>(null);
 
   const handleJoinClub = (index: number) => {
     const clubName = clubs[index].name;
@@ -75,6 +78,15 @@ export default function Clubs() {
                 >
                   <Text style={styles.buttonText}>JOIN</Text>
                 </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={[styles.actionButton, styles.shareButton]}
+                  onPress={() =>
+                    setShowShare(showShare === index ? null : index)
+                  }
+                >
+                  <Text style={styles.buttonText}>SHARE</Text>
+                </TouchableOpacity>
               </View>
             </View>
  
@@ -82,6 +94,42 @@ export default function Clubs() {
             <Text style={styles.clubDescription}>
               DESCRIPTION: {club.description}
             </Text>
+
+            <View style={styles.tagContainer}>
+              {club.tags.map((tag, tagIndex) => (
+                <View key={tagIndex} style={styles.tag}>
+                  <Text style={styles.tagText}>{tag}</Text>
+                </View>
+              ))}
+            </View>
+
+            {showShare === index && (
+              <View style={styles.shareBox}>
+                <Text style={styles.shareText}>Share: {club.name}</Text>
+                <TextInput
+                  style={styles.shareInput}
+                  value={`Check out the ${club.name} club!`}
+                  editable={false}
+                />
+                
+                <View style={styles.shareUsersWrapper}>
+                  <Text style={styles.shareToText}>TO:</Text>
+                  <View style={styles.shareUsersContainer}>
+                    {['Evelyn', 'Alex', 'Jamie', 'Other'].map((userName, i) => (
+                      <TouchableOpacity
+                        key={i}
+                        style={styles.shareUserButton}
+                        onPress={() => {}} // placeholder for future functionality
+                      >
+                        <Text style={styles.shareUserText}>{userName}</Text>
+                      </TouchableOpacity>
+                    ))}
+                  </View>
+                </View>
+
+              </View>
+            )}
+
           </View>
         ))}
       </ScrollView>
@@ -218,6 +266,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#C9FDC9',
   },
 
+  shareButton: {
+    backgroundColor: '#D9E9FD',
+  },
+
   buttonText: {
     fontFamily: 'JetBrainsMono_400Regular',
     fontSize: 14,
@@ -237,7 +289,78 @@ const styles = StyleSheet.create({
     color: '#666',
     marginTop: 4,
   },
- 
+
+  tagContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginTop: 6,
+    gap: 6,
+  },
+  tag: {
+    backgroundColor: '#F0F0F0',
+    borderRadius: 12,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+  },
+  tagText: {
+    fontFamily: 'JetBrainsMono_400Regular',
+    fontSize: 12,
+    color: '#000',
+  },
+
+  shareBox: {
+    marginTop: 8,
+    padding: 10,
+    borderWidth: 1,
+    borderColor: '#000',
+    borderRadius: 6,
+    backgroundColor: '#D9E9FD',
+  },
+  shareText: {
+    fontFamily: 'JetBrainsMono_400Regular',
+    fontSize: 14,
+    marginBottom: 4,
+  },
+  shareInput: {
+    borderWidth: 1,
+    borderColor: '#000',
+    borderRadius: 4,
+    padding: 6,
+    fontFamily: 'JetBrainsMono_400Regular',
+    fontSize: 12,
+    backgroundColor: '#FFF',
+    marginBottom: 4,
+  },
+  shareUsersWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    gap: 6,
+    marginTop: 4,
+  },
+  shareToText: {
+    fontFamily: 'JetBrainsMono_400Regular',
+    fontSize: 12,
+    marginRight: 6,
+    color: '#000',
+  },
+  shareUsersContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 6,
+  },
+  shareUserButton: {
+    backgroundColor: "#E0E0E0",
+    borderRadius: 8,
+    paddingVertical: 4,
+    paddingHorizontal: 8,
+  },
+  shareUserText: {
+    fontFamily: 'JetBrainsMono_400Regular',
+    fontSize: 12,
+    color: '#000',
+  },
+
   footerContainer: {
     position: 'absolute',
     bottom: 0,
