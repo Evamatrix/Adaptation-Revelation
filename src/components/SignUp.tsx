@@ -1,25 +1,25 @@
-import React, { useState } from 'react';
+import { JetBrainsMono_400Regular } from '@expo-google-fonts/jetbrains-mono';
+import { Koulen_400Regular, useFonts } from '@expo-google-fonts/koulen';
+import AppLoading from 'expo-app-loading';
+import { router } from 'expo-router';
+import { useState } from 'react';
 import {
-  View,
+  Alert,
+  Dimensions,
+  Platform,
+  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  StyleSheet,
-  Alert,
-  Platform,
-  Dimensions,
+  View,
 } from 'react-native';
-import { router } from 'expo-router';
-import { useFonts, Koulen_400Regular } from '@expo-google-fonts/koulen';
-import { JetBrainsMono_400Regular } from '@expo-google-fonts/jetbrains-mono';
-import AppLoading from 'expo-app-loading';
-import { useUser } from '../context/UserContext'; // ✅ Import user context
+import { useUser } from '../context/UserContext'; // Import user context
 
 const windowHeight = Dimensions.get('window').height;
 
 export default function SignUp() {
   const [email, setEmail] = useState('');
-  const { setCurrentEmail } = useUser(); // ✅ Access context function
+  const { setCurrentEmail } = useUser(); // Access context function
 
   // Load fonts
   const [fontsLoaded] = useFonts({
@@ -31,15 +31,15 @@ export default function SignUp() {
     return <AppLoading />;
   }
 
-  // ✅ Verify email and store in context
+  // Verify email and store in context
   const handleVerify = () => {
     if (email && email.includes('@') && email.includes('.edu')) {
       const cleanEmail = email.trim().toLowerCase();
 
-      // ✅ Store the current email in global context
+      // Store the current email in global context
       setCurrentEmail(cleanEmail);
 
-      // ✅ Navigate to verification page
+      // Navigate to verification page
       router.push({
         pathname: '/user-verified',
         params: { email: cleanEmail },
