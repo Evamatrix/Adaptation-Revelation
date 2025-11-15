@@ -1,13 +1,13 @@
-import React, { JSX, useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useRouter } from 'expo-router';
+import { JSX, useState } from 'react';
+import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 export default function AccountPage1(): JSX.Element {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [otherPronoun, setOtherPronoun] = useState('');
 
-  const navigation = useNavigation();
+  const router = useRouter();
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -66,14 +66,14 @@ export default function AccountPage1(): JSX.Element {
       <View style={styles.buttonRow}>
         <TouchableOpacity
           style={[styles.button, { backgroundColor: '#ffc5cd' }]}
-          onPress={() => navigation.navigate('UserVerified' as never)}
+          onPress={() => router.push({pathname: '/SignUp'})}
         >
           <Text style={styles.buttonText}>Back</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={[styles.button, { backgroundColor: '#ffc5cd' }]}
-          onPress={() => navigation.navigate('CreateAccountPg2' as never)}
+          onPress={() => router.push({pathname: '/CreateAccountPg2'})}
         >
           <Text style={styles.buttonText}>Next</Text>
         </TouchableOpacity>

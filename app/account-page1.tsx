@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import { JetBrainsMono_400Regular } from '@expo-google-fonts/jetbrains-mono';
+import { Koulen_400Regular, useFonts } from '@expo-google-fonts/koulen';
+import AppLoading from 'expo-app-loading';
+import { router } from 'expo-router';
+import { useEffect, useState } from 'react';
 import {
-  View,
+  Alert,
+  Dimensions,
+  Platform,
+  ScrollView,
+  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  ScrollView,
-  StyleSheet,
-  Platform,
-  Dimensions,
-  Alert,
+  View,
 } from 'react-native';
-import { router } from 'expo-router';
-import { useFonts, Koulen_400Regular } from '@expo-google-fonts/koulen';
-import { JetBrainsMono_400Regular } from '@expo-google-fonts/jetbrains-mono';
-import AppLoading from 'expo-app-loading';
 import { useUser } from '../src/context/UserContext';
 
 export default function AccountPage1() {
@@ -71,6 +71,31 @@ export default function AccountPage1() {
 
     router.push('/create-account-pg2');
   };
+
+  const handleBack = () => {
+    if (!currentEmail) {
+      router.push('/signup');
+      return;
+    }
+
+    // If user has an account → go back to their profile
+    const data = getUserDataForEmail(currentEmail);
+    const hasAnyData =
+      data?.firstName ||
+      data?.lastName ||
+      data?.pronoun ||
+      data?.nationality ||
+      data?.languages ||
+      data?.religion ||
+      data?.interests;
+
+    if (hasAnyData) {
+      router.push('/user-profile');
+    } else {
+      // User has an email saved but no data yet → treat like new user
+      router.push('/SignUp');
+    }
+  }
 
   return (
     <View style={styles.screenWrapper}>
@@ -140,7 +165,7 @@ export default function AccountPage1() {
         <View style={styles.buttonRow}>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => router.push('/user-verified')}
+            onPress={handleBack}
           >
             <Text style={styles.buttonText}>BACK</Text>
           </TouchableOpacity>

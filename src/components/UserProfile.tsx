@@ -1,21 +1,22 @@
 import * as ImagePicker from 'expo-image-picker';
-import { useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
 import {
   Image,
   Platform,
   SafeAreaView,
-  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native';
 import { useUser } from '../context/UserContext';
 
 export default function UserProfile() {
   const { currentEmail, getUserDataForEmail, clearUserData, setCurrentEmail } = useUser();
   const router = useRouter();
+  const params = useLocalSearchParams< { from?: string }>();
+  const from = params.from;
 
   const [profileImage, setProfileImage] = useState<string | null>(null);
   // Pick image function
@@ -62,15 +63,17 @@ export default function UserProfile() {
 
   return (
     <SafeAreaView style={styles.safeArea}> 
-      <TouchableOpacity
-        style={styles.signOutButton}
-        onPress={handleSignOut}
+      {from !== 'createAccount' && (
+        <TouchableOpacity
+        style={styles.topRightButton} // for now, keeps sign out button styling but goes back
+        onPress={() => router.back()}
         activeOpacity={0.8}
       >
-        <Text style={styles.signOutText}>SIGN OUT</Text>
+        <Text style={styles.signOutText}>BACK</Text>
       </TouchableOpacity>
+      )}
 
-      <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}> 
+      <View style={styles.container}>
         <View style={styles.header}>
           <TouchableOpacity
             onPress={pickImage}
@@ -80,7 +83,9 @@ export default function UserProfile() {
             {profileImage ? (
               <Image source={{ uri: profileImage }} style={styles.photoImage} />
             ) : (
-              <Text style={styles.plusSign}>+</Text>
+              <View style={styles.plusWrapper}>
+                <Text style={styles.plusSign}>+</Text>
+              </View>
             )}
           </TouchableOpacity>
 
@@ -108,18 +113,18 @@ export default function UserProfile() {
         </View>
  
         <View style={styles.buttonRow}>
-          <TouchableOpacity style={styles.navButton} onPress={() => router.back()}>
-            <Text style={styles.buttonText}>BACK</Text>
+          <TouchableOpacity style={styles.bottomButton} onPress={handleSignOut}>
+            <Text style={styles.buttonText}>SIGN OUT</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={styles.navButton}
+            style={styles.bottomButton}
             onPress={() => router.replace('/account-page1')}
           >
             <Text style={styles.buttonText}>EDIT PROFILE</Text>
           </TouchableOpacity>
         </View>
-      </ScrollView>
+      </View>
  
       <View style={styles.footerContainer}>
         <View style={styles.menu}>
@@ -149,9 +154,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#FFFFFF',
   },
-  signOutButton: {
+  topRightButton: {
     position: 'absolute',
-    top: 125,
+    top: 60,
     right: 20,
     backgroundColor: '#FFF8F9',
     borderWidth: 2,
@@ -167,10 +172,10 @@ const styles = StyleSheet.create({
     color: '#000',
   },
   container: {
-    flexGrow: 1,
+    flex: 1,
     paddingHorizontal: 24,
-    paddingTop: 60,
-    paddingBottom: 120,  
+    paddingTop: 40,
+    paddingBottom: 200,  
   },
   header: {
     flexDirection: 'row',
@@ -192,15 +197,24 @@ const styles = StyleSheet.create({
   photoImage: {
     width: '100%',
     height: '100%',
-    borderRadius: 60,              // keeps it circular
+    borderRadius: 60,
+  },
+
+  plusWrapper: {
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: -10,
   },
 
   plusSign: {
-    fontSize: 48,                  // adjust to taste
+    fontSize: 90,
     fontWeight: 'bold',
     color: '#888',
     textAlign: 'center',
   },
+
 
 
   headerText: { flex: 1 },
@@ -214,9 +228,9 @@ const styles = StyleSheet.create({
   buttonRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 80,
+    marginBottom: 20,
   },
-  navButton: {
+  bottomButton: {
     width: '48%',
     height: 52,
     backgroundColor: '#FFF8F9',
