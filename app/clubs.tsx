@@ -80,11 +80,14 @@ export default function Clubs() {
                 <TouchableOpacity
                   style={[styles.actionButton, styles.joinButton]}
                   onPress={() => {
-                    // Update joined state first
-                    toggleJoinClub(club.name);
-
-                    // Navigate to chat-room for this club
-                    router.push(`/chat-room?club=${encodeURIComponent(club.name)}`);
+                    // If not already joined, navigate after joining
+                    if (!club.joined) {
+                      toggleJoinClub(club.name); // join first
+                      router.push(`/chat-room?club=${encodeURIComponent(club.name)}`);
+                    } else {
+                      // If already joined, just leave
+                      toggleJoinClub(club.name);
+                    }
                   }}
                 >
                   <Text style={styles.buttonText}>
