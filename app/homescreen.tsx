@@ -45,36 +45,56 @@ export default function HomeScreen() {
           <ScrollView
             style={styles.scrollBox}
             showsVerticalScrollIndicator={true}
-            contentContainerStyle={{ paddingVertical: 8 }}
+            contentContainerStyle={{
+              flexGrow: joinedClubs.length === 0 ? 1 : undefined,
+              justifyContent: joinedClubs.length === 0 ? 'center' : 'flex-start',
+              paddingVertical: 8,
+              paddingHorizontal: 12, // keeps clubs aligned left
+            }}
           >
-            {joinedClubs.map((club) => (
-              <TouchableOpacity
-                key={club.name}
-                style={styles.friendRow}
-                activeOpacity={0.8}
-                onPress={() => router.push(`/club-chat?club=${encodeURIComponent(club.name)}`)}
-              >
-                {/* You can optionally add a club icon/avatar */}
-                <View
-                  style={{
-                    width: 55,
-                    height: 55,
-                    borderRadius: 30,
-                    backgroundColor: "#C9FDC9",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    marginRight: 14,
-                    borderWidth: 2,
-                    borderColor: "#000",
-                  }}
+            {joinedClubs.length > 0 ? (
+              joinedClubs.map((club) => (
+                <TouchableOpacity
+                  key={club.name}
+                  style={[styles.friendRow, { justifyContent: 'flex-start' }]}
+                  activeOpacity={0.8}
+                  onPress={() =>
+                    router.push(`/chat-room?club=${encodeURIComponent(club.name)}`)
+                  }
                 >
-                  <Text style={{ fontSize: 18 }}>{club.name[0]}</Text>
-                </View>
-                <Text style={styles.friendName}>{club.name}</Text>
-              </TouchableOpacity>
-            ))}
+                  <View
+                    style={{
+                      width: 55,
+                      height: 55,
+                      borderRadius: 30,
+                      backgroundColor: "#C9FDC9",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      marginRight: 14,
+                      borderWidth: 2,
+                      borderColor: "#000",
+                    }}
+                  >
+                    <Text style={{ fontSize: 18 }}>{club.name[0]}</Text>
+                  </View>
+                  <Text style={styles.friendName}>{club.name}</Text>
+                </TouchableOpacity>
+              ))
+            ) : (
+              <View style={{ alignItems: 'center' }}>
+                <Text style={styles.emptyText}>You haven't joined any clubs yet.</Text>
+                <TouchableOpacity
+                  onPress={() => router.push("/clubs")}
+                  style={styles.joinClubButton}
+                >
+                  <Text style={styles.joinClubText}>Browse Clubs</Text>
+                </TouchableOpacity>
+              </View>
+            )}
           </ScrollView>
+
         </View>
+
  
         <View style={styles.infoBlock}>
           <Text style={styles.infoLabel}>NOTIFICATIONS</Text>
@@ -154,6 +174,7 @@ const styles = StyleSheet.create({
   friendRow: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'flex-start',
     paddingVertical: 6,
     borderBottomWidth: 1,
     borderColor: '#E0E0E0',
@@ -237,5 +258,33 @@ const styles = StyleSheet.create({
   alignItems: 'center',
   marginRight: 14,
 },
+
+emptyNetwork: {
+  flex: 1,
+  justifyContent: "center",
+  alignItems: "center",
+  width: '100%',
+},
+emptyText: {
+  fontFamily: "JetBrainsMono_400Regular",
+  fontSize: 16,
+  color: "#555",
+  marginBottom: 12,
+  textAlign: "center",
+},
+joinClubButton: {
+  backgroundColor: "#D9FCD9",
+  paddingHorizontal: 16,
+  paddingVertical: 8,
+  borderRadius: 10,
+  borderWidth: 1,
+  borderColor: "#000",
+},
+joinClubText: {
+  fontFamily: "JetBrainsMono_400Regular",
+  fontSize: 16,
+  color: "#000",
+},
+
 
 });

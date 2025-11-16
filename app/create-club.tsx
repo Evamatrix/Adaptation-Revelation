@@ -58,6 +58,7 @@ export default function CreateClub() {
       members: 1,
       description: description.trim() || 'No description provided.',
       tags: selectedTags,
+      joined: true,
     });
 
     router.replace('/clubs');
