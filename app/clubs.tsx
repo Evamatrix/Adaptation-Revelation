@@ -14,21 +14,13 @@ import { useClubs } from '../src/context/ClubConText';
 
 export default function Clubs() {
   const router = useRouter(); 
-  const { clubs, setClubs, addNotification } = useClubs();
-
+  const { clubs, toggleJoinClub } = useClubs();
   const [showShare, setShowShare] = useState<number | null>(null);
+  const [search, setSearch] = useState("");
 
-  const handleJoinClub = (index: number) => {
-    const clubName = clubs[index].name;
-
-    setClubs((prev) =>
-      prev.map((club, i) =>
-        i === index ? { ...club, members: club.members + 1 } : club
-      )
-    );
-
-    addNotification(`Joined club: ${clubName}`);
-  };
+  const filteredClubs = clubs.filter((club) =>
+    club.name.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
     <SafeAreaView style={styles.safeArea}> 
@@ -42,16 +34,30 @@ export default function Clubs() {
       </TouchableOpacity>
   
       <View style={styles.searchContainer}>
-        <TextInput
-          placeholder="search clubs"
-          style={styles.searchInput}
-          placeholderTextColor="#777"
-        />
+        <View style={styles.searchInputWrapper}>
+          <TextInput
+            placeholder="search clubs"
+            style={styles.searchInput}
+            placeholderTextColor="#777"
+            value={search}
+            onChangeText={setSearch}
+          />
+
+          {search.length > 0 && (
+            <TouchableOpacity
+              style={styles.clearButton}
+              onPress={() => setSearch("")}
+            >
+              <Text style={styles.clearText}>✕</Text>
+            </TouchableOpacity>
+          )}
+        </View>
+
         <TouchableOpacity style={styles.filterButton}>
           <Text style={styles.filterText}>FILTER</Text>
         </TouchableOpacity>
       </View>
-  
+
       <TouchableOpacity
         style={styles.createButton}
         activeOpacity={0.8}
@@ -65,9 +71,8 @@ export default function Clubs() {
         contentContainerStyle={{ paddingBottom: 140 }}
         showsVerticalScrollIndicator={false}
       >
-        {clubs.map((club, index) => (
+        {filteredClubs.map((club, index) => (
           <View key={index} style={styles.clubCard}>
- 
             <View style={styles.clubHeader}>
               <Text style={styles.clubTitle}>{club.name}</Text>
 
@@ -82,7 +87,9 @@ export default function Clubs() {
                     }
                   }}
                 >
-                  <Text style={styles.buttonText}>JOIN</Text>
+                  <Text style={styles.buttonText}>
+                    {club.joined ? "LEAVE" : "JOIN"}
+                  </Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
@@ -146,7 +153,6 @@ export default function Clubs() {
 
               </View>
             )}
-
           </View>
         ))}
       </ScrollView>
@@ -202,7 +208,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   searchInput: {
-    width: '68%',
+    width: '100%',
     height: 40,
     borderWidth: 2,
     borderColor: '#000',
@@ -282,6 +288,11 @@ const styles = StyleSheet.create({
   joinButton: {
     backgroundColor: '#C9FDC9',
   },
+
+  leaveButton: {
+    backgroundColor: "#FDC9C9", // light red
+   },
+
 
   shareButton: {
     backgroundColor: '#D9E9FD',
@@ -400,4 +411,27 @@ const styles = StyleSheet.create({
   menuIcon: {
     fontSize: 28,
   },
+
+  searchInputWrapper: {
+  position: 'relative',
+  width: '68%',
+},
+
+clearButton: {
+  position: 'absolute',
+  right: 8,
+  top: 8,
+  backgroundColor: '#ddd',
+  width: 24,
+  height: 24,
+  borderRadius: 12,
+  justifyContent: 'center',
+  alignItems: 'center',
+},
+
+clearText: {
+  fontSize: 14,
+  color: '#333',
+},
+
 });
