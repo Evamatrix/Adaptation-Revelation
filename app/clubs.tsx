@@ -81,9 +81,7 @@ export default function Clubs() {
                   style={[styles.actionButton, styles.joinButton]}
                   onPress={() => {
                     if (club.name === "Screenwriters") {
-                      router.push("/Screenwriters");     
-                    } else {
-                      handleJoinClub(index);            
+                      router.push("/screenwriters-chat");     
                     }
                   }}
                 >

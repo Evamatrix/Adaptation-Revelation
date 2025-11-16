@@ -1,4 +1,4 @@
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useRouter } from 'expo-router';
 import {
     Platform,
     SafeAreaView,
@@ -11,14 +11,12 @@ import {
 
 export default function SharedClub() {
   const router = useRouter();
-  const params = useLocalSearchParams<{ clubName?: string }>();
-  const clubName = params.clubName;
 
   const messages = [
+    { sender: 'Evelyn', text: 'i love grilling!' },
+    { sender: 'Me', text: 'same!!' },
     { sender: 'Evelyn', text: 'we should make a grilling club!!' },
     { sender: 'Me', text: 'will do!' },
-    { sender: 'Evelyn', text: 'Great thanks!' },
-    { sender: 'Me', text: `Check out this club: ${clubName}!`, isLink: true, },
   ];
 
   return (
@@ -42,21 +40,12 @@ export default function SharedClub() {
               msg.sender === 'Evelyn' ? styles.leftBubble : styles.rightBubble,
             ]}
           >
-            {msg.isLink ? (
-                <TouchableOpacity
-                    style={styles.linkBubble}
-                    onPress={() => router.push(`/new-club-chat?clubName=${clubName}`)}
-                >
-                    <Text style={styles.linkText}>{msg.text}</Text>
-                    </TouchableOpacity>
-            ) : (
               <Text style={[
                 styles.messageText,
                 msg.sender === 'Me' ? { color: '#fff' } : { color: '#000' }
               ]}>
                 {msg.text}
               </Text>
-            )}
             <Text style={styles.messageTime}>10:35 am</Text>
           </View>
         ))}
@@ -153,18 +142,6 @@ const styles = StyleSheet.create({
   rightBubble: {
     backgroundColor: '#597aa4',
     alignSelf: 'flex-end',
-  },
-  linkBubble: {
-    backgroundColor: '#4b85d6',
-    borderRadius: 15,
-    padding: 20,
-    borderWidth: 2,        
-    borderColor: '#fff',
-  },
-  linkText: {
-    fontFamily: 'JetBrainsMono_400Regular',
-    fontSize: 16,
-    color: '#fff',
   },
   messageText: {
     fontFamily: 'JetBrainsMono_400Regular',
