@@ -74,7 +74,13 @@ export default function Clubs() {
               <View style={styles.buttonGroup}>
                 <TouchableOpacity
                   style={[styles.actionButton, styles.joinButton]}
-                  onPress={() => handleJoinClub(index)}
+                  onPress={() => {
+                    if (club.name === "Screenwriters") {
+                      router.push("/Screenwriters");     
+                    } else {
+                      handleJoinClub(index);            
+                    }
+                  }}
                 >
                   <Text style={styles.buttonText}>JOIN</Text>
                 </TouchableOpacity>
@@ -108,22 +114,33 @@ export default function Clubs() {
                 <Text style={styles.shareText}>Share: {club.name}</Text>
                 <TextInput
                   style={styles.shareInput}
-                  value={`Check out the ${club.name} club!`}
+                  value={`Check out this club: ${club.name}!`}
                   editable={false}
                 />
                 
                 <View style={styles.shareUsersWrapper}>
                   <Text style={styles.shareToText}>TO:</Text>
                   <View style={styles.shareUsersContainer}>
-                    {['Evelyn', 'Alex', 'Jamie', 'Other'].map((userName, i) => (
+                    {['Evelyn', 'Alex', 'Jamie', 'Other'].map((userName, i) => {
+                      const sharedClubName = club.name;
+
+                      return (
                       <TouchableOpacity
                         key={i}
                         style={styles.shareUserButton}
-                        onPress={() => {}} // placeholder for future functionality
+                        onPress={() => {
+                          if (userName === 'Evelyn') {
+                            router.push({
+                              pathname: '/shared-club',
+                              params: { clubName: sharedClubName },
+                            });
+                          }
+                        }}
                       >
                         <Text style={styles.shareUserText}>{userName}</Text>
                       </TouchableOpacity>
-                    ))}
+                      );
+                    })}
                   </View>
                 </View>
 

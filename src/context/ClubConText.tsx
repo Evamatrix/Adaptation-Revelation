@@ -42,7 +42,7 @@ export const ClubContext = createContext<ClubContextType | undefined>(
 export const ClubProvider = ({ children }: { children: React.ReactNode }) => {
   const [clubs, setClubs] = useState<Club[]>([
     { 
-      name: "Screen Writers", 
+      name: "Screenwriters", 
       members: 5, 
       description: "We like to write and discuss movie scripts!",
       tags: ["Film", "Writing"]
