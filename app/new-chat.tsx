@@ -1,12 +1,12 @@
 import { useRouter } from 'expo-router';
 import {
-    Platform,
-    SafeAreaView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  Platform,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 
 export default function SharedClub() {
@@ -73,7 +73,7 @@ export default function SharedClub() {
             <Text style={styles.menuIcon}>🧭</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => router.push('/messages')}>
+          <TouchableOpacity onPress={() => router.push('/chats')}>
             <Text style={styles.menuIcon}>💬</Text>
           </TouchableOpacity>
 
