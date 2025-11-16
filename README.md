@@ -1,50 +1,34 @@
-# Welcome to your Expo app 👋
+# Team 12: Adaptation Revelation
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+# How our UI functions
+Our UI functions like a mobile application. The purpose of our UI is to make it easy to connect international student users to one another through shared traits such as culture, religion, language, and interests.
 
-## Get started
+# Requirements for running UI
 
-1. Install dependencies
+For running the application, it is best done on a mobile device. Users can run the code after installing the dependencies, and a QR code should be generated. For mobile devices, ensure that mobile device and computer running the application are on the same wifi and that you have the Expo Go app on your mobile device. If the QR code doesn’t work, they can type the “exp://” line from the command line on the computer into an Internet browser to connect.
 
-   ```bash
-   npm install
-   ```
+- For IOS devices: users can scan the QR code with their phone cameras to open the application on Expo Go.
+- For Android devices: users can scan the QR code with the Expo Go app (can be downloaded in Google Play appstore).
+- For testing on the web: users can press w after running the code to load a local host version of the application on their web browser.
 
-2. Start the app
+In order to sign up for the app, users will need to input a school email. Any email ending in .edu will be accepted as a valid input. It is recommended to test the application with a UTD email.
 
-   ```bash
-   npx expo start
-   ```
+# Installation Requirements
 
-In the output, you'll find options to open the app in a
+1. Open terminal and navigate to desired folder.
+2. Clone a copy of the project repository with 'git clone https://github.com/Evamatrix/Adaptation-Revelation/tree/main'
+4. Install the project dependencies using 'npm install'
+5. If node.js is not already installed on your machine, you will need to do so before running the npm command
+   - Node.js installation: https://nodejs.org/en/download
+6. Run the code with 'npx expo start'
+7. Load the app
+8. Scan the generated QR code with your mobile device
+   - IOS: phone camera
+   - Android: Expo Go app
+   - Web: press “w” on keyboard to load
+     - The web app will have similar functionality as the mobile app but the display components will be shown slightly different
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+# Walk Through Video
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+Our Mobile Application’s Walk Through: https://youtu.be/yzNrD26Wp-s
 
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
