@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Text, SafeAreaView } from "react-native";
-import Footer from "../components/footer"; // Update this path if needed
+import Footer from "../src/components/footer"; // Update this path if needed
+import { useRouter } from "expo-router";
 
 const Screenwriters: React.FC = () => {
   return (

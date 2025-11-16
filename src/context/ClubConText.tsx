@@ -45,8 +45,8 @@ export const ClubProvider = ({ children }: { children: React.ReactNode }) => {
 
   const [clubs, setClubs] = useState<Club[]>([
     { 
-      name: "Screen Writers",
-      members: 5,
+      name: "Screenwriters", 
+      members: 5, 
       description: "We like to write and discuss movie scripts!",
       tags: ["Film", "Writing"],
       joined: false,   // <-- NEW

@@ -33,14 +33,6 @@ export default function Connect() {
         >
           <Text style={styles.optionText}>USERS</Text>
         </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.optionButton}
-          onPress={() => router.push('/other')}
-          activeOpacity={0.8}
-        >
-          <Text style={styles.optionText}>OTHER</Text>
-        </TouchableOpacity>
       </View>
  
       <View style={styles.footerContainer}>
