@@ -80,11 +80,11 @@ export default function Clubs() {
                 <TouchableOpacity
                   style={[styles.actionButton, styles.joinButton]}
                   onPress={() => {
-                    if (club.name === "Screenwriters") {
-                      router.push("/Screenwriters");     
-                    } else {
-                      handleJoinClub(index);            
-                    }
+                    // Update joined state first
+                    toggleJoinClub(club.name);
+
+                    // Navigate to chat-room for this club
+                    router.push(`/chat-room?club=${encodeURIComponent(club.name)}`);
                   }}
                 >
                   <Text style={styles.buttonText}>
