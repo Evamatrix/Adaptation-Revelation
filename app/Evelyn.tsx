@@ -43,7 +43,7 @@ export default function EvelynPage() {
             <Text style={styles.menuIcon}>🧭</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => router.push('/messages')}>
+          <TouchableOpacity onPress={() => router.push('/chats')}>
             <Text style={styles.menuIcon}>💬</Text>
           </TouchableOpacity>
 

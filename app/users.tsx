@@ -28,7 +28,7 @@ export default function Users() {
             <Text style={styles.menuIcon}>🧭</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => router.push('/chats')}>
             <Text style={styles.menuIcon}>💬</Text>
           </TouchableOpacity>
 
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
   },
   backText: {
     fontSize: 16,
-    fontFamily: 'Koulen',
+    fontFamily: 'JetBrainsMono_400Regular',
     color: '#000',
   },
   headerContainer: {
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 32,
-    fontFamily: 'Koulen',
+    fontFamily: 'JetBrainsMono_400Regular',
     color: '#000',
   },
   footerContainer: {
