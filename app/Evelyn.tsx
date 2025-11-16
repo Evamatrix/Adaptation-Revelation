@@ -26,7 +26,7 @@ export default function EvelynPage() {
 
             <TouchableOpacity 
                 style={styles.addButton}
-                onPress={() => router.push("/new-chat")}
+                onPress={() => router.push("/chats?addEvelyn=true")}
             >
                 <Text style={styles.addButtonText}>+</Text>
             </TouchableOpacity>

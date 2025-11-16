@@ -1,17 +1,18 @@
-import { useRouter } from 'expo-router';
-import { useState } from 'react';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useEffect, useState } from 'react';
+import { sessionState } from '../store/session';
 
 import {
-    Dimensions,
-    Image,
-    Platform,
-    SafeAreaView,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View
+  Dimensions,
+  Image,
+  Platform,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
 } from 'react-native';
 
 const friendsData = [
@@ -29,7 +30,21 @@ export default function FriendsList() {
   const [search, setSearch] = useState('');
   const router = useRouter();
 
-  const filteredFriends = friendsData.filter((f) =>
+  const params = useLocalSearchParams();
+  const [hasEvelyn, setHasEvelyn] = useState(sessionState.hasEvelyn);
+
+  useEffect(() => {
+    if (params.addEvelyn === "true") {
+      sessionState.hasEvelyn = true;
+      setHasEvelyn(true);
+    }
+  }, [params]);
+
+  const allFriends = hasEvelyn
+    ? [...friendsData, { id: 9, name: "Evelyn", avatar: "https://i.pravatar.cc/100?img=9" }]
+    : friendsData;
+
+  const filteredFriends = allFriends.filter((f) =>
     f.name.toLowerCase().includes(search.toLowerCase())
   );
 
@@ -60,7 +75,15 @@ export default function FriendsList() {
         {/* Scrollable Friends List */}
         <ScrollView contentContainerStyle={[styles.scrollContainer, { paddingBottom: 100}]}>
           {filteredFriends.map((friend) => (
-            <TouchableOpacity key={friend.id} style={styles.friendRow}>
+            <TouchableOpacity 
+              key={friend.id} 
+              style={styles.friendRow}
+              onPress={() => {
+                if (friend.name === "Evelyn") {
+                  router.push("/new-chat");
+                }
+              }}
+              >
               <Image source={{ uri: friend.avatar }} style={styles.avatar} />
               <Text style={styles.friendName}>{friend.name}</Text>
             </TouchableOpacity>
