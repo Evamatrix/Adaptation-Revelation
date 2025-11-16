@@ -47,20 +47,32 @@ export default function HomeScreen() {
             showsVerticalScrollIndicator={true}
             contentContainerStyle={{ paddingVertical: 8 }}
           >
-        {joinedClubs.length === 0 ? (
-          <Text style={{ fontFamily: 'JetBrainsMono_400Regular', fontSize: 16, textAlign: 'center', marginTop: 10 }}>
-            You haven’t joined any clubs yet.
-          </Text>
-        ) : (
-          joinedClubs.map((club) => (
-            <TouchableOpacity key={club.name} style={styles.friendRow} activeOpacity={0.8}>
-              <View style={styles.clubIcon}>
-                <Text style={{ fontSize: 22 }}>🏷️</Text>
-              </View>
-              <Text style={styles.friendName}>{club.name}</Text>
-            </TouchableOpacity>
-          ))
-        )}
+            {joinedClubs.map((club) => (
+              <TouchableOpacity
+                key={club.name}
+                style={styles.friendRow}
+                activeOpacity={0.8}
+                onPress={() => router.push(`/club-chat?club=${encodeURIComponent(club.name)}`)}
+              >
+                {/* You can optionally add a club icon/avatar */}
+                <View
+                  style={{
+                    width: 55,
+                    height: 55,
+                    borderRadius: 30,
+                    backgroundColor: "#C9FDC9",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginRight: 14,
+                    borderWidth: 2,
+                    borderColor: "#000",
+                  }}
+                >
+                  <Text style={{ fontSize: 18 }}>{club.name[0]}</Text>
+                </View>
+                <Text style={styles.friendName}>{club.name}</Text>
+              </TouchableOpacity>
+            ))}
           </ScrollView>
         </View>
  
