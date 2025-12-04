@@ -13,8 +13,7 @@ import {
   View
 } from "react-native";
 import { useClubs } from "../src/context/ClubConText";
-
-// Helper to format date separators
+ 
 const formatDateSeparator = (timestamp: number) => {
   const msgDate = new Date(timestamp);
   const today = new Date();
@@ -87,7 +86,7 @@ export default function ChatRoom() {
     <KeyboardAvoidingView
       style={{ flex: 1 }}
       behavior={Platform.OS === "ios" ? "padding" : undefined}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 10 : 0} // adjust if header overlaps
+      keyboardVerticalOffset={Platform.OS === "ios" ? 10 : 0}  
     >
       <FlatList
         ref={listRef}

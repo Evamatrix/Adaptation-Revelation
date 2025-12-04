@@ -49,15 +49,7 @@ export default function FriendsList() {
   );
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-
-      <TouchableOpacity
-        style={styles.backButton}
-        onPress={() => router.back()}
-        activeOpacity={0.8}
-      >
-        <Text style={styles.backText}>BACK</Text>
-      </TouchableOpacity>
+    <SafeAreaView style={styles.safeArea}> 
 
       <View style={styles.container}>
 

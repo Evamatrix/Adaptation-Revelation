@@ -71,7 +71,7 @@ export const ClubProvider = ({ children }: { children: React.ReactNode }) => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
 
   const addClub = (club: Club) => {
-    setClubs((prev) => [...prev, club]);
+    setClubs((prev) => [club,...prev]);
   };
 
   // NEW FUNCTION — toggles club join status

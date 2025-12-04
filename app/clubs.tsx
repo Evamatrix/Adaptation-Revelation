@@ -1,6 +1,7 @@
 import { useRouter } from 'expo-router';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import {
+  Modal,
   Platform,
   SafeAreaView,
   ScrollView,
@@ -14,25 +15,64 @@ import { useClubs } from '../src/context/ClubConText';
 
 export default function Clubs() {
   const router = useRouter(); 
-  const { clubs, toggleJoinClub } = useClubs();
-  const [showShare, setShowShare] = useState<number | null>(null);
-  const [search, setSearch] = useState("");
+  const { clubs } = useClubs();
 
-  const filteredClubs = clubs.filter((club) =>
-    club.name.toLowerCase().includes(search.toLowerCase())
-  );
+  const [search, setSearch] = useState("");
+  const [showShare, setShowShare] = useState<number | null>(null);
+ 
+  const [filterVisible, setFilterVisible] = useState(false);
+  const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
+ 
+  // Get all existing tags from clubs
+  const availableTags = useMemo(() => {
+    const tagSet = new Set<string>();
+    clubs.forEach(club => {
+      (club.tags || []).forEach((t: string) => tagSet.add(t));
+    });
+    return Array.from(tagSet);
+  }, [clubs]);
+
+  // Add, remove filter
+  const toggleFilter = (tag: string) => {
+    setSelectedFilters(prev =>
+      prev.includes(tag)
+        ? prev.filter((f) => f !== tag)
+        : [...prev, tag]
+    );
+  };
+
+  // Reset all filters
+  const clearFilters = () => {
+    setSelectedFilters([]);
+  };
+ 
+  const filteredClubs = clubs
+    .filter((club) =>
+      club.name.toLowerCase().includes(search.toLowerCase())
+    )
+    .filter((club) => {
+      if (selectedFilters.length === 0) return true;
+
+      const lowerClubTags = (club.tags || []).map((t: string) => t.toLowerCase());
+
+      // Show clubs that match any of the selected filters
+      return selectedFilters.some(filterTag =>
+        lowerClubTags.includes(filterTag.toLowerCase())
+      );
+    });
 
   return (
     <SafeAreaView style={styles.safeArea}> 
        
+      {/* BACK BUTTON */}
       <TouchableOpacity
         style={styles.backButton}
         onPress={() => router.back()}
-        activeOpacity={0.8}
       >
         <Text style={styles.backText}>BACK</Text>
       </TouchableOpacity>
   
+      {/* SEARCH CLUBS */}
       <View style={styles.searchContainer}>
         <View style={styles.searchInputWrapper}>
           <TextInput
@@ -53,19 +93,23 @@ export default function Clubs() {
           )}
         </View>
 
-        <TouchableOpacity style={styles.filterButton}>
+        <TouchableOpacity
+          style={styles.filterButton}
+          onPress={() => setFilterVisible(true)}
+        >
           <Text style={styles.filterText}>FILTER</Text>
         </TouchableOpacity>
       </View>
 
+      {/* CREATE NEW CLUB */}
       <TouchableOpacity
         style={styles.createButton}
-        activeOpacity={0.8}
         onPress={() => router.push('/create-club')}
       >
-        <Text style={styles.createText}>+ CREATE NEW CLUB</Text>
+        <Text style={styles.createText}> CREATE NEW CLUB</Text>
       </TouchableOpacity>
-  
+
+      {/* CLUBS */}
       <ScrollView
         style={styles.scrollContainer}
         contentContainerStyle={{ paddingBottom: 140 }}
@@ -81,14 +125,13 @@ export default function Clubs() {
                   style={[styles.actionButton, styles.joinButton]}
                   onPress={() => {
                     if (club.name === "Screenwriters") {
-                      router.push("/screenwriters-chat");  
+                      router.push("/screenwriters-chat");
                     } else {
                       router.push({
                         pathname: "/club-chat",
                         params: { clubName: club.name },
                       });
                     }
-
                   }}
                 >
                   <Text style={styles.buttonText}>
@@ -113,7 +156,7 @@ export default function Clubs() {
             </Text>
 
             <View style={styles.tagContainer}>
-              {club.tags.map((tag, tagIndex) => (
+              {(club.tags || []).map((tag: string, tagIndex: number) => (
                 <View key={tagIndex} style={styles.tag}>
                   <Text style={styles.tagText}>{tag}</Text>
                 </View>
@@ -132,35 +175,33 @@ export default function Clubs() {
                 <View style={styles.shareUsersWrapper}>
                   <Text style={styles.shareToText}>TO:</Text>
                   <View style={styles.shareUsersContainer}>
-                    {['Evelyn', 'Alex', 'Jamie', 'Other'].map((userName, i) => {
-                      const sharedClubName = club.name;
-
-                      return (
+                    {["Evelyn", "Alex", "Jamie", "Other"].map((userName, i) => (
                       <TouchableOpacity
-                        key={i}
-                        style={styles.shareUserButton}
-                        onPress={() => {
-                          if (userName === 'Evelyn') {
-                            router.push({
-                              pathname: '/shared-club',
-                              params: { clubName: sharedClubName },
-                            });
-                          }
-                        }}
-                      >
-                        <Text style={styles.shareUserText}>{userName}</Text>
-                      </TouchableOpacity>
-                      );
-                    })}
+  key={i}
+  style={styles.shareUserButton}
+  onPress={() => {
+    router.push({
+      pathname: "/club-chat",
+      params: {
+        clubName: userName,          
+        msg: `Check out this club: ${club.name}!`,   
+      }
+    });
+  }}
+>
+  <Text style={styles.shareUserText}>{userName}</Text>
+</TouchableOpacity>
+
+                    ))}
                   </View>
                 </View>
-
               </View>
             )}
           </View>
         ))}
       </ScrollView>
-  
+
+      {/* FOOTER */}
       <View style={styles.footerContainer}>
         <View style={styles.menu}>
           <TouchableOpacity onPress={() => router.push('/homescreen')}>
@@ -180,17 +221,61 @@ export default function Clubs() {
           </TouchableOpacity>
         </View>
       </View>
+
+      {/* FILTERING */}
+      <Modal visible={filterVisible} animationType="slide" transparent>
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalBox}>
+
+            <Text style={styles.modalTitle}>Filter Clubs</Text>
+
+            <Text style={styles.modalSubtitle}>Tags</Text>
+            <View style={styles.filterTagContainer}>
+              {availableTags.map((tag, index) => (
+                <TouchableOpacity
+                  key={index}
+                  style={[
+                    styles.filterTag,
+                    selectedFilters.includes(tag) && styles.filterTagActive,
+                  ]}
+                  onPress={() => toggleFilter(tag)}
+                >
+                  <Text style={styles.filterTagText}>{tag}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+
+            <TouchableOpacity
+              style={styles.clearFilterButton}
+              onPress={() => {
+                clearFilters();
+                setFilterVisible(false); // close filter box after finished filtering
+              }}
+            >
+              <Text style={styles.clearFilterText}>Clear</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.closeModalButton}
+              onPress={() => setFilterVisible(false)}
+            >
+              <Text style={styles.closeModalText}>DONE</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 }
+ 
 
 const styles = StyleSheet.create({
   safeArea: { flex: 1, backgroundColor: '#FFFFFF', alignItems: 'center' },
- 
+
   backButton: {
     position: 'absolute',
     top: 60,
-    right: 20,
+    left: 20,
     backgroundColor: '#FFF8F9',
     borderWidth: 2,
     borderColor: '#000',
@@ -204,12 +289,16 @@ const styles = StyleSheet.create({
     fontFamily: 'JetBrainsMono_400Regular',
     color: '#000',
   },
- 
+
   searchContainer: {
     flexDirection: 'row',
     marginTop: 100,
     width: '90%',
     justifyContent: 'space-between',
+  },
+  searchInputWrapper: {
+    position: 'relative',
+    width: '68%',
   },
   searchInput: {
     width: '100%',
@@ -221,26 +310,36 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#000',
   },
+  clearButton: {
+    position: 'absolute',
+    right: 8,
+    top: 8,
+    backgroundColor: '#ddd',
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  clearText: { fontSize: 14, color: '#333' },
+
   filterButton: {
     width: '28%',
     height: 40,
-    backgroundColor: '#D9D9D9',
+    backgroundColor: '#FFB3A7',
     borderWidth: 2,
     borderColor: '#000',
     borderRadius: 4,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  filterText: {
-    fontSize: 16,
-    fontFamily: 'JetBrainsMono_400Regular',
-  },
- 
+  filterText: { fontSize: 16, fontFamily: 'JetBrainsMono_400Regular' },
+
   createButton: {
     marginTop: 10,
     width: '90%',
     height: 45,
-    backgroundColor: '#D9FCD9',
+    backgroundColor: '#D9C8FF',
     borderWidth: 2,
     borderColor: '#000',
     borderRadius: 4,
@@ -254,7 +353,7 @@ const styles = StyleSheet.create({
   },
 
   scrollContainer: { width: '90%', marginTop: 15 },
- 
+
   clubCard: {
     borderWidth: 2,
     borderColor: '#000',
@@ -263,23 +362,17 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     backgroundColor: '#FFF',
   },
-
   clubHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-
   clubTitle: {
     fontSize: 22,
     fontFamily: 'JetBrainsMono_400Regular',
     color: '#000',
   },
-
-  buttonGroup: {
-    flexDirection: 'row',
-    gap: 10,
-  },
+  buttonGroup: { flexDirection: 'row', gap: 10 },
 
   actionButton: {
     borderWidth: 1.5,
@@ -288,19 +381,8 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
     paddingHorizontal: 12,
   },
-
-  joinButton: {
-    backgroundColor: '#C9FDC9',
-  },
-
-  leaveButton: {
-    backgroundColor: "#FDC9C9", // light red
-   },
-
-
-  shareButton: {
-    backgroundColor: '#D9E9FD',
-  },
+  joinButton: { backgroundColor: '#C9FDC9' },
+  shareButton: { backgroundColor: '#D9E9FD' },
 
   buttonText: {
     fontFamily: 'JetBrainsMono_400Regular',
@@ -314,7 +396,6 @@ const styles = StyleSheet.create({
     color: '#333',
     marginTop: 6,
   },
-
   clubDescription: {
     fontSize: 14,
     fontFamily: 'JetBrainsMono_400Regular',
@@ -358,9 +439,8 @@ const styles = StyleSheet.create({
     borderColor: '#000',
     borderRadius: 4,
     padding: 6,
-    fontFamily: 'JetBrainsMono_400Regular',
-    fontSize: 12,
     backgroundColor: '#FFF',
+    fontFamily: 'JetBrainsMono_400Regular',
     marginBottom: 4,
   },
   shareUsersWrapper: {
@@ -374,7 +454,6 @@ const styles = StyleSheet.create({
     fontFamily: 'JetBrainsMono_400Regular',
     fontSize: 12,
     marginRight: 6,
-    color: '#000',
   },
   shareUsersContainer: {
     flexDirection: 'row',
@@ -382,7 +461,7 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   shareUserButton: {
-    backgroundColor: "#E0E0E0",
+    backgroundColor: '#E0E0E0',
     borderRadius: 8,
     paddingVertical: 4,
     paddingHorizontal: 8,
@@ -401,7 +480,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingBottom: Platform.OS === 'ios' ? 30 : 20,
   },
-
   menu: {
     width: '90%',
     height: 80,
@@ -411,31 +489,77 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
   },
+  menuIcon: { fontSize: 28 },
 
-  menuIcon: {
-    fontSize: 28,
+  /* FILTER MODAL */
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.4)",
+    justifyContent: "center",
+    alignItems: "center",
   },
-
-  searchInputWrapper: {
-  position: 'relative',
-  width: '68%',
-},
-
-clearButton: {
-  position: 'absolute',
-  right: 8,
-  top: 8,
-  backgroundColor: '#ddd',
-  width: 24,
-  height: 24,
-  borderRadius: 12,
-  justifyContent: 'center',
-  alignItems: 'center',
-},
-
-clearText: {
-  fontSize: 14,
-  color: '#333',
-},
-
+  modalBox: {
+    width: "85%",
+    backgroundColor: "#FFF",
+    borderRadius: 12,
+    padding: 20,
+    borderWidth: 2,
+    borderColor: "#000",
+  },
+  modalTitle: {
+    fontSize: 22,
+    fontFamily: "JetBrainsMono_400Regular",
+    marginBottom: 12,
+  },
+  modalSubtitle: {
+    fontSize: 16,
+    fontFamily: "JetBrainsMono_400Regular",
+    marginTop: 10,
+    marginBottom: 6,
+  },
+  filterTagContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 8,
+    marginBottom: 10,
+  },
+  filterTag: {
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+    backgroundColor: "#EEE",
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: "#000",
+  },
+  filterTagActive: {
+    backgroundColor: "#C9FDC9",
+  },
+  filterTagText: {
+    fontFamily: "JetBrainsMono_400Regular",
+  },
+  clearFilterButton: {
+    marginTop: 10,
+    backgroundColor: "#FFD7D7",
+    paddingVertical: 10,
+    borderRadius: 8,
+    borderWidth: 2,
+    borderColor: "#000",
+  },
+  clearFilterText: {
+    textAlign: "center",
+    fontFamily: "JetBrainsMono_400Regular",
+  },
+  closeModalButton: {
+    marginTop: 14,
+    backgroundColor: "#D9E9FD",
+    paddingVertical: 12,
+    borderRadius: 8,
+    borderWidth: 2,
+    borderColor: "#000",
+  },
+  closeModalText: {
+    textAlign: "center",
+    fontSize: 18,
+    fontFamily: "JetBrainsMono_400Regular",
+  },
 });

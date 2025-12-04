@@ -13,12 +13,22 @@ import { useRef, useState, useEffect } from "react";
 
 export default function ClubChat() {
   const router = useRouter();
-  const { clubName } = useLocalSearchParams();
+  const { clubName, msg } = useLocalSearchParams();
+  const initialMessages = [
+  { sender: clubName, text: `Welcome to the ${clubName} chat!` }
+]; 
 
-  const [messages, setMessages] = useState([
-    { sender: clubName, text: `Welcome to the ${clubName} chat!` },
-  ]);
+const safeMsg = Array.isArray(msg) ? msg[0] : msg || null;  
 
+if (safeMsg) {
+  initialMessages.push({
+    sender: "Me",
+    text: safeMsg,
+  });
+}
+
+
+  const [messages, setMessages] = useState(initialMessages);
   const [input, setInput] = useState("");
 
   const scrollRef = useRef<ScrollView>(null);
@@ -30,60 +40,67 @@ export default function ClubChat() {
   const handleSend = () => {
     if (!input.trim()) return;
 
-    setMessages((prev) => [...prev, { sender: "Me", text: input.trim() }]);
+    setMessages((prev) => [
+      ...prev,
+      { sender: "Me", text: input.trim() },
+    ]);
+
     setInput("");
   };
 
   return (
     <SafeAreaView style={styles.safeArea}>
 
+      {/* BACK BUTTON */}
       <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
         <Text style={styles.backText}>BACK</Text>
       </TouchableOpacity>
 
       <Text style={styles.title}>{clubName} - Chat</Text>
 
+      {/* CHAT MESSAGES */}
       <ScrollView
         ref={scrollRef}
         style={styles.messagesScroll}
         contentContainerStyle={{ paddingBottom: 170 }}
         showsVerticalScrollIndicator={false}
       >
-        {messages.map((msg, i) => (
+        {messages.map((msgItem, i) => (
           <View
             key={i}
             style={[
               styles.messageWrapper,
-              msg.sender === "Me"
+              msgItem.sender === "Me"
                 ? { alignSelf: "flex-end" }
                 : { alignSelf: "flex-start" },
             ]}
           >
-            <Text style={styles.senderName}>{msg.sender}</Text>
+            <Text style={styles.senderName}>{msgItem.sender}</Text>
 
             <View
               style={[
                 styles.messageBubble,
-                msg.sender === "Me" ? styles.rightBubble : styles.leftBubble,
+                msgItem.sender === "Me" ? styles.rightBubble : styles.leftBubble,
               ]}
             >
               <Text
                 style={[
                   styles.messageText,
-                  msg.sender === "Me" && { color: "#fff" },
+                  msgItem.sender === "Me" && { color: "#fff" },
                 ]}
               >
-                {msg.text}
+                {msgItem.text}
               </Text>
 
               <Text style={styles.messageTime}>
-                {msg.sender === "Me" ? "now" : "earlier"}
+                {msgItem.sender === "Me" ? "now" : "earlier"}
               </Text>
             </View>
           </View>
         ))}
       </ScrollView>
 
+      {/* TYPE MESSAGE */}
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.textInput}
@@ -97,6 +114,7 @@ export default function ClubChat() {
         </TouchableOpacity>
       </View>
 
+      {/* FOOTER NAV BAR */}
       <View style={styles.footerContainer}>
         <View style={styles.menu}>
           <TouchableOpacity onPress={() => router.push("/homescreen")}>
@@ -118,11 +136,9 @@ export default function ClubChat() {
       </View>
     </SafeAreaView>
   );
-}
+} 
 
-//
-// STYLES (copied directly from your screenwriters-chat)
-//
+// STYLES
 
 const styles = StyleSheet.create({
   safeArea: {
