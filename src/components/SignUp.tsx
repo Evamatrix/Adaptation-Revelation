@@ -1,8 +1,8 @@
-import { JetBrainsMono_400Regular } from '@expo-google-fonts/jetbrains-mono';
-import { Koulen_400Regular, useFonts } from '@expo-google-fonts/koulen';
-import AppLoading from 'expo-app-loading';
-import { router } from 'expo-router';
-import { useState } from 'react';
+import { JetBrainsMono_400Regular } from "@expo-google-fonts/jetbrains-mono";
+import { Koulen_400Regular, useFonts } from "@expo-google-fonts/koulen";
+import AppLoading from "expo-app-loading";
+import { router } from "expo-router";
+import { useState } from "react";
 import {
   Alert,
   Dimensions,
@@ -12,13 +12,14 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-} from 'react-native';
-import { useUser } from '../context/UserContext'; // Import user context
+} from "react-native";
+import { useUser } from "../context/UserContext"; // Import user context
 
-const windowHeight = Dimensions.get('window').height;
+const windowHeight = Dimensions.get("window").height;
 
 export default function SignUp() {
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState("");
+  const [isEmailValid, setIsEmailValid] = useState(true);
   const { setCurrentEmail } = useUser(); // Access context function
 
   // Load fonts
@@ -31,21 +32,26 @@ export default function SignUp() {
     return <AppLoading />;
   }
 
+  const validateEmail = (text: string) => {
+    return text.includes("@") && text.includes(".edu") && text.length > 5;
+  };
+
   // Verify email and store in context
   const handleVerify = () => {
-    if (email && email.includes('@') && email.includes('.edu')) {
+    if (validateEmail(email)) {
       const cleanEmail = email.trim().toLowerCase();
-
+      setIsEmailValid(true);
       // Store the current email in global context
       setCurrentEmail(cleanEmail);
 
       // Navigate to verification page
       router.push({
-        pathname: '/user-verified',
+        pathname: "/user-verified",
         params: { email: cleanEmail },
       });
     } else {
-      Alert.alert('Invalid Email', 'Please enter a valid school email address');
+      //Alert.alert("Invalid Email", "Please enter a valid school email address");
+      setIsEmailValid(false);
     }
   };
 
@@ -55,18 +61,33 @@ export default function SignUp() {
 
       <Text style={styles.label}>Enter school email:</Text>
 
-      <View style={styles.inputWrapper}>
+      <View
+        style={[
+          styles.inputWrapper,
+          !isEmailValid && styles.inputWrapperInvalid,
+        ]}
+      >
         <TextInput
           style={styles.input}
           placeholder="name@school.edu"
           placeholderTextColor="#5C5C5C"
           value={email}
-          onChangeText={setEmail}
+          onChangeText={(text) => {
+            setEmail(text);
+            setIsEmailValid(validateEmail(text));
+          }}
           keyboardType="email-address"
           autoCapitalize="none"
           onSubmitEditing={handleVerify}
         />
       </View>
+
+      {!isEmailValid && (
+        <Text style={styles.errorText}>
+          {" "}
+          Invalid email address: {"\n"} Missing: '@' and '.edu'
+        </Text>
+      )}
 
       <TouchableOpacity
         style={styles.button}
@@ -83,65 +104,91 @@ export default function SignUp() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width: '100%',
+    width: "100%",
     maxWidth: 440,
-    backgroundColor: '#FFF',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "#FFF",
+    justifyContent: "center",
+    alignItems: "center",
     padding: 20,
-    alignSelf: 'center',
+    alignSelf: "center",
     minHeight: windowHeight,
   },
   title: {
-    color: '#000',
-    textAlign: 'center',
-    fontFamily: 'Koulen_400Regular',
+    color: "#000",
+    textAlign: "center",
+    fontFamily: "Koulen_400Regular",
     fontSize: Platform.select({ web: 48, default: 45 }),
-    fontWeight: '400',
+    fontWeight: "400",
     marginBottom: 60,
-    textTransform: 'uppercase',
+    textTransform: "uppercase",
   },
   label: {
-    color: '#000',
-    textAlign: 'center',
-    fontFamily: 'JetBrainsMono_400Regular',
+    color: "#000",
+    textAlign: "center",
+    fontFamily: "JetBrainsMono_400Regular",
     fontSize: Platform.select({ web: 22, default: 20 }),
-    fontWeight: '400',
+    fontWeight: "400",
     marginBottom: 30,
-    width: '90%',
+    width: "90%",
   },
   inputWrapper: {
-    width: '100%',
+    width: "100%",
     maxWidth: 294,
     height: 50,
-    borderWidth: 1,
-    borderColor: '#000',
-    backgroundColor: '#FFFAFA',
-    justifyContent: 'center',
-    marginBottom: 50,
+    borderWidth: 2,
+    borderRadius: 8,
+    borderColor: "#000",
+    backgroundColor: "#FFFAFA",
+    justifyContent: "center",
+    marginBottom: 30,
   },
   input: {
-    width: '100%',
-    height: '100%',
-    color: '#000',
-    textAlign: 'center',
-    fontFamily: 'JetBrainsMono_400Regular',
+    width: "100%",
+    height: "100%",
+    color: "#000",
+    textAlign: "center",
+    fontFamily: "JetBrainsMono_400Regular",
     fontSize: Platform.select({ web: 20, default: 18 }),
     paddingHorizontal: 15,
   },
   button: {
-    width: '100%',
+    width: "100%",
     maxWidth: 183,
     height: 56,
-    borderWidth: 1,
-    borderColor: '#000',
-    backgroundColor: '#FFFAFA',
-    justifyContent: 'center',
-    alignItems: 'center',
+    borderWidth: 2,
+    borderRadius: 8,
+    borderColor: "#000",
+    backgroundColor: "#FFFAFA",
+    justifyContent: "center",
+    alignItems: "center",
   },
   buttonText: {
-    color: '#000',
-    fontFamily: 'Koulen_400Regular',
+    color: "#000",
+    fontFamily: "Koulen_400Regular",
     fontSize: Platform.select({ web: 28, default: 26 }),
+  },
+  errorText: {
+    color: "red",
+    fontFamily: "Koulen_400Regular",
+    fontSize: Platform.select({ web: 28, default: 20 }),
+    marginBottom: 20,
+    textAlign: "center",
+  },
+  signOutText: {
+    fontSize: Platform.select({ web: 30, default: 28 }),
+    fontFamily: "Koulen",
+    color: "#000",
+  },
+  topLeftButton: {
+    position: "absolute",
+    top: 70,
+    left: 30,
+    backgroundColor: "#FFF8F9",
+    borderWidth: 2,
+    borderColor: "#000",
+    borderRadius: 8,
+    paddingHorizontal: 14,
+    paddingVertical: 2,
+    zIndex: 10,
   },
 });
