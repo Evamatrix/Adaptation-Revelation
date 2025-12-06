@@ -1,10 +1,10 @@
 // src/context/UserContext.tsx
-import { createContext, ReactNode, useContext, useState } from 'react';
+import { createContext, ReactNode, useContext, useState } from "react";
 
 interface UserData {
   firstName?: string;
   lastName?: string;
-  pronoun?: string;
+  pronoun?: string[];
   nationality?: string[];
   languages?: string[];
   religion?: string[];
@@ -25,20 +25,20 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [allUsers, setAllUsers] = useState<Record<string, UserData>>({});
   const [currentEmail, setCurrentEmail] = useState<string | null>(null);
- 
-const getUserDataForEmail = (email: string | null): UserData => {
-    if (!email) return {};  
+
+  const getUserDataForEmail = (email: string | null): UserData => {
+    if (!email) return {};
     const user = allUsers[email];
     return user ? user : {};
   };
-   
+
   const setUserDataForEmail = (email: string, data: Partial<UserData>) => {
     setAllUsers((prev) => ({
       ...prev,
       [email]: { ...prev[email], ...data },
     }));
   };
- 
+
   const clearUserData = (email: string) => {
     setAllUsers((prev) => {
       const updated = { ...prev };
@@ -66,7 +66,7 @@ const getUserDataForEmail = (email: string | null): UserData => {
 export const useUser = (): UserContextType => {
   const context = useContext(UserContext);
   if (!context) {
-    throw new Error('useUser must be used within a UserProvider');
+    throw new Error("useUser must be used within a UserProvider");
   }
   return context;
 };

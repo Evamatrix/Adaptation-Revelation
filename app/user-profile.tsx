@@ -1,6 +1,6 @@
-import * as ImagePicker from 'expo-image-picker';
-import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useState } from 'react';
+import * as ImagePicker from "expo-image-picker";
+import { useLocalSearchParams, useRouter } from "expo-router";
+import { useState } from "react";
 import {
   Image,
   Platform,
@@ -8,33 +8,34 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View
-} from 'react-native';
-import { useUser } from '../src/context/UserContext';
+  View,
+} from "react-native";
+import { useUser } from "../src/context/UserContext";
 
 export default function UserProfile() {
-  const { currentEmail, getUserDataForEmail, clearUserData, setCurrentEmail } = useUser();
+  const { currentEmail, getUserDataForEmail, clearUserData, setCurrentEmail } =
+    useUser();
   const router = useRouter();
-  const params = useLocalSearchParams< { from?: string }>();
+  const params = useLocalSearchParams<{ from?: string }>();
   const from = params.from;
 
   const handleBack = () => {
-  if (from === 'createAccount') {
-    router.replace('/create-account-pg2'); 
-  } else if (router.canGoBack()) {
+    if (from === "createAccount") {
+      router.replace("/create-account-pg2");
+    } else if (router.canGoBack()) {
       router.back();
-  } else {
-    router.replace('/homescreen'); // fallback for menu navigation
-  }
-};
+    } else {
+      router.replace("/homescreen"); // fallback for menu navigation
+    }
+  };
 
   const [profileImage, setProfileImage] = useState<string | null>(null);
   // Pick image function
   const pickImage = async () => {
-    console.log('Pick image pressed');
+    console.log("Pick image pressed");
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (status !== 'granted') {
-      alert('Permission required to access photos.');
+    if (status !== "granted") {
+      alert("Permission required to access photos.");
       return;
     }
 
@@ -51,36 +52,36 @@ export default function UserProfile() {
 
   const userData = currentEmail ? getUserDataForEmail(currentEmail) : {};
   const {
-    firstName = 'First',
-    lastName = 'Last',
-    pronoun = 'They/Them',
+    firstName = "First",
+    lastName = "Last",
+    pronouns,
     nationality,
     languages,
     religion,
     interests,
   } = userData;
 
-  console.log('Current email:', currentEmail);
-  console.log('User data:', userData);
+  console.log("Current email:", currentEmail);
+  console.log("User data:", userData);
 
   const safeValue = (value?: string | string[]) => {
-    if(!value) return 'N/A';
+    if (!value) return "N/A";
 
     if (Array.isArray(value)) {
-      return value.length > 0 ? value.join(',') : 'N/A';
+      return value.length > 0 ? value.join(",") : "N/A";
     }
 
-    return value.trim() !== '' ? value : 'N/A';
-  }
+    return value.trim() !== "" ? value : "N/A";
+  };
 
   const handleSignOut = () => {
     if (currentEmail) clearUserData(currentEmail);
     setCurrentEmail(null);
-    router.replace('/signup');
+    router.replace("/signup");
   };
 
   return (
-    <SafeAreaView style={styles.safeArea}> 
+    <SafeAreaView style={styles.safeArea}>
       <TouchableOpacity
         style={styles.topRightButton}
         onPress={handleBack}
@@ -110,16 +111,16 @@ export default function UserProfile() {
             <Text style={styles.name}>
               {`${firstName.toUpperCase()} ${lastName.toUpperCase()}`}
             </Text>
-            <Text style={styles.pronouns}>{pronoun.toUpperCase()}</Text>
+            <Text style={styles.pronouns}>{pronouns}</Text>
           </View>
         </View>
- 
+
         <View style={styles.info}>
           {[
-            { label: 'NATIONALITY', value: safeValue(nationality) },
-            { label: 'LANGUAGES', value: safeValue(languages) },
-            { label: 'RELIGION', value: safeValue(religion) },
-            { label: 'INTERESTS', value: safeValue(interests) },
+            { label: "NATIONALITY", value: safeValue(nationality) },
+            { label: "LANGUAGES", value: safeValue(languages) },
+            { label: "RELIGION", value: safeValue(religion) },
+            { label: "INTERESTS", value: safeValue(interests) },
           ].map((item, index) => (
             <View key={index} style={styles.infoBlock}>
               <Text style={styles.infoLabel}>{item.label}</Text>
@@ -127,7 +128,7 @@ export default function UserProfile() {
             </View>
           ))}
         </View>
- 
+
         <View style={styles.buttonRow}>
           <TouchableOpacity style={styles.bottomButton} onPress={handleSignOut}>
             <Text style={styles.buttonText}>SIGN OUT</Text>
@@ -135,30 +136,30 @@ export default function UserProfile() {
 
           <TouchableOpacity
             style={styles.bottomButton}
-            onPress={() => router.replace('/account-page1')}
+            onPress={() => router.replace("/account-page1")}
           >
             <Text style={styles.buttonText}>EDIT PROFILE</Text>
           </TouchableOpacity>
         </View>
       </View>
-      
+
       <View style={{ height: 100 }} />
 
       <View style={styles.footerContainer}>
         <View style={styles.menu}>
-          <TouchableOpacity onPress={() => router.push('/homescreen')}>
+          <TouchableOpacity onPress={() => router.push("/homescreen")}>
             <Text style={styles.menuIcon}>🏠</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => router.push('/connect')}>
+          <TouchableOpacity onPress={() => router.push("/connect")}>
             <Text style={styles.menuIcon}>🧭</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => router.push('/chats')}>
+          <TouchableOpacity onPress={() => router.push("/chats")}>
             <Text style={styles.menuIcon}>💬</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => router.push('/user-profile')}>
+          <TouchableOpacity onPress={() => router.push("/user-profile")}>
             <Text style={styles.menuIcon}>👤</Text>
           </TouchableOpacity>
         </View>
@@ -170,15 +171,15 @@ export default function UserProfile() {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: "#FFFFFF",
   },
   topRightButton: {
-    position: 'absolute',
+    position: "absolute",
     top: 60,
     right: 20,
-    backgroundColor: '#FFF8F9',
+    backgroundColor: "#FFF8F9",
     borderWidth: 2,
-    borderColor: '#000',
+    borderColor: "#000",
     borderRadius: 8,
     paddingHorizontal: 14,
     paddingVertical: 6,
@@ -186,19 +187,19 @@ const styles = StyleSheet.create({
   },
   signOutText: {
     fontSize: 16,
-    fontFamily: 'JetBrainsMono_400Regular',
-    color: '#000',
+    fontFamily: "JetBrainsMono_400Regular",
+    color: "#000",
   },
   container: {
     flex: 1,
     paddingHorizontal: 24,
     paddingTop: 40,
-    paddingBottom: 60,  
+    paddingBottom: 60,
   },
 
   header: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: 30,
   },
 
@@ -206,80 +207,91 @@ const styles = StyleSheet.create({
     width: 120,
     height: 120,
     borderRadius: 60,
-    backgroundColor: '#E6E6E6',
-    justifyContent: 'center',
-    alignItems: 'center',
-    overflow: 'hidden',
+    backgroundColor: "#E6E6E6",
+    justifyContent: "center",
+    alignItems: "center",
+    overflow: "hidden",
     marginRight: 20,
   },
 
   photoImage: {
-    width: '100%',
-    height: '100%',
+    width: "100%",
+    height: "100%",
     borderRadius: 60,
   },
 
   plusWrapper: {
-    width: '100%',
-    height: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
+    width: "100%",
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
     marginTop: -10,
   },
 
   plusSign: {
     fontSize: 90,
-    fontWeight: 'bold',
-    color: '#888',
-    textAlign: 'center',
+    fontWeight: "bold",
+    color: "#888",
+    textAlign: "center",
   },
-
-
 
   headerText: { flex: 1 },
 
-  greeting: { fontSize: 26, fontFamily: 'Koulen_400Regular', color: '#000' },
-  name: { fontSize: 40, fontWeight: '200', fontFamily: 'Koulen_400Regular', color: '#000' },
-  pronouns: { fontSize: 20, color: '#5C5C5C', fontFamily: 'Koulen_400Regular' },
-  
+  greeting: { fontSize: 26, fontFamily: "Koulen_400Regular", color: "#000" },
+  name: {
+    fontSize: 40,
+    fontWeight: "200",
+    fontFamily: "Koulen_400Regular",
+    color: "#000",
+  },
+  pronouns: { fontSize: 20, color: "#5C5C5C", fontFamily: "Koulen_400Regular" },
+
   info: { marginBottom: 30 },
   infoBlock: { marginBottom: 22 },
 
-  infoLabel: { fontSize: 22, fontFamily: 'Koulen_400Regular', color: '#000' },
-  infoValue: { fontSize: 18, fontFamily: 'JetBrainsMono_400Regular', color: '#5C5C5C' },
-  
+  infoLabel: { fontSize: 22, fontFamily: "Koulen_400Regular", color: "#000" },
+  infoValue: {
+    fontSize: 18,
+    fontFamily: "JetBrainsMono_400Regular",
+    color: "#5C5C5C",
+  },
+
   buttonRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     marginBottom: 20,
     marginTop: -15,
   },
   bottomButton: {
-    width: '48%',
+    width: "48%",
     height: 52,
-    backgroundColor: '#FFF8F9',
+    backgroundColor: "#FFF8F9",
     borderWidth: 2,
-    borderColor: '#000',
+    borderColor: "#000",
     borderRadius: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
-  buttonText: { fontSize: 20, fontFamily: 'JetBrainsMono_400Regular', color: '#000' },
+  buttonText: {
+    fontSize: 20,
+    fontFamily: "JetBrainsMono_400Regular",
+    color: "#000",
+  },
   footerContainer: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 0,
-    width: '100%',
-    alignItems: 'center',
-    backgroundColor: '#FFFFFF',
-    paddingBottom: Platform.OS === 'ios' ? 30 : 20,
+    width: "100%",
+    alignItems: "center",
+    backgroundColor: "#FFFFFF",
+    paddingBottom: Platform.OS === "ios" ? 30 : 20,
   },
   menu: {
-    width: '90%',
+    width: "90%",
     height: 80,
-    backgroundColor: '#88E9FF',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
+    backgroundColor: "#88E9FF",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
     borderRadius: 25,
   },
   menuIcon: {
