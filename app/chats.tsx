@@ -49,21 +49,12 @@ export default function FriendsList() {
   );
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-
-    <TouchableOpacity
-            style={styles.backButton}
-            onPress={() => router.back()}
-            activeOpacity={0.8}
-            >
-            <Text style={styles.backText}>BACK</Text>
-            </TouchableOpacity>
+    <SafeAreaView style={styles.safeArea}> 
 
       <View style={styles.container}>
-        {/* Title */}
+
         <Text style={styles.title}>MY FRIENDS</Text>
 
-        {/* Search Bar */}
         <TextInput
           style={styles.searchInput}
           placeholder="Search friends..."
@@ -72,44 +63,44 @@ export default function FriendsList() {
           onChangeText={setSearch}
         />
 
-        {/* Scrollable Friends List */}
-        <ScrollView contentContainerStyle={[styles.scrollContainer, { paddingBottom: 100}]}>
+        <ScrollView contentContainerStyle={[styles.scrollContainer, { paddingBottom: 100 }]}>
           {filteredFriends.map((friend) => (
-            <TouchableOpacity 
-              key={friend.id} 
+            <TouchableOpacity
+              key={friend.id}
               style={styles.friendRow}
-              onPress={() => {
-                if (friend.name === "Evelyn") {
-                  router.push("/new-chat");
-                }
-              }}
-              >
+              onPress={() =>
+                router.push({
+                  pathname: `/chat/${friend.name}`,
+                  params: { friendName: friend.name },
+                })
+              }
+            >
               <Image source={{ uri: friend.avatar }} style={styles.avatar} />
               <Text style={styles.friendName}>{friend.name}</Text>
             </TouchableOpacity>
           ))}
         </ScrollView>
       </View>
-    
-        <View style={styles.footerContainer}>
-                <View style={styles.menu}>
-                  <TouchableOpacity onPress={() => router.push('/homescreen')}>
-                    <Text style={styles.menuIcon}>🏠</Text>
-                  </TouchableOpacity>
-        
-                  <TouchableOpacity onPress={() => router.push('/connect')}>
-                    <Text style={styles.menuIcon}>🧭</Text>
-                  </TouchableOpacity>
-        
-                  <TouchableOpacity onPress={() => router.push('/chats')}>
-                    <Text style={styles.menuIcon}>💬</Text>
-                  </TouchableOpacity>
-        
-                  <TouchableOpacity onPress={() => router.push('/user-profile')}>
-                    <Text style={styles.menuIcon}>👤</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
+
+      <View style={styles.footerContainer}>
+        <View style={styles.menu}>
+          <TouchableOpacity onPress={() => router.push('/homescreen')}>
+            <Text style={styles.menuIcon}>🏠</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => router.push('/connect')}>
+            <Text style={styles.menuIcon}>🧭</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => router.push('/chats')}>
+            <Text style={styles.menuIcon}>💬</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => router.push('/user-profile')}>
+            <Text style={styles.menuIcon}>👤</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
 
     </SafeAreaView>
   );
@@ -123,7 +114,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 20,
-    paddingTop: 10, // space for iPhone notch
+    paddingTop: 10,
   },
   title: {
     fontSize: 28,
@@ -145,9 +136,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     alignSelf: 'center',
   },
-  scrollContainer: {
-    paddingBottom: 40,
-  },
+  scrollContainer: { paddingBottom: 40 },
   friendRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -171,7 +160,6 @@ const styles = StyleSheet.create({
     fontFamily: 'Koulen',
     color: '#000',
   },
-
   footerContainer: {
     position: 'absolute',
     bottom: 0,
@@ -180,7 +168,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     paddingBottom: Platform.OS === 'ios' ? 30 : 20,
   },
-    menu: {
+  menu: {
     width: '90%',
     height: 80,
     backgroundColor: '#88E9FF',
@@ -191,7 +179,7 @@ const styles = StyleSheet.create({
   },
   menuIcon: { fontSize: 28 },
 
-    backButton: {
+  backButton: {
     position: 'absolute',
     top: 60,
     right: 20,
@@ -203,7 +191,7 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     zIndex: 10,
   },
-    backText: {
+  backText: {
     fontSize: 16,
     fontFamily: 'Koulen',
     color: '#000',
