@@ -1,7 +1,7 @@
 import { JetBrainsMono_400Regular } from '@expo-google-fonts/jetbrains-mono';
 import { Koulen_400Regular, useFonts } from '@expo-google-fonts/koulen';
-import AppLoading from 'expo-app-loading';
 import { router } from 'expo-router';
+import * as SplashScreen from 'expo-splash-screen';
 import { useState } from 'react';
 import {
   Alert,
@@ -17,7 +17,11 @@ import { useUser } from '../context/UserContext'; // Import user context
 
 const windowHeight = Dimensions.get('window').height;
 
+// Prevent the splash screen from auto-hiding
+SplashScreen.preventAutoHideAsync();
+
 export default function SignUp() {
+  const [appIsReady, setAppIsReady] = useState(false);
   const [email, setEmail] = useState('');
   const { setCurrentEmail } = useUser(); // Access context function
 
@@ -28,8 +32,10 @@ export default function SignUp() {
   });
 
   if (!fontsLoaded) {
-    return <AppLoading />;
+    return null;
   }
+
+  SplashScreen.hideAsync();
 
   // Verify email and store in context
   const handleVerify = () => {

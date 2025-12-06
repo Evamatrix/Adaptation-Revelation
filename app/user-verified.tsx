@@ -1,17 +1,15 @@
-import React from 'react';
+import { JetBrainsMono_400Regular } from '@expo-google-fonts/jetbrains-mono';
+import { Koulen_400Regular, useFonts } from '@expo-google-fonts/koulen';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import {
-  View,
+  Dimensions,
+  Platform,
+  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  StyleSheet,
-  Dimensions,
-  Platform,
+  View,
 } from 'react-native';
-import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useFonts, Koulen_400Regular } from '@expo-google-fonts/koulen';
-import { JetBrainsMono_400Regular } from '@expo-google-fonts/jetbrains-mono';
-import AppLoading from 'expo-app-loading';
 
 const windowHeight = Dimensions.get('window').height;
 
@@ -25,7 +23,7 @@ export default function UserVerified() {
   });
 
   if (!fontsLoaded) {
-    return <AppLoading />;
+    return null;
   }
 
   return (

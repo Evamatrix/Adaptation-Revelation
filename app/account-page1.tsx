@@ -1,7 +1,7 @@
 import { JetBrainsMono_400Regular } from '@expo-google-fonts/jetbrains-mono';
 import { Koulen_400Regular, useFonts } from '@expo-google-fonts/koulen';
-import AppLoading from 'expo-app-loading';
 import { router } from 'expo-router';
+import * as SplashScreen from 'expo-splash-screen';
 import { useEffect, useState } from 'react';
 import {
   Alert,
@@ -15,6 +15,9 @@ import {
   View,
 } from 'react-native';
 import { useUser } from '../src/context/UserContext';
+
+// Prevent the splash screen from auto-hiding
+SplashScreen.preventAutoHideAsync();
 
 export default function AccountPage1() {
   const {
@@ -46,7 +49,9 @@ export default function AccountPage1() {
     JetBrainsMono_400Regular,
   });
 
-  if (!fontsLoaded) return <AppLoading />;
+  if (!fontsLoaded) return null;
+  
+  SplashScreen.hideAsync();
 
   const pronouns = ['She/Her', 'He/Him', 'They/Them', 'Prefer Not To Say'];
 

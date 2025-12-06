@@ -1,7 +1,7 @@
 import { JetBrainsMono_400Regular } from '@expo-google-fonts/jetbrains-mono';
 import { Koulen_400Regular, useFonts } from '@expo-google-fonts/koulen';
-import AppLoading from 'expo-app-loading';
 import { router } from 'expo-router';
+import * as SplashScreen from 'expo-splash-screen';
 import { useEffect, useState } from 'react';
 import {
   Dimensions,
@@ -102,6 +102,9 @@ const DropdownSection = ({
   </View>
 );
 
+// Prevent the splash screen from auto-hiding
+SplashScreen.preventAutoHideAsync();
+
 export default function CreateAccountPg2() {
   const {
     currentEmail,
@@ -136,7 +139,8 @@ export default function CreateAccountPg2() {
     JetBrainsMono_400Regular,
   });
 
-  if (!fontsLoaded) return <AppLoading />;
+  if (!fontsLoaded) return null;
+  SplashScreen.hideAsync();
 
   const handleFinish = () => {
     if (currentEmail) {
