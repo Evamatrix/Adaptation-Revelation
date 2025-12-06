@@ -6,7 +6,7 @@ export interface Club {
   members: number;
   description: string;
   tags: string[];
-  joined: boolean; // <-- NEW
+  joined: boolean;
 }
 
 export interface Message {
@@ -28,7 +28,7 @@ export interface ClubContextType {
   setClubs: React.Dispatch<React.SetStateAction<Club[]>>;
   addClub: (club: Club) => void;
 
-  toggleJoinClub: (clubName: string) => void;   // <-- NEW
+  toggleJoinClub: (clubName: string) => void;
 
   messages: Message[];
   addMessage: (clubName: string, sender: string, text: string) => void;
@@ -37,9 +37,7 @@ export interface ClubContextType {
   addNotification: (text: string) => void;
 }
 
-export const ClubContext = createContext<ClubContextType | undefined>(
-  undefined
-);
+export const ClubContext = createContext<ClubContextType | undefined>(undefined);
 
 export const ClubProvider = ({ children }: { children: React.ReactNode }) => {
 
@@ -49,38 +47,41 @@ export const ClubProvider = ({ children }: { children: React.ReactNode }) => {
       members: 5, 
       description: "We like to write and discuss movie scripts!",
       tags: ["Film", "Writing"],
-      joined: false,   // <-- NEW
+      joined: false,
     },
     { 
       name: "Eating Club",
       members: 15,
       description: "Trying local restaurants and cafes...",
       tags: ["Food", "Social"],
-      joined: false,   // <-- NEW
+      joined: false,
     },
     { 
       name: "Unicycle Club",
       members: 5,
       description: "Join if you want to learn/ride unicycles",
       tags: ["Sports"],
-      joined: false,   // <-- NEW
+      joined: false,
     },
   ]);
 
   const [messages, setMessages] = useState<Message[]>([]);
   const [notifications, setNotifications] = useState<Notification[]>([]);
-
+ 
   const addClub = (club: Club) => {
-    setClubs((prev) => [...prev, club]);
+    setClubs((prev) => [
+      {
+        ...club,
+        joined: false,   
+      },
+      ...prev
+    ]);
   };
 
-  // NEW FUNCTION — toggles club join status
   const toggleJoinClub = (clubName: string) => {
     setClubs((prev) =>
       prev.map((c) =>
-        c.name === clubName
-          ? { ...c, joined: !c.joined }
-          : c
+        c.name === clubName ? { ...c, joined: !c.joined } : c
       )
     );
   };
@@ -115,12 +116,9 @@ export const ClubProvider = ({ children }: { children: React.ReactNode }) => {
         clubs,
         setClubs,
         addClub,
-
-        toggleJoinClub,   // <-- EXPOSED
-
+        toggleJoinClub,
         messages,
         addMessage,
-
         notifications,
         addNotification,
       }}

@@ -45,7 +45,7 @@ export default function Clubs() {
  
   const toggleFilter = (tag: string) => {
     setSelectedFilters(prev =>
-      prev.includes(tag) ? prev.filter((f) => f !== tag) : [...prev, tag]
+      prev.includes(tag) ? prev.filter((f) => f !== tag) : [tag, ...prev]
     );
   };
 
