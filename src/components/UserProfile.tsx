@@ -58,7 +58,7 @@ export default function UserProfile() {
   const handleSignOut = () => {
     if (currentEmail) clearUserData(currentEmail);
     setCurrentEmail(null);
-    router.replace('/signup');
+    router.push('/signup');
   };
 
   return (
@@ -119,7 +119,7 @@ export default function UserProfile() {
 
           <TouchableOpacity
             style={styles.bottomButton}
-            onPress={() => router.replace('/account-page1')}
+            onPress={() => router.push('/account-page1')}
           >
             <Text style={styles.buttonText}>EDIT PROFILE</Text>
           </TouchableOpacity>

@@ -1,7 +1,9 @@
 import { useRouter } from 'expo-router';
+import { useState } from 'react';
 import {
   Platform,
   SafeAreaView,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -12,12 +14,18 @@ import {
 export default function SharedClub() {
   const router = useRouter();
 
+  const [chatText, setChatText] = useState('');
+
   const messages = [
     { sender: 'Evelyn', text: 'i love grilling!' },
     { sender: 'Me', text: 'same!!' },
     { sender: 'Evelyn', text: 'we should make a grilling club!!' },
     { sender: 'Me', text: 'will do!' },
   ];
+
+  const [chatMessages, setChatMessages] = useState(messages);
+
+  const addMessage = () => {setChatMessages([...chatMessages, { sender: 'Me', text: chatText }]); setChatText('');}
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -31,8 +39,8 @@ export default function SharedClub() {
 
       <Text style={styles.title}>Evelyn H.</Text>
 
-      <View style={styles.messagesContainer}>
-        {messages.map((msg, i) => (
+      <ScrollView style={styles.messagesContainer}>
+        {chatMessages.map((msg, i) => (
           <View
             key={i}
             style={[
@@ -49,17 +57,20 @@ export default function SharedClub() {
             <Text style={styles.messageTime}>10:35 am</Text>
           </View>
         ))}
-      </View>
+      </ScrollView>
 
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.textInput}
           placeholder="Write a text message"
           placeholderTextColor="#888"
-          editable={false} 
+          value={chatText}
+          onChangeText={setChatText}
         />
         <View style={styles.addButton}>
-          <Text style={styles.addButtonText}>+</Text>
+          <TouchableOpacity onPress={addMessage}>
+            <Text style={styles.addButtonText}>+</Text>
+          </TouchableOpacity>
         </View>
       </View>
 
@@ -127,7 +138,8 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '90%',
     marginTop: 30,
-    paddingBottom: 100,
+    paddingBottom: 500,
+    marginBottom: 100,
   },
   messageBubble: {
     maxWidth: '80%',

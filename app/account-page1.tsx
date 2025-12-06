@@ -78,28 +78,7 @@ export default function AccountPage1() {
   };
 
   const handleBack = () => {
-    if (!currentEmail) {
-      router.push('/signup');
-      return;
-    }
-
-    // If user has an account → go back to their profile
-    const data = getUserDataForEmail(currentEmail);
-    const hasAnyData =
-      data?.firstName ||
-      data?.lastName ||
-      data?.pronoun ||
-      data?.nationality ||
-      data?.languages ||
-      data?.religion ||
-      data?.interests;
-
-    if (hasAnyData) {
-      router.push('/user-profile');
-    } else {
-      // User has an email saved but no data yet → treat like new user
-      router.push('/SignUp');
-    }
+    router.back();
   }
 
   return (
@@ -240,8 +219,8 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   pronounSelected: {
-    backgroundColor: '#ffc5cd',
-    borderColor: '#ff4b6e',
+    backgroundColor: '#cdf0ffff',
+    borderColor: '#4bd2ffff',
   },
   pronounText: {
     fontFamily: 'JetBrainsMono_400Regular',

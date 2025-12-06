@@ -155,8 +155,8 @@ export default function CreateAccountPg2() {
   };
 
   const handleBack = () => {
-    router.push('/account-page1');
-  };
+    router.back();
+  }
 
   return (
     <View style={styles.screenWrapper}>

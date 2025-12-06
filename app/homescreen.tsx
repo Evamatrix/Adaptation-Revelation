@@ -31,7 +31,7 @@ export default function HomeScreen() {
     <SafeAreaView style={styles.safeArea}> 
       <TouchableOpacity
         style={styles.signOutButton}
-        onPress={() => router.replace('/signup')}
+        onPress={() => router.push('/signup')}
         activeOpacity={0.8}
       >
         <Text style={styles.signOutText}>SIGN OUT</Text>

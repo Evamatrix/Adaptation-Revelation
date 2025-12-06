@@ -15,18 +15,12 @@ import { useUser } from '../src/context/UserContext';
 export default function UserProfile() {
   const { currentEmail, getUserDataForEmail, clearUserData, setCurrentEmail } = useUser();
   const router = useRouter();
-  const params = useLocalSearchParams< { from?: string }>();
+  const params = useLocalSearchParams<{ from?: string }>();
   const from = params.from;
 
   const handleBack = () => {
-  if (from === 'createAccount') {
-    router.replace('/create-account-pg2'); 
-  } else if (router.canGoBack()) {
-      router.back();
-  } else {
-    router.replace('/homescreen'); // fallback for menu navigation
+    router.back();
   }
-};
 
   const [profileImage, setProfileImage] = useState<string | null>(null);
   // Pick image function
@@ -64,7 +58,7 @@ export default function UserProfile() {
   console.log('User data:', userData);
 
   const safeValue = (value?: string | string[]) => {
-    if(!value) return 'N/A';
+    if (!value) return 'N/A';
 
     if (Array.isArray(value)) {
       return value.length > 0 ? value.join(',') : 'N/A';
@@ -76,11 +70,11 @@ export default function UserProfile() {
   const handleSignOut = () => {
     if (currentEmail) clearUserData(currentEmail);
     setCurrentEmail(null);
-    router.replace('/signup');
+    router.push('/signup');
   };
 
   return (
-    <SafeAreaView style={styles.safeArea}> 
+    <SafeAreaView style={styles.safeArea}>
       <TouchableOpacity
         style={styles.topRightButton}
         onPress={handleBack}
@@ -113,7 +107,7 @@ export default function UserProfile() {
             <Text style={styles.pronouns}>{pronoun.toUpperCase()}</Text>
           </View>
         </View>
- 
+
         <View style={styles.info}>
           {[
             { label: 'NATIONALITY', value: safeValue(nationality) },
@@ -127,7 +121,7 @@ export default function UserProfile() {
             </View>
           ))}
         </View>
- 
+
         <View style={styles.buttonRow}>
           <TouchableOpacity style={styles.bottomButton} onPress={handleSignOut}>
             <Text style={styles.buttonText}>SIGN OUT</Text>
@@ -135,13 +129,13 @@ export default function UserProfile() {
 
           <TouchableOpacity
             style={styles.bottomButton}
-            onPress={() => router.replace('/account-page1')}
+            onPress={() => router.push('/account-page1')}
           >
             <Text style={styles.buttonText}>EDIT PROFILE</Text>
           </TouchableOpacity>
         </View>
       </View>
-      
+
       <View style={{ height: 100 }} />
 
       <View style={styles.footerContainer}>
@@ -193,7 +187,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 24,
     paddingTop: 40,
-    paddingBottom: 200,  
+    paddingBottom: 200,
   },
 
   header: {
@@ -241,13 +235,13 @@ const styles = StyleSheet.create({
   greeting: { fontSize: 26, fontFamily: 'Koulen_400Regular', color: '#000' },
   name: { fontSize: 40, fontWeight: '200', fontFamily: 'Koulen_400Regular', color: '#000' },
   pronouns: { fontSize: 20, color: '#5C5C5C', fontFamily: 'Koulen_400Regular' },
-  
+
   info: { marginBottom: 30 },
   infoBlock: { marginBottom: 22 },
 
   infoLabel: { fontSize: 22, fontFamily: 'Koulen_400Regular', color: '#000' },
   infoValue: { fontSize: 18, fontFamily: 'JetBrainsMono_400Regular', color: '#5C5C5C' },
-  
+
   buttonRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',

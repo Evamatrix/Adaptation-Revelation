@@ -1,5 +1,6 @@
 import { useRouter } from "expo-router";
-import { Platform, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { useState } from "react";
+import { Image, Platform, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 
 export default function ScreenwritersChat() {
   const router = useRouter();
@@ -10,6 +11,14 @@ export default function ScreenwritersChat() {
     { sender: "Evelyn H.", text: "Did you do hw 3?" },
     { sender: "Me", text: "Ya I’ll dm you" },
   ];
+
+  const friends = ["Evelyn H."];
+
+  const [chatText, setChatText] = useState('');
+
+  const [chatMessages, setChatMessages] = useState(messages);
+
+  const addMessage = () => { setChatMessages([...chatMessages, { sender: 'Me', text: chatText }]); setChatText(''); }
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -23,57 +32,68 @@ export default function ScreenwritersChat() {
 
       <Text style={styles.title}>Screen Writers - General Chat</Text>
 
-      <View style={styles.messagesContainer}>
-        {messages.map((msg, i) => (
-          <View
-            key={i}
-            style={[
-              styles.messageWrapper,
-              msg.sender === "Evelyn H."
-                ? { alignSelf: "flex-start" }
-                : { alignSelf: "flex-end" },
-            ]}
-          >
-            {msg.sender === "Evelyn H." ? (
-                <TouchableOpacity onPress={() => router.push("/Evelyn")}>
-                <Text style={styles.senderName}>{msg.sender}</Text>
-                </TouchableOpacity>
-            ) : (
-                <Text style={styles.senderName}>{msg.sender}</Text>
-            )}
+      <ScrollView style={styles.messagesContainer}>
+        {chatMessages.map((msg, i) => {
+          const isFriend = friends.includes(msg.sender);
 
+
+          return (
             <View
+              key={i}
               style={[
-                styles.messageBubble,
-                msg.sender === "Evelyn H." ? styles.leftBubble : styles.rightBubble,
+                styles.messageWrapper,
+                msg.sender === "Evelyn H."
+                  ? { alignSelf: "flex-start" }
+                  : { alignSelf: "flex-end" },
               ]}
             >
-              <Text
+              {msg.sender === "Evelyn H." ? (
+                <TouchableOpacity onPress={() => router.push("/Evelyn")}>
+                  <Text style={styles.senderName}>{msg.sender}<Image style={styles.senderIcon} source={isFriend ? require('../assets/images/user-added.svg') : require('../assets/images/add-user.svg')} />
+                  </Text>
+
+                </TouchableOpacity>
+              ) : (
+                <Text style={styles.senderName}>{msg.sender}</Text>
+              )}
+
+              <View
                 style={[
-                  styles.messageText,
-                  msg.sender === "Me" ? { color: "#fff" } : { color: "#000" },
+                  styles.messageBubble,
+                  msg.sender === "Evelyn H." ? styles.leftBubble : styles.rightBubble,
                 ]}
               >
-                {msg.text}
-              </Text>
-              <Text style={styles.messageTime}>
-                {msg.sender === "Me" ? "11:47 am" : "10:05 am"}
-              </Text>
+                <Text
+                  style={[
+                    styles.messageText,
+                    msg.sender === "Me" ? { color: "#fff" } : { color: "#000" },
+                  ]}
+                >
+                  {msg.text}
+                </Text>
+                <Text style={styles.messageTime}>
+                  {msg.sender === "Me" ? "11:47 am" : "10:05 am"}
+                </Text>
+              </View>
             </View>
-          </View>
-        ))}
-      </View>
 
-      {/* Static Input Bar */}
+          )
+        })}
+      </ScrollView>
+
+      {/* Dynamic Input Bar */}
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.textInput}
           placeholder="Write a text message"
           placeholderTextColor="#888"
-          editable={false}
+          value={chatText}
+          onChangeText={setChatText}
         />
         <View style={styles.addButton}>
-          <Text style={styles.addButtonText}>+</Text>
+          <TouchableOpacity onPress={addMessage}>
+            <Text style={styles.addButtonText}>+</Text>
+          </TouchableOpacity>
         </View>
       </View>
 
@@ -145,6 +165,11 @@ const styles = StyleSheet.create({
     fontFamily: "JetBrainsMono_400Regular",
     color: "#5c5c5c",
     marginBottom: 4,
+  },
+  senderIcon: {
+    width: 30,
+    height: 30,
+    verticalAlign: "bottom"
   },
   messageBubble: {
     maxWidth: "80%",

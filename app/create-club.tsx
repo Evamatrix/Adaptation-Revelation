@@ -61,7 +61,7 @@ export default function CreateClub() {
       joined: true,
     });
 
-    router.replace('/clubs');
+    router.push('/clubs');
   };
 
   return (
