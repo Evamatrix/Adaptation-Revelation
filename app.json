@@ -32,7 +32,7 @@
       "image": "./assets/images/splash-icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
-    },    
+    },
     "plugins": [
       [
         "expo-splash-screen",
@@ -46,7 +46,9 @@
           }
         }
       ],
-      "expo-font"
+      "expo-font",
+      "expo-router",
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": false,
