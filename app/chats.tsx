@@ -1,7 +1,5 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { sessionState } from '../store/session';
-
 import {
   Dimensions,
   Image,
@@ -14,6 +12,7 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
+import { sessionState } from '../store/session';
 
 const friendsData = [
   { id: 1, name: 'Alex', avatar: 'https://i.pravatar.cc/100?img=1' },
@@ -29,7 +28,6 @@ const friendsData = [
 export default function FriendsList() {
   const [search, setSearch] = useState('');
   const router = useRouter();
-
   const params = useLocalSearchParams();
   const [hasEvelyn, setHasEvelyn] = useState(sessionState.hasEvelyn);
 
@@ -49,10 +47,8 @@ export default function FriendsList() {
   );
 
   return (
-    <SafeAreaView style={styles.safeArea}> 
-
+    <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
-
         <Text style={styles.title}>MY FRIENDS</Text>
 
         <TextInput
@@ -70,8 +66,8 @@ export default function FriendsList() {
               style={styles.friendRow}
               onPress={() =>
                 router.push({
-                  pathname: `/chat/${friend.name}`,
-                  params: { friendName: friend.name },
+                  pathname: "/chat/[name]",
+                  params: { name: friend.name },
                 })
               }
             >
@@ -101,7 +97,6 @@ export default function FriendsList() {
           </TouchableOpacity>
         </View>
       </View>
-
     </SafeAreaView>
   );
 }
@@ -178,22 +173,4 @@ const styles = StyleSheet.create({
     borderRadius: 25,
   },
   menuIcon: { fontSize: 28 },
-
-  backButton: {
-    position: 'absolute',
-    top: 60,
-    right: 20,
-    backgroundColor: '#FFF8F9',
-    borderWidth: 2,
-    borderColor: '#000',
-    borderRadius: 8,
-    paddingHorizontal: 14,
-    paddingVertical: 6,
-    zIndex: 10,
-  },
-  backText: {
-    fontSize: 16,
-    fontFamily: 'Koulen',
-    color: '#000',
-  },
 });

@@ -43,8 +43,7 @@ export default function FriendChat() {
       <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
         <Text style={styles.backText}>BACK</Text>
       </TouchableOpacity>
-
-      {/* TITLE */}
+ 
       <Text style={styles.title}>{chatName}</Text>
 
       {/* MESSAGES */}
@@ -89,7 +88,7 @@ export default function FriendChat() {
         ))}
       </ScrollView>
 
-      {/* INPUT BAR */}
+      {/* INPUT */}
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.textInput}
@@ -104,7 +103,7 @@ export default function FriendChat() {
         </TouchableOpacity>
       </View>
 
-      {/* FOOTER MENU */}
+      {/* FOOTER */}
       <View style={styles.footerContainer}>
         <View style={styles.menu}>
           <TouchableOpacity onPress={() => router.push("/homescreen")}>
@@ -128,10 +127,6 @@ export default function FriendChat() {
     </SafeAreaView>
   );
 }
-
-//
-// STYLES — IDENTICAL TO CLUB-CHAT
-//
 
 const styles = StyleSheet.create({
   safeArea: {

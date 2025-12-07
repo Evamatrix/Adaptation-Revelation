@@ -56,7 +56,7 @@ if (safeMsg) {
         <Text style={styles.backText}>BACK</Text>
       </TouchableOpacity>
 
-      <Text style={styles.title}>{clubName} - Chat</Text>
+      <Text style={styles.title}>{clubName}</Text>
 
       {/* CHAT MESSAGES */}
       <ScrollView

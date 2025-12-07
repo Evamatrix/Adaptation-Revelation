@@ -1,16 +1,9 @@
-import { Slot } from 'expo-router';
-import { ClubProvider } from '../src/context/ClubConText';
-import { FriendProvider } from '../src/context/FriendContext';
-import { UserProvider } from '../src/context/UserContext';
+import { Stack } from "expo-router";
 
-export default function Layout() {
+export default function ChatLayout() {
   return (
-    <UserProvider>
-      <ClubProvider>
-        <FriendProvider>
-        <Slot />
-        </FriendProvider>
-      </ClubProvider>
-    </UserProvider>
+    <Stack screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="[name]" />
+    </Stack>
   );
 }

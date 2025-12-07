@@ -89,7 +89,7 @@ export default function FriendChat() {
         ))}
       </ScrollView>
 
-      {/* INPUT BAR */}
+      {/* INPUT */}
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.textInput}
@@ -128,11 +128,7 @@ export default function FriendChat() {
     </SafeAreaView>
   );
 }
-
-//
-// STYLES — IDENTICAL TO CLUB-CHAT
-//
-
+ 
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,

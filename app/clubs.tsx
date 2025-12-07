@@ -45,7 +45,7 @@ export default function Clubs() {
  
   const toggleFilter = (tag: string) => {
     setSelectedFilters(prev =>
-      prev.includes(tag) ? prev.filter((f) => f !== tag) : [tag, ...prev]
+      prev.includes(tag) ? prev.filter((f) => f !== tag) : [...prev, tag]
     );
   };
 
@@ -121,7 +121,7 @@ export default function Clubs() {
             <View style={styles.clubHeader}>
               <Text style={styles.clubTitle}>{club.name}</Text>
 
-              {/* JOIN + SHARE BUTTONS */}
+              {/* JOIN and SHARE BUTTONS */}
               <View style={styles.buttonGroup}>
                 
                 {/* JOIN BUTTON */}
