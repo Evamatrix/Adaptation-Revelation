@@ -3,7 +3,7 @@ const tintColorLight = '#0a7ea4';
 const Colors = {
     // Text colors
     text: '#11181C',
-    subtext: '#333,',
+    subtext: '#333',
     placeholder: '#5C5C5C',
 
     // Backgrounds

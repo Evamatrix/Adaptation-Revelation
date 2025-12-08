@@ -1,12 +1,13 @@
 import { useRouter } from "expo-router";
 import {
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
-import Colors from "../../constants/colors"; // centralized colors
-import { getFont, useAppFonts } from "../../constants/fonts"; // centralized fonts
+import Colors from "../../constants/colors";
+import { getFont, useAppFonts } from "../../constants/fonts";
+import { useClubs } from "../../context/ClubContext";
 
 interface Club {
   name: string;
@@ -25,9 +26,22 @@ interface ClubCardMinimalProps {
 export default function ClubCardMinimal({ club, index, toggleJoinClub }: ClubCardMinimalProps) {
   const router = useRouter();
   const fontsLoaded = useAppFonts();
+  const { setClubData } = useClubs();
 
-  // Block rendering until fonts are ready
   if (!fontsLoaded) return null;
+
+  const handleJoin = () => {
+    // Toggle join state
+    setClubData(club.name, {
+      joined: !club.joined,
+      members: (club.members || 0) + (club.joined ? -1 : 1),
+    });
+
+    // Navigate straight to chat when joining
+    if (!club.joined) {
+      router.push(`/club-chat/${encodeURIComponent(club.name)}`);
+    }
+  };
 
   const styles = StyleSheet.create({
     card: {
@@ -50,7 +64,6 @@ export default function ClubCardMinimal({ club, index, toggleJoinClub }: ClubCar
     },
     buttonGroup: {
       flexDirection: "row",
-      gap: 8,
     },
     actionButton: {
       borderWidth: 1.5,
@@ -58,6 +71,7 @@ export default function ClubCardMinimal({ club, index, toggleJoinClub }: ClubCar
       borderRadius: 5,
       paddingVertical: 4,
       paddingHorizontal: 10,
+      marginLeft: 8,
     },
     joinButton: { backgroundColor: Colors.success },
     leaveButton: { backgroundColor: Colors.error },
@@ -83,13 +97,14 @@ export default function ClubCardMinimal({ club, index, toggleJoinClub }: ClubCar
       flexDirection: "row",
       flexWrap: "wrap",
       marginTop: 6,
-      gap: 6,
     },
     tag: {
       backgroundColor: Colors.secondary,
       borderRadius: 12,
       paddingHorizontal: 8,
       paddingVertical: 4,
+      marginRight: 6,
+      marginBottom: 6,
     },
     tagText: {
       fontFamily: getFont("mono"),
@@ -109,21 +124,16 @@ export default function ClubCardMinimal({ club, index, toggleJoinClub }: ClubCar
               styles.actionButton,
               club.joined ? styles.leaveButton : styles.joinButton,
             ]}
-            onPress={() => toggleJoinClub(club.name)}
+            onPress={handleJoin}
           >
             <Text style={styles.buttonText}>
-              {club.joined ? "Join" : "JOIN"}
+              {club.joined ? "LEAVE" : "JOIN"}
             </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={[styles.actionButton, styles.shareButton]}
-            onPress={() =>
-              router.push({
-                pathname: "/club-chat",
-                params: { clubName: club.name },
-              })
-            }
+            onPress={() => router.push(`/club-chat/${encodeURIComponent(club.name)}`)}
           >
             <Text style={styles.buttonText}>SHARE</Text>
           </TouchableOpacity>

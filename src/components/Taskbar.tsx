@@ -42,7 +42,7 @@ export default function Taskbar() {
           <Text style={styles.menuIcon}>🧭</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => router.push('/chats')}>
+        <TouchableOpacity onPress={() => router.push('/friends-list')}>
           <Text style={styles.menuIcon}>💬</Text>
         </TouchableOpacity>
 

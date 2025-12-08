@@ -1,9 +1,9 @@
 import React from 'react';
 import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import SignUp from '../../src/components/SignUp';
 import './App.css';
 import AccountPage1 from './components/AccountPage1';
 import CreateAccountPg2 from './components/CreateAccountPg2';
-import SignUp from './components/SignUp';
 import UserProfile from './components/UserProfile';
 import UserVerified from './components/UserVerified';
 

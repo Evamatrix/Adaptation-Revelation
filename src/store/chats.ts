@@ -1,18 +1,22 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useEffect } from "react";
+
+useEffect(() => {
+  AsyncStorage.clear(); // wipes all stored keys
+}, []);
 
 export type Message = { sender: string; text: string; time: string };
 
-const keyForFriend = (friend: string) => `chat:${friend}`;
+const keyForChat = (chatName: string) => `chat:${chatName}`;
 
-export async function getMessages(friend: string): Promise<Message[]> {
+export async function getMessages(chatName: string): Promise<Message[]> {
   try {
-    const stored = await AsyncStorage.getItem(keyForFriend(friend));
+    const stored = await AsyncStorage.getItem(keyForChat(chatName));
     if (stored) return JSON.parse(stored);
-    // Default starter message
     return [
       {
-        sender: friend,
-        text: `Hey! It's ${friend}.`,
+        sender: chatName,
+        text: `Hey! Welcome to ${chatName}.`,
         time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
       },
     ];
@@ -22,11 +26,11 @@ export async function getMessages(friend: string): Promise<Message[]> {
   }
 }
 
-export async function addMessage(friend: string, message: Message) {
+export async function addMessage(chatName: string, message: Message) {
   try {
-    const current = await getMessages(friend);
+    const current = await getMessages(chatName);
     const updated = [...current, message];
-    await AsyncStorage.setItem(keyForFriend(friend), JSON.stringify(updated));
+    await AsyncStorage.setItem(keyForChat(chatName), JSON.stringify(updated));
     return updated;
   } catch (e) {
     console.error("Error saving message", e);
