@@ -91,7 +91,7 @@ export default function UserProfile() {
 
         <View style={styles.info}>
           {[
-            { label: 'NATIONALITY', value: safeValue(nationality) },
+            { label: 'CULTURE', value: safeValue(nationality) },
             { label: 'LANGUAGES', value: safeValue(languages) },
             { label: 'RELIGION', value: safeValue(religion) },
             { label: 'INTERESTS', value: safeValue(interests) },

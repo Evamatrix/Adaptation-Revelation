@@ -148,13 +148,13 @@ export default function AccountPage1() {
         {/* BUTTONS */}
         <View style={styles.buttonRow}>
           <TouchableOpacity
-            style={styles.button}
+            style={styles.backButton}
             onPress={handleBack}
           >
             <Text style={styles.buttonText}>BACK</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.button} onPress={handleNext}>
+          <TouchableOpacity style={styles.nextButton} onPress={handleNext}>
             <Text style={styles.buttonText}>NEXT</Text>
           </TouchableOpacity>
         </View>
@@ -261,10 +261,20 @@ const styles = StyleSheet.create({
     width: FIXED_WIDTH,
     marginTop: 10,
   },
-  button: {
+  backButton: {
     width: '48%',
     height: 44,
     backgroundColor: '#fff8f9',
+    borderWidth: 2,
+    borderColor: '#000',
+    borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  nextButton: {
+    width: '48%',
+    height: 44,
+    backgroundColor: '#a9f59f',
     borderWidth: 2,
     borderColor: '#000',
     borderRadius: 8,
