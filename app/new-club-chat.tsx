@@ -1,13 +1,14 @@
+import Screen from "@/src/components/Screen";
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import {
   Platform,
-  SafeAreaView,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function NewClubChat() {
   const router = useRouter();
@@ -20,6 +21,7 @@ export default function NewClubChat() {
   ];
 
   return (
+    <Screen>
     <SafeAreaView style={styles.safeArea}>
       <TouchableOpacity
         style={styles.backButton}
@@ -78,27 +80,8 @@ export default function NewClubChat() {
           <Text style={styles.addButtonText}>+</Text>
         </View>
       </View>
-
-      <View style={styles.footerContainer}>
-        <View style={styles.menu}>
-          <TouchableOpacity onPress={() => router.push('/homescreen')}>
-            <Text style={styles.menuIcon}>🏠</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => router.push('/connect')}>
-            <Text style={styles.menuIcon}>🧭</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => router.push('/chats')}>
-            <Text style={styles.menuIcon}>💬</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => router.push('/user-profile')}>
-            <Text style={styles.menuIcon}>👤</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
     </SafeAreaView>
+  </Screen>
   );
 }
 

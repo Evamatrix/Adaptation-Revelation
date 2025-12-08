@@ -3,7 +3,6 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import {
   Platform,
-  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
@@ -11,6 +10,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function FriendChat() {
   const router = useRouter();
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
     fontSize: 36,
     fontFamily: "Koulen_400Regular",
     color: "#000",
-    marginTop: 100,
+    marginTop: 40,
     textAlign: "center",
   },
 

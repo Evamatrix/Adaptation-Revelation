@@ -1,10 +1,13 @@
 import Screen from "@/src/components/Screen";
-import { useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { useState } from "react";
-import { Image, Platform, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Image, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function ScreenwritersChat() {
   const router = useRouter();
+  const params = useLocalSearchParams<{ clubName?: string }>();
+  const clubName = params.clubName;
 
   const messages = [
     { sender: "Evelyn H.", text: "is anyone in PHIL 2020?" },
@@ -32,7 +35,7 @@ export default function ScreenwritersChat() {
         <Text style={styles.backText}>BACK</Text>
       </TouchableOpacity>
 
-      <Text style={styles.title}>Screen Writers - General Chat</Text>
+      <Text style={styles.title}>{clubName}</Text>
 
       <ScrollView style={styles.messagesContainer}>
         {chatMessages.map((msg, i) => {
@@ -111,7 +114,7 @@ const styles = StyleSheet.create({
   },
   backButton: {
     position: "absolute",
-    top: 60,
+    top: 20,
     left: 20,
     backgroundColor: "#FFF8F9",
     borderWidth: 2,
@@ -130,17 +133,17 @@ const styles = StyleSheet.create({
     fontSize: 36,
     fontFamily: "Koulen_400Regular",
     color: "#000",
-    marginTop: 100,
+    marginTop: 40,
     textAlign: "center",
   },
   messagesContainer: {
     flex: 1,
     width: "90%",
     marginTop: 30,
-    paddingBottom: 100,
   },
   messageWrapper: {
-    marginBottom: 20,
+    marginBottom: 26,
+    maxWidth: "80%"
   },
   senderName: {
     fontSize: 14,
@@ -180,21 +183,30 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     position: "absolute",
-    bottom: Platform.OS === "ios" ? 140 : 120,
+    bottom: Platform.OS === "ios" ? 135 : 115,
     left: 16,
     right: 16,
     flexDirection: "row",
     alignItems: "center",
+    padding: 8,
+    backgroundColor: "#fff",
+    borderRadius: 30,
+    borderWidth: 1.5,
+    borderColor: "#CFCFCF",
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    elevation: 4,
   },
   textInput: {
     flex: 1,
-    height: 48,
+    height: 40,
     borderColor: "#000",
     borderWidth: 1,
     borderRadius: 25,
     paddingHorizontal: 16,
     fontFamily: "JetBrainsMono_400Regular",
-    fontSize: 16,
+    fontSize: 15,
     backgroundColor: "#f2f2f2",
     color: "#000",
   },

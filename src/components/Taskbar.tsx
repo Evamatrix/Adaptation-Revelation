@@ -16,12 +16,15 @@ export default function Taskbar() {
       alignItems: 'center',
       backgroundColor: Colors.backgroundColorful,
       paddingBottom: Platform.OS === 'ios' ? 30 : 20,
-      paddingTop: 10,
+      paddingTop: 18,
     },
     menu: {
       flexDirection: 'row',
       justifyContent: 'space-between',
-      width: '70%',
+      width: '90%',
+      borderRadius: 20,
+      height: 40,
+      alignItems: 'center',
     },
     menuItem: {
       flex: 1,
@@ -30,7 +33,7 @@ export default function Taskbar() {
       borderRadius: 8,
     },
     menuIcon: {
-      fontSize: 28,
+      fontSize: 20,
       fontFamily: getFont('mono'),
       color: Colors.tint,
     },

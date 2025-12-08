@@ -37,8 +37,8 @@ export function useAppFonts() {
     async function load() {
       await Font.loadAsync({
         // Google Fonts you want to use
-        Koulen: require('../assets/fonts/Koulen-Regular.ttf'),
-        JetBrainsMono: require('../assets/fonts/JetBrainsMono-Regular.ttf'),
+        Koulen: require('./fonts/Koulen-Regular.ttf'),
+        JetBrainsMono: require('./fonts/JetBrainsMono-Regular.ttf'),
       });
       setLoaded(true);
     }

@@ -3,7 +3,6 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import {
   Platform,
-  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
@@ -11,6 +10,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function SharedChat() {
   const router = useRouter();
@@ -99,6 +99,7 @@ if (safeMsg) {
                 <Text style={[styles.safeMsgText, msgItem.sender === "Me" && { color: "#fff" }]}>
                   {msgItem.text}
                 </Text>
+
                 <View style={styles.extraSquare}>
                   <Text style={styles.clubLink}>{`Visit ${clubName}!`}</Text>
                 </View>
@@ -161,7 +162,7 @@ const styles = StyleSheet.create({
 
   backButton: {
     position: "absolute",
-    top: 60,
+    top: 20,
     left: 20,
     backgroundColor: "#FFF8F9",
     borderWidth: 2,
@@ -182,7 +183,7 @@ const styles = StyleSheet.create({
     fontSize: 36,
     fontFamily: "Koulen_400Regular",
     color: "#000",
-    marginTop: 100,
+    marginTop: 40,
     textAlign: "center",
   },
 
@@ -233,7 +234,7 @@ const styles = StyleSheet.create({
     height: 55,
     width: 250,
     backgroundColor: "#fff", 
-    marginLeft: 30,
+    marginLeft: 10,
     borderRadius: 12,
     zIndex: 0, 
     marginTop: 40,
@@ -269,7 +270,7 @@ const styles = StyleSheet.create({
   },
 
   safeMsgBubble: {
-    minWidth: 80,
+    minWidth: 60,
     minHeight: 80,
     justifyContent: "center",
     alignItems: "center",

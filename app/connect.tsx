@@ -1,17 +1,19 @@
+import Screen from "@/src/components/Screen";
 import { useRouter } from 'expo-router';
 import {
   Platform,
-  SafeAreaView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function Connect() {
   const router = useRouter();
 
   return (
+    <Screen>
     <SafeAreaView style={styles.safeArea}>  
       <View style={styles.headerContainer}>
         <Text style={styles.title}>CONNECT</Text>
@@ -34,27 +36,8 @@ export default function Connect() {
           <Text style={styles.optionText}>USERS</Text>
         </TouchableOpacity>
       </View>
- 
-      <View style={styles.footerContainer}>
-        <View style={styles.menu}>
-          <TouchableOpacity onPress={() => router.push('/homescreen')}>
-            <Text style={styles.menuIcon}>🏠</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => router.push('/connect')}>
-            <Text style={styles.menuIcon}>🧭</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => router.push('/chats')}>
-            <Text style={styles.menuIcon}>💬</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => router.push('/user-profile')}>
-            <Text style={styles.menuIcon}>👤</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
     </SafeAreaView>
+  </Screen>
   );
 }
 
@@ -66,7 +49,7 @@ const styles = StyleSheet.create({
   },
   backButton: {
     position: 'absolute',
-    top: 40,
+    top: 20,
     left: 15,
     borderWidth: 2,
     borderColor: '#000',

@@ -1,9 +1,11 @@
+import Screen from "@/src/components/Screen";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useRouter } from 'expo-router';
 import { useMemo, useState } from 'react';
 import {
   Modal,
   Platform,
+  Pressable,
   ScrollView,
   StyleSheet,
   Text,
@@ -72,6 +74,7 @@ export default function Clubs() {
     });
 
   return (
+    <Screen>
     <SafeAreaView style={styles.safeArea}> 
        
       {/* BACK BUTTON */}
@@ -127,7 +130,14 @@ export default function Clubs() {
           <View key={index} style={styles.clubCard}>
             
             <View style={styles.clubHeader}>
+            <Pressable
+              onPress={() => router.push({
+                pathname: "/screenwriters-chat",
+                params: { clubName: club.name },
+              })}
+            >
               <Text style={styles.clubTitle}>{club.name}</Text>
+            </Pressable>
 
               {/* JOIN and SHARE BUTTONS */}
               <View style={styles.buttonGroup}>
@@ -221,24 +231,6 @@ export default function Clubs() {
           </View>
         ))}
       </ScrollView>
-
-      {/* FOOTER */}
-      <View style={styles.footerContainer}>
-        <View style={styles.menu}>
-          <TouchableOpacity onPress={() => router.push('/homescreen')}>
-            <Text style={styles.menuIcon}>🏠</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => router.push('/connect')}>
-            <Text style={styles.menuIcon}>🧭</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => router.push('/chats')}>
-            <Text style={styles.menuIcon}>💬</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => router.push('/user-profile')}>
-            <Text style={styles.menuIcon}>👤</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
 
       {/* FILTER */}
       <Modal visible={filterVisible} animationType="slide" transparent>
@@ -397,6 +389,7 @@ export default function Clubs() {
       </Modal>
 
     </SafeAreaView>
+    </Screen>
   );
 } 
 
@@ -405,7 +398,7 @@ const styles = StyleSheet.create({
 
   backButton: {
     position: 'absolute',
-    top: 60,
+    top: 20,
     left: 20,
     backgroundColor: '#FFF8F9',
     borderWidth: 2,
@@ -423,7 +416,7 @@ const styles = StyleSheet.create({
 
   searchContainer: {
     flexDirection: 'row',
-    marginTop: 65,
+    marginTop: 0,
     width: '90%',
     justifyContent: 'space-between',
   },
