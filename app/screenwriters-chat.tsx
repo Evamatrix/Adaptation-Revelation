@@ -1,7 +1,6 @@
-import Screen from "@/src/components/Screen";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { useState } from "react";
-import { Image, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { useEffect, useRef, useState } from "react";
+import { Image, Keyboard, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function ScreenwritersChat() {
@@ -17,6 +16,8 @@ export default function ScreenwritersChat() {
   ];
 
   const friends = ["Evelyn H."];
+
+  const scrollViewRef = useRef<ScrollView>(null);
 
   const dismissKeyboard = () => Keyboard.dismiss();
 
@@ -156,7 +157,7 @@ const styles = StyleSheet.create({
   },
   backButton: {
     position: "absolute",
-    top: 20,
+    top: 60,
     left: 20,
     backgroundColor: "#FFF8F9",
     borderWidth: 2,
