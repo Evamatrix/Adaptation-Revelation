@@ -5,14 +5,14 @@ import Taskbar from "./Taskbar";
 
 export default function Screen({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const hideBackOn = ["/homescreen", "/connect", "/chats", "/user-profile"];
-  const showTaskbarOn = ["/friend-chat", "/homescreen", "/connect", "/chats", "/user-profile"];
+  const hideBackOn = [""];
+  const showTaskbar = ["/friends-list"].includes(pathname) || pathname.startsWith("/chat/");
 
   return (
     <View style={styles.container}>
       {!hideBackOn.includes(pathname) && <BackButton />}
       <View style={styles.content}>{children}</View>
-      {showTaskbarOn.includes(pathname) && (
+      {showTaskbar && (
         <View style={styles.taskbarContainer}>
           <Taskbar />
         </View>
