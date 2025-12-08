@@ -1,9 +1,10 @@
 import { useRouter } from "expo-router";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Image, Keyboard, KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 
 export default function ScreenwritersChat() {
   const router = useRouter();
+  const scrollViewRef = useRef<ScrollView>(null);
 
   const messages = [
     { sender: "Evelyn H.", text: "is anyone in PHIL 2020?" },
@@ -22,6 +23,11 @@ export default function ScreenwritersChat() {
 
   const addMessage = () => { setChatMessages([...chatMessages, { sender: 'Me', text: chatText }]); setChatText(''); }
 
+  useEffect(() => {
+    scrollViewRef.current?.scrollToEnd({ animated: true });
+    //setTimeout(() => {inputRef.current?.focus()}, 100);
+  }, [chatMessages]);
+  
   return (
     <SafeAreaView style={styles.safeArea}>
       <TouchableOpacity
@@ -38,7 +44,17 @@ export default function ScreenwritersChat() {
       {/* Title */}
       <Text style={styles.title}>Screen Writers - General Chat</Text>
 
-      <ScrollView style={styles.messagesContainer}>
+      <KeyboardAvoidingView
+        style={{ flex: 1, width: '100%', alignItems: 'center' }}
+        behavior={Platform.OS === 'ios' ? 'padding' : "height"}
+        keyboardVerticalOffset={
+          Platform.OS === 'ios'
+            ? 0
+            : 0  // Android
+        }
+      >
+
+      <ScrollView ref={scrollViewRef} style={styles.messagesContainer}>
         {chatMessages.map((msg, i) => {
           const isFriend = friends.includes(msg.sender);
 
@@ -87,15 +103,6 @@ export default function ScreenwritersChat() {
         })}
       </ScrollView>
 
-      <KeyboardAvoidingView
-        style={{ flex: 1, width: '100%' }}
-        behavior={Platform.OS === 'ios' ? 'padding' : "height"}
-        keyboardVerticalOffset={
-          Platform.OS === 'ios'
-            ? 0
-            : 0  // Android
-        }
-      >
         {/* Dynamic Input Bar */}
         <View style={styles.inputContainer}>
           <TextInput
@@ -176,7 +183,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "90%",
     marginTop: 0,
-    paddingBottom: 100,
+    paddingBottom: 0,
   },
   messageWrapper: {
     marginBottom: 20,
@@ -218,11 +225,10 @@ const styles = StyleSheet.create({
     textAlign: "right",
   },
   inputContainer: {
-    flex: 1,
     width: "90%",
     display: "flex",
-    left: 16,
-    right: 16,
+    marginTop: 10,
+    marginBottom: 10,
     flexDirection: "row",
     alignItems: "center",
   },
