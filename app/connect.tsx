@@ -1,12 +1,12 @@
 import Screen from "@/src/components/Screen";
 import { useRouter } from "expo-router";
 import {
-    Platform,
-    SafeAreaView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  Platform,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import Colors from "../src/constants/colors";
 import { getFont, useAppFonts } from "../src/constants/fonts";
@@ -37,7 +37,7 @@ export default function Connect() {
 
         <TouchableOpacity
           style={styles.optionButton}
-          onPress={() => router.push("/friends-list")}
+          onPress={() => router.push("/discover-users")}
           activeOpacity={0.8}
         >
           <Text style={styles.optionText}>USERS</Text>

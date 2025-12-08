@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import {
-    KeyboardAvoidingView,
-    Platform,
-    SafeAreaView,
-    StyleSheet,
-    Text,
+  KeyboardAvoidingView,
+  Platform,
+  SafeAreaView,
+  StyleSheet,
+  Text,
 } from "react-native";
 import Colors from "../../constants/colors";
 import { getFont, useAppFonts } from "../../constants/fonts";
@@ -56,6 +56,7 @@ export default function ClubChat({ name }: ClubChatProps) {
       flex: 1,
       backgroundColor: Colors.background,
       alignItems: "center",
+      marginBottom: 20 
     },
     title: {
       fontSize: 28,

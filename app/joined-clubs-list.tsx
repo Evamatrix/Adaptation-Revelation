@@ -8,11 +8,12 @@ import { useClubs } from "../src/context/ClubContext";
 export default function JoinedClubsPage() {
   const router = useRouter();
   const fontsLoaded = useAppFonts();
-  const { clubs } = useClubs();
+  const { allClubs } = useClubs();
 
   if (!fontsLoaded) return null;
 
-  const joinedClubs = clubs.filter(c => c.joined);
+  // Collect only joined clubs
+  const joinedClubs = Object.entries(allClubs).filter(([_, club]) => club.joined);
 
   const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: Colors.background, padding: 16 },
@@ -29,6 +30,21 @@ export default function JoinedClubsPage() {
       textAlign: "center",
       marginTop: 40,
     },
+    browseButton: {
+      marginTop: 12,
+      backgroundColor: Colors.tertiary,
+      paddingHorizontal: 16,
+      paddingVertical: 8,
+      borderRadius: 8,
+      borderWidth: 1,
+      borderColor: Colors.text,
+      alignSelf: "center",
+    },
+    browseText: {
+      fontFamily: getFont("mono"),
+      fontSize: 16,
+      color: Colors.text,
+    },
   });
 
   return (
@@ -36,20 +52,28 @@ export default function JoinedClubsPage() {
       <Text style={styles.title}>Joined Clubs</Text>
       <ScrollView>
         {joinedClubs.length === 0 ? (
-          <Text style={styles.emptyText}>You haven’t joined any clubs yet.</Text>
-        ) : (
-          joinedClubs.map((club, index) => (
+          <>
+            <Text style={styles.emptyText}>You haven’t joined any clubs yet.</Text>
             <TouchableOpacity
-              key={index}
+              style={styles.browseButton}
+              onPress={() => router.push("/clubs")}
+            >
+              <Text style={styles.browseText}>Browse Clubs</Text>
+            </TouchableOpacity>
+          </>
+        ) : (
+          joinedClubs.map(([name]) => (
+            <TouchableOpacity
+              key={name}
               onPress={() =>
                 router.push({
                   pathname: "/club-chat",
-                  params: { clubName: club.name },
+                  params: { clubName: name },
                 })
               }
             >
               <ClubCardCompact
-                name={club.name}
+                name={name}
                 image={require("../src/assets/images/splash-icon.png")}
               />
             </TouchableOpacity>

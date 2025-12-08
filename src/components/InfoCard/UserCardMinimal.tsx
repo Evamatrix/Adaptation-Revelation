@@ -97,7 +97,7 @@ export default function UserCardMinimal({ user, onAddFriend }: Props) {
         },
 
         friendAdded: {
-            backgroundColor: Colors.secondary,
+            backgroundColor: Colors.error,
         },
 
         messageButton: {
@@ -134,10 +134,10 @@ export default function UserCardMinimal({ user, onAddFriend }: Props) {
             styles.actionButton,
             user.isFriend ? styles.friendAdded : styles.addFriendButton,
           ]}
-          onPress={() => !user.isFriend && onAddFriend(user.id)}
+          onPress={() => onAddFriend(user.id)}
         >
           <Text style={styles.buttonText}>
-            {user.isFriend ? "FRIENDS ✓" : "ADD FRIEND"}
+            {user.isFriend ? "REMOVE FRIEND" : "ADD FRIEND"}
           </Text>
         </TouchableOpacity>
 
@@ -145,7 +145,7 @@ export default function UserCardMinimal({ user, onAddFriend }: Props) {
           style={[styles.actionButton, styles.messageButton]}
           onPress={() =>
             router.push({
-              pathname: "/club-chat",
+              pathname: "/chat",
               params: {
                 clubName: user.name,
                 msg: `Hey ${user.name}!`,

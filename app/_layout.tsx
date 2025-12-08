@@ -1,3 +1,4 @@
+import { FriendsProvider } from "@/src/context/FriendsContext";
 import { Stack, usePathname } from "expo-router";
 import { StyleSheet, View } from "react-native";
 import { useAppFonts } from "../src/constants/fonts";
@@ -15,11 +16,13 @@ export default function RootLayout() {
 
   return (
     <UserProvider>
-      <ClubProvider>
-        <View style={styles.container}>
-          <Stack screenOptions={{ headerShown: false }} />
-        </View>
-      </ClubProvider>
+      <FriendsProvider>
+        <ClubProvider>
+          <View style={styles.container}>
+            <Stack screenOptions={{ headerShown: false }} />
+          </View>
+        </ClubProvider>
+      </FriendsProvider>
     </UserProvider>
   );
 }

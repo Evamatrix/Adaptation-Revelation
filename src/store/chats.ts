@@ -1,9 +1,13 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useEffect } from "react";
 
-useEffect(() => {
-  AsyncStorage.clear(); // wipes all stored keys
-}, []);
+export async function clearAllChats() {
+  try {
+    await AsyncStorage.clear();
+    console.log("All chats cleared successfully.");
+  } catch (e) {
+    console.error("Error clearing chats:", e);
+  }
+}
 
 export type Message = { sender: string; text: string; time: string };
 
@@ -16,7 +20,7 @@ export async function getMessages(chatName: string): Promise<Message[]> {
     return [
       {
         sender: chatName,
-        text: `Hey! Welcome to ${chatName}.`,
+        text: `Hey! It's ${chatName}.`,
         time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
       },
     ];

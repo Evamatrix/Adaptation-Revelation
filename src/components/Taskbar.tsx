@@ -60,7 +60,7 @@ export default function Taskbar() {
     <View style={styles.footerContainer}>
       <View style={styles.menu}>
         <MenuItem label="Home" path="/homescreen" />
-        <MenuItem label="Explore" path="/connect" />
+        <MenuItem label="Connect" path="/connect" />
         <MenuItem label="Chats" path="/friends-list" />
         <MenuItem label="Profile" path="/user-profile" />
       </View>

@@ -1,60 +1,42 @@
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import {
-    Dimensions,
-    Image,
-    SafeAreaView,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  Dimensions,
+  Image,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
-import Screen from "../src/components/Screen"; // shared layout wrapper
+import Screen from "../src/components/Screen";
 import Colors from "../src/constants/colors";
 import { getFont, useAppFonts } from "../src/constants/fonts";
+import { useFriends } from "../src/context/FriendsContext";
 import { sessionState } from "../src/store/session";
-
-const friendsData = [
-  { id: 1, name: "Alex", avatar: "https://i.pravatar.cc/100?img=1" },
-  { id: 2, name: "Jamie", avatar: "https://i.pravatar.cc/100?img=2" },
-  { id: 3, name: "Taylor", avatar: "https://i.pravatar.cc/100?img=3" },
-  { id: 4, name: "Jordan", avatar: "https://i.pravatar.cc/100?img=4" },
-  { id: 5, name: "Riley", avatar: "https://i.pravatar.cc/100?img=5" },
-  { id: 6, name: "Sam", avatar: "https://i.pravatar.cc/100?img=6" },
-  { id: 7, name: "Casey", avatar: "https://i.pravatar.cc/100?img=7" },
-  { id: 8, name: "Morgan", avatar: "https://i.pravatar.cc/100?img=8" },
-];
 
 const { width } = Dimensions.get("window");
 const FIXED_WIDTH = Math.min(width * 0.9, 380);
 
 export default function FriendsList() {
   const router = useRouter();
-  const params = useLocalSearchParams();
-
-  // Hooks must always run in the same order
   const fontsLoaded = useAppFonts();
+  const { friends, addFriend, removeFriend } = useFriends();
   const [search, setSearch] = useState("");
   const [hasEvelyn, setHasEvelyn] = useState(sessionState.hasEvelyn);
 
   useEffect(() => {
-    if (params.addEvelyn === "true") {
-      sessionState.hasEvelyn = true;
-      setHasEvelyn(true);
+    if (hasEvelyn && !friends.some((f) => f.name === "Evelyn")) {
+      addFriend({ id: 9, name: "Evelyn", avatar: "https://i.pravatar.cc/100?img=9" });
     }
-  }, [params]);
+  }, [hasEvelyn]);
 
-  const allFriends = hasEvelyn
-    ? [...friendsData, { id: 9, name: "Evelyn", avatar: "https://i.pravatar.cc/100?img=9" }]
-    : friendsData;
-
-  const filteredFriends = allFriends.filter((f) =>
+  const filteredFriends = friends.filter((f) =>
     f.name.toLowerCase().includes(search.toLowerCase())
   );
 
-  // Gate rendering, not hooks
   if (!fontsLoaded) {
     return (
       <SafeAreaView style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
@@ -79,19 +61,27 @@ export default function FriendsList() {
 
           <ScrollView contentContainerStyle={styles.scrollContainer}>
             {filteredFriends.map((friend) => (
-              <TouchableOpacity
-                key={friend.id}
-                style={styles.friendRow}
-                onPress={() =>
-                  router.push({
-                    pathname: "/chat/[name]",
-                    params: { name: friend.name },
-                  })
-                }
-              >
-                <Image source={{ uri: friend.avatar }} style={styles.avatar} />
-                <Text style={styles.friendName}>{friend.name}</Text>
-              </TouchableOpacity>
+              <View key={friend.id} style={styles.friendRow}>
+                <TouchableOpacity
+                  style={styles.friendInfo}
+                  onPress={() =>
+                    router.push({
+                      pathname: "/chat/[name]",
+                      params: { name: friend.name },
+                    })
+                  }
+                >
+                  <Image source={{ uri: friend.avatar }} style={styles.avatar} />
+                  <Text style={styles.friendName}>{friend.name}</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={styles.removeButton}
+                  onPress={() => removeFriend(friend.id)}
+                >
+                  <Text style={styles.removeText}>Remove</Text>
+                </TouchableOpacity>
+              </View>
             ))}
           </ScrollView>
         </View>
@@ -137,6 +127,12 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.backgroundSecondary ?? "#FFF8F9",
     padding: 10,
     marginBottom: 12,
+    justifyContent: "space-between",
+  },
+  friendInfo: {
+    flexDirection: "row",
+    alignItems: "center",
+    flex: 1,
   },
   avatar: {
     width: 55,
@@ -149,6 +145,18 @@ const styles = StyleSheet.create({
   friendName: {
     fontSize: 20,
     fontFamily: getFont("heading"),
+    color: Colors.text,
+  },
+  removeButton: {
+    backgroundColor: Colors.error ?? "#ffcccc",
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    marginLeft: 10,
+  },
+  removeText: {
+    fontFamily: getFont("mono"),
+    fontSize: 14,
     color: Colors.text,
   },
 });

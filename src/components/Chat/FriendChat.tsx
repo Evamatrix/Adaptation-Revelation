@@ -41,13 +41,13 @@ export default function FriendChat({ name }: FriendChatProps) {
   }
 
   const styles = StyleSheet.create({
-    safeArea: { flex: 1, backgroundColor: Colors.background, alignItems: "center" },
+    safeArea: { flex: 1, backgroundColor: Colors.background, alignItems: "center", marginBottom: 20 },
     title: {
       fontSize: 28,
       fontFamily: getFont("heading"),
       color: Colors.text,
       marginTop: 100,
-      marginBottom: 20,
+      marginBottom: 10,
       textAlign: "center",
     },
   });
