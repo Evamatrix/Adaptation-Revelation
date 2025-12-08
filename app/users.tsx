@@ -1,3 +1,4 @@
+import Screen from "@/src/components/Screen";
 import { useRouter } from "expo-router";
 import { useEffect, useMemo, useState } from "react";
 import {
@@ -90,6 +91,7 @@ export default function UsersPage() {
     });
 
   return (
+    <Screen>
     <SafeAreaView style={styles.safeArea}>
       <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
         <Text style={styles.backText}>BACK</Text>
@@ -176,27 +178,6 @@ export default function UsersPage() {
           </View>
         ))}
       </ScrollView>
-
-      <View style={styles.footerContainer}>
-        <View style={styles.menu}>
-          <TouchableOpacity onPress={() => router.push("/homescreen")}>
-            <Text style={styles.menuIcon}>🏠</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => router.push("/connect")}>
-            <Text style={styles.menuIcon}>🧭</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => router.push("/chats")}>
-            <Text style={styles.menuIcon}>💬</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => router.push("/user-profile")}>
-            <Text style={styles.menuIcon}>👤</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-
       <Modal visible={filterVisible} animationType="slide" transparent>
         <View style={styles.modalOverlay}>
           <View style={styles.modalBox}>
@@ -244,6 +225,7 @@ export default function UsersPage() {
         </View>
       </Modal>
     </SafeAreaView>
+    </Screen>
   );
 }
 

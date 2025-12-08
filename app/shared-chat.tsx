@@ -1,3 +1,4 @@
+import Screen from "@/src/components/Screen";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -50,6 +51,7 @@ if (safeMsg) {
   };
 
   return (
+    <Screen>
     <SafeAreaView style={styles.safeArea}>
 
       {/* BACK BUTTON */}
@@ -143,28 +145,8 @@ if (safeMsg) {
           <Text style={styles.addButtonText}>+</Text>
         </TouchableOpacity>
       </View>
-
-      {/* FOOTER NAV BAR */}
-      <View style={styles.footerContainer}>
-        <View style={styles.menu}>
-          <TouchableOpacity onPress={() => router.push("/homescreen")}>
-            <Text style={styles.menuIcon}>🏠</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => router.push("/connect")}>
-            <Text style={styles.menuIcon}>🧭</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => router.push("/chats")}>
-            <Text style={styles.menuIcon}>💬</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => router.push("/user-profile")}>
-            <Text style={styles.menuIcon}>👤</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
     </SafeAreaView>
+    </Screen>
   );
 } 
 

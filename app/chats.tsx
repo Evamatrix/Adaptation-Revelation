@@ -1,3 +1,4 @@
+import Screen from '@/src/components/Screen';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import {
@@ -47,6 +48,7 @@ export default function FriendsList() {
   );
 
   return (
+    <Screen>
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
         <Text style={styles.title}>MY FRIENDS</Text>
@@ -77,27 +79,8 @@ export default function FriendsList() {
           ))}
         </ScrollView>
       </View>
-
-      <View style={styles.footerContainer}>
-        <View style={styles.menu}>
-          <TouchableOpacity onPress={() => router.push('/homescreen')}>
-            <Text style={styles.menuIcon}>🏠</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => router.push('/connect')}>
-            <Text style={styles.menuIcon}>🧭</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => router.push('/chats')}>
-            <Text style={styles.menuIcon}>💬</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => router.push('/user-profile')}>
-            <Text style={styles.menuIcon}>👤</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
     </SafeAreaView>
+    </Screen>
   );
 }
 

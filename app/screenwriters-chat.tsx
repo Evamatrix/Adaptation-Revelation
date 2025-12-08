@@ -1,3 +1,4 @@
+import Screen from "@/src/components/Screen";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Image, Platform, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
@@ -21,6 +22,7 @@ export default function ScreenwritersChat() {
   const addMessage = () => { setChatMessages([...chatMessages, { sender: 'Me', text: chatText }]); setChatText(''); }
 
   return (
+    <Screen>
     <SafeAreaView style={styles.safeArea}>
       <TouchableOpacity
         style={styles.backButton}
@@ -96,28 +98,8 @@ export default function ScreenwritersChat() {
           </TouchableOpacity>
         </View>
       </View>
-
-      {/* Footer */}
-      <View style={styles.footerContainer}>
-        <View style={styles.menu}>
-          <TouchableOpacity onPress={() => router.push("/homescreen")}>
-            <Text style={styles.menuIcon}>🏠</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => router.push("/connect")}>
-            <Text style={styles.menuIcon}>🧭</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => router.push("/chats")}>
-            <Text style={styles.menuIcon}>💬</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => router.push("/user-profile")}>
-            <Text style={styles.menuIcon}>👤</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
     </SafeAreaView>
+    </Screen>
   );
 }
 
