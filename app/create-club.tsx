@@ -1,67 +1,58 @@
+import * as ImagePicker from 'expo-image-picker';
 import { useRouter } from 'expo-router';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import {
   Image,
+  Keyboard,
   Platform,
-  SafeAreaView,
-  ScrollView,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native';
-import { useClubs } from '../src/context/ClubConText';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function CreateClub() {
   const router = useRouter();
-  const { addClub } = useClubs();
 
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
 
-  const availableTags = [
-    "American", "Indian", "Chinese", "Vietnamese", "Mexican", 
-    "English", "Spanish", "Mandarin", "Hindi", "Arabic",
-    "Christian", "Muslim", "Hindu", "Jewish",
-    "Sports", "Music", "Reading", "Writing", "Film", "Cooking", "Finance", "Engineering", "Social"
-    ];
-  const [selectedTags, setSelectedTags] = useState<string[]>([]);
-  const [showDropdown, setShowDropdown] = useState(false);
+  const [profileImage, setProfileImage] = useState<string | null>(null);
 
-  const toggleTag = (tag:string) => {
-    setSelectedTags((prev) =>
-      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
-    );
-  };
+  const pickImage = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== 'granted') {
+      alert('Permission required to access photos.');
+      return;
+    }
 
-  const scrollViewRef = useRef<ScrollView>(null);
-
-  const handleToggleDropdown = () => {
-    setShowDropdown((prev) => !prev);
-
-    if (!showDropdown) {
-      setTimeout(() => {
-        scrollViewRef.current?.scrollToEnd({ animated: true });
-      }, 200);
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ['images'],
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+    if (!result.canceled) {
+      setProfileImage(result.assets[0].uri);
     }
   };
 
   const handleAddClub = () => {
-    if (!name.trim()) {
-      alert('Please enter a club name.');
+    if (!name.trim() || !description.trim()) {
+      alert('Please enter a club name and description.');
       return;
     }
 
-    addClub({
-      name,
-      members: 1,
-      description: description.trim() || 'No description provided.',
-      tags: selectedTags,
-      joined: true,
+    router.push({
+      pathname: '/create-club-pg2',
+      params: {
+        name,
+        description,
+        profileImage,
+      },
     });
-
-    router.push('/clubs');
   };
 
   return (
@@ -72,75 +63,42 @@ export default function CreateClub() {
 
       <Text style={styles.title}>CREATE CLUB</Text>
 
-      <Image source={require('../assets/images/splash-icon.png')} style={styles.icon} />
-
-      <ScrollView
-        ref={scrollViewRef}
-        style={styles.formScroll} 
-        contentContainerStyle={styles.formContainer}
-        showsVerticalScrollIndicator={true}
-      >
-        <Text style={styles.label}>CLUB NAME</Text>
-        <TextInput style={styles.input} placeholder="Enter club name" value={name} onChangeText={setName} />
-
-        <Text style={styles.label}>DESCRIPTION</Text>
-        <TextInput
-          style={[styles.input, styles.descriptionInput]}
-          placeholder="Enter description"
-          multiline
-          value={description}
-          onChangeText={setDescription}
-        />
-
-        <Text style={styles.label}>Select Tags</Text>
-        <TouchableOpacity style={styles.dropdownButton} onPress={handleToggleDropdown}>
-          <Text style={styles.dropdownButtonText}>Select Tags</Text>
-        </TouchableOpacity>
-
-        {showDropdown && (
-          <View style={styles.dropdownList}>
-            <ScrollView style={{ maxHeight: 200 }}>
-              <View style={styles.dropdownButtonContainer}>
-                {availableTags.map((tag) => {
-                  const isSelected = selectedTags.includes(tag);
-                  return (
-                    <TouchableOpacity
-                      key={tag}
-                      style={[styles.dropdownItem, isSelected && styles.dropdownItemSelected]}
-                      onPress={() => toggleTag(tag)}
-                    >
-                      <Text style={[styles.dropdownItemText, isSelected && styles.dropdownItemTextSelected]}>
-                        {tag}
-                      </Text>
-                    </TouchableOpacity>
-                  );
-                })}
-              </View>
-            </ScrollView>
-          </View>
-        )}
-
-        <View style={styles.selectedTagsContainer}>
-          {selectedTags.map((tag) => (
-            <View key={tag} style={styles.tagChip}>
-              <Text style={styles.tagChipText}>{tag}</Text>
+      <Text style={styles.photoLabel}>ADD CLUB PHOTO</Text>
+      <View style={{ alignItems: 'center'}}>
+        <TouchableOpacity
+          onPress={pickImage}
+          activeOpacity={0.8}
+          style={styles.photoContainer}
+          >
+          {profileImage ? (
+            <Image source={{ uri: profileImage }} style={styles.photoImage} />
+            ) : (
+            <View style={styles.plusWrapper}>
+              <Text style={styles.plusSign}>+</Text>
             </View>
-          ))}
-        </View>
-      </ScrollView>
+          )}
+        </TouchableOpacity>
+      </View>
+
+      <Text style={styles.label}>CLUB NAME</Text>
+      <TextInput style={styles.input} placeholder="Enter your club's name" value={name} onChangeText={setName} />
+
+      <Text style={styles.label}>DESCRIPTION</Text>
+      <TextInput
+        style={[styles.input, styles.descriptionInput]}
+        placeholder="Describe your club"
+        multiline
+        blurOnSubmit={true}
+        returnKeyType="done"
+        onSubmitEditing={() => Keyboard.dismiss()}
+        value={description}
+        onChangeText={setDescription}
+      />
 
       <TouchableOpacity style={styles.addButton} onPress={handleAddClub} activeOpacity={0.8}>
-        <Text style={styles.addText}>ADD</Text>
+        <Text style={styles.addText}>NEXT</Text>
       </TouchableOpacity>
 
-      <View style={styles.footer}>
-        <View style={styles.menu}>
-          <Text style={styles.menuIcon}>🏠</Text>
-          <Text style={styles.menuIcon}>🧭</Text>
-          <Text style={styles.menuIcon}>💬</Text>
-          <Text style={styles.menuIcon}>👤</Text>
-        </View>
-      </View>
     </SafeAreaView>
   );
 }
@@ -151,14 +109,14 @@ const styles = StyleSheet.create({
  
   backButton: {
     position: 'absolute',
-    top: 40,
-    left: 15,
+    top: 60,
+    left: 20,
     borderWidth: 2,
     borderColor: '#000',
-    borderRadius: 4,
-    paddingHorizontal: 8,
-    paddingVertical: 2,
-    backgroundColor: '#FFFFFF',
+    borderRadius: 8,
+    paddingHorizontal: 14,
+    paddingVertical: 6,
+    backgroundColor: '#FFF8F9',
     zIndex: 10,
   },
   backText: { fontSize: 16, fontFamily: 'JetBrainsMono_400Regular', color: '#000' },
@@ -169,34 +127,62 @@ const styles = StyleSheet.create({
     fontFamily: 'Koulen_400Regular',
     fontSize: Platform.select({ web: 48, default: 45 }),
     fontWeight: '400',
-    marginBottom: 60,
+    marginVertical: 40,
+    marginBottom: 20,
     textTransform: 'uppercase',
   },
 
-  icon: {
-    width: 100,
-    height: 100,
-    alignSelf: 'center',
-    marginVertical: 20,
-    marginBottom: 20,
-    tintColor: '#000',
+  photoContainer: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    backgroundColor: '#E6E6E6',
+    justifyContent: 'center',
+    alignItems: 'center',
+    overflow: 'hidden',
+    marginBottom: 30,
   },
 
-  formScroll: {
-    flex: 1,
+  photoImage: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 60,
+    alignItems: 'center',
+  },
+
+  plusWrapper: {
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: -10,
+  },
+
+  plusSign: {
+    fontSize: 90,
+    fontWeight: 'bold',
+    color: '#888',
+    textAlign: 'center',
   },
 
   formContainer: { 
     alignItems: 'center', 
     paddingHorizontal: 20,
-    paddingBottom: 200,
+    paddingBottom: 100,
   },  
+
+  photoLabel: {
+    fontFamily: 'JetBrainsMono_400Regular',
+    fontSize: 25,
+    textAlign: 'center',
+    marginBottom: 6,
+    color: '#000',
+  },
 
   label: {
     fontFamily: 'JetBrainsMono_400Regular',
-    fontSize: 20,
-    alignSelf: 'flex-start',
-    marginLeft: 40,
+    fontSize: 25,
+    textAlign: 'center',
     marginBottom: 6,
     color: '#000',
   },
@@ -208,93 +194,33 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: 'JetBrainsMono_400Regular',
     padding: 10,
-    marginBottom: 20,
+    marginBottom: 30,
+    marginLeft: 30,
   },
 
   descriptionInput: {
-    height: 120,
+    height: 150,
     textAlignVertical: 'top',
   },
-
-  dropdownButton: {
-    width: '85%',
-    padding: 10,
-    borderWidth: 1.5,
-    borderColor: '#000',
-    borderRadius: 6,
-    backgroundColor: '#FFF',
-    marginBottom: 10,
-  },
-  dropdownButtonText: { fontSize: 16, fontFamily: 'JetBrainsMono_400Regular', color: '#000' },
-
-  dropdownList: {
-    width: '85%',
-    borderWidth: 1.5,
-    borderColor: '#000',
-    borderRadius: 6,
-    backgroundColor: '#FFF',
-    marginBottom: 20,
-    overflow: 'hidden',
-  },
-
-  dropdownButtonContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 6,
-    padding: 6,
-  },
-
-  dropdownItem: {
-    backgroundColor: '#D9D9D9',
-    borderRadius: 12,
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    margin: 4,
-  },
-
-  dropdownItemSelected: {
-    backgroundColor: '#C9FDC9',
-  },
-  
-  dropdownItemText: { fontSize: 16, fontFamily: 'JetBrainsMono_400Regular', color: '#000' },
-  dropdownItemTextSelected: { fontWeight: 'bold', color: '#000' },
-
-  selectedTagsContainer: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 20 },
-  tagChip: {
-    backgroundColor: '#D9FCD9',
-    borderRadius: 12,
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-  },
-  tagChipText: { fontFamily: 'JetBrainsMono_400Regular', fontSize: 14, color: '#000' },
 
 
   addButton: {
     position: 'absolute',
     bottom: Platform.OS === 'ios' ? 140 : 120,
     alignSelf: 'center',
-    backgroundColor: '#FFF8F9',
+    backgroundColor: '#a9f59f',
     borderWidth: 2,
     borderColor: '#000',
     borderRadius: 8,
-    paddingHorizontal: 60,
-    paddingVertical: 12,
-    marginTop: 10,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    zIndex: 10,
   },
 
   addText: {
     fontFamily: 'JetBrainsMono_400Regular',
-    fontSize: 22,
+    fontSize: 30,
     color: '#000',
-  },
-
-  footer: {
-    position: 'absolute',
-    bottom: 0,
-    width: '100%',
-    backgroundColor: '#FFFFFF',
-    alignItems: 'center',
-    paddingBottom: Platform.OS === 'ios' ? 30 : 20,
   },
 
   menu: {

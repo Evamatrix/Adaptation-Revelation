@@ -13,11 +13,12 @@ import {
 } from "react-native";
 
 const EXTRA_TAGS = [
-  "American", "Indian", "Chinese", "Vietnamese", "Mexican", "Other",
-  "English", "Spanish", "Mandarin", "Hindi", "Vietnamese", "Arabic", "Other",
-  "Christian", "Muslim", "Hindu", "Jewish", "Other",
+  "American", "African American", "Hispanic/Latino", "South Asian", "Southeast Asian", "Native American",
+  "English", "Spanish", "Chinese", "Tagalog", "Hindi", "Vietnamese", "Arabic", "Korean", "Russian", "German", "Urdu", "Telugu",
+  "Christian", "Muslim", "Hindu", "Jewish", "Buddhist",
   "Sports", "Music", "Reading", "Writing", "Film",
   "Cooking", "Finance", "Engineering", "Social",
+  "Art", "Career", "Pre-med", "Science"
 ];
 
 type User = {
@@ -36,6 +37,7 @@ const RANDOM_NAMES = [
 const RANDOM_TAGS = [
   "music", "writing", "coding", "sports", "film",
   "english", "finance", "food", "social", "gaming",
+  "art", "career", "pre-med", "science"
 ];
 
 function generateRandomUser(id: number): User {
@@ -268,7 +270,7 @@ const styles = StyleSheet.create({
 
   searchContainer: {
     flexDirection: "row",
-    marginTop: 100,
+    marginTop: 65,
     width: "90%",
     justifyContent: "space-between",
   },

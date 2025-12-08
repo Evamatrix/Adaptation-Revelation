@@ -1,24 +1,24 @@
+import Ionicons from '@expo/vector-icons/Ionicons';
 import { useRouter } from 'expo-router';
 import { useMemo, useState } from 'react';
 import {
   Modal,
   Platform,
-  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useClubs } from '../src/context/ClubConText';
  
 const EXTRA_TAGS = [ 
-  "American", "Indian", "Chinese", "Vietnamese", "Mexican", "Other",
-  "English", "Spanish", "Mandarin", "Hindi", "Vietnamese", "Arabic", "Other", 
-  "Christian", "Muslim", "Hindu", "Jewish", "Other", 
-  "Sports", "Music", "Reading", "Writing", "Film",
-  "Cooking", "Finance", "Engineering", "Social",
+  "American", "African American", "Hispanic/Latino", "South Asian", "Southeast Asian", "Native American",
+  "English", "Spanish", "Chinese", "Tagalog", "Hindi", "Vietnamese", "Arabic", "Korean", "Russian", "German", "Urdu", "Telugu",
+  "Christian", "Muslim", "Hindu", "Jewish", "Buddhist",
+  "Sports", "Music", "Reading", "Writing", "Film", "Cooking", "Finance", "Engineering", "Social", "Art", "Career", "Pre-med", "Science"
 ];
 
 export default function Clubs() {
@@ -31,6 +31,13 @@ export default function Clubs() {
   const [filterVisible, setFilterVisible] = useState(false);
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
   
+  const [confirmVisible, setConfirmVisible] = useState(false);
+  const [confirmAction, setConfirmAction] = useState<"join" | "leave" | null>(null); 
+  const [selectedClub, setSelectedClub] = useState<string | null>(null);
+
+  const [shareVisible, setShareVisible] = useState(false);
+  const [shareClub, setShareClub] = useState<string | null>(null);
+
   const availableTags = useMemo(() => {
     const tagSet = new Set<string>();
 
@@ -107,6 +114,7 @@ export default function Clubs() {
         onPress={() => router.push('/create-club')}
       >
         <Text style={styles.createText}> CREATE NEW CLUB</Text>
+        <Ionicons name="add" size={20} color="black" />
       </TouchableOpacity>
 
       {/* CLUB LIST */}
@@ -130,19 +138,32 @@ export default function Clubs() {
                     styles.actionButton,
                     club.joined ? styles.leaveButton : styles.joinButton,
                   ]}
-                  onPress={() => toggleJoinClub(club.name)}
+                  onPress={() => {
+                    setSelectedClub(club.name);
+                    if (!club.joined) {
+                      toggleJoinClub(club.name);
+                      setConfirmAction("join");     
+                      setConfirmVisible(true);        
+                    } else {
+                      setConfirmAction("leave");
+                      setConfirmVisible(true);
+                    }
+                  }}
                 >
                   <Text style={styles.buttonText}>
-                    {club.joined ? "Join" : "JOIN"}
+                    {club.joined ? "LEAVE" : "JOIN"}
                   </Text>
                 </TouchableOpacity>
 
                 {/* SHARE BUTTON */}
                 <TouchableOpacity
                   style={[styles.actionButton, styles.shareButton]}
-                  onPress={() => setShowShare(showShare === index ? null : index)}
+                  onPress={() => {
+                    setShareClub(club.name);
+                    setShareVisible(true);
+                  }}
                 >
-                  <Text style={styles.buttonText}>SHARE</Text>
+                  <Ionicons name="share" size={20} color="black" />
                 </TouchableOpacity>
 
               </View>
@@ -166,11 +187,10 @@ export default function Clubs() {
             {showShare === index && (
               <View style={styles.shareBox}>
                 <Text style={styles.shareText}>Share: {club.name}</Text>
-                <TextInput
-                  style={styles.shareInput}
-                  value={`Check out this club: ${club.name}!`}
-                  editable={false}
-                />
+                <View style={styles.shareInput}>
+                  <Text style={{ color: '#000', fontFamily: 'JetBrainsMono_400Regular' }}>
+                  </Text>
+                </View>
                 
                 <View style={styles.shareUsersWrapper}>
                   <Text style={styles.shareToText}>TO:</Text>
@@ -265,6 +285,117 @@ export default function Clubs() {
         </View>
       </Modal>
 
+      <Modal visible={confirmVisible} transparent animationType="fade">
+        <View style={styles.modalOverlay}>
+          <View style={styles.confirmBox}>
+
+            {confirmAction === "leave" && (
+          <>
+            <Text style={styles.confirmTitle}>Leave this club?</Text>
+            <Text style={styles.confirmMessage}>
+              Are you sure you want to leave this club?
+            </Text>
+            <View style={styles.confirmButtons}>
+              <TouchableOpacity
+                style={styles.confirmYesButton}
+                onPress={() => {
+                  if (selectedClub) toggleJoinClub(selectedClub);
+                  setConfirmVisible(false);
+                }}
+              >
+                <Text style={styles.confirmButtonText}>YES</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                  style={styles.confirmNoButton}
+                  onPress={() => setConfirmVisible(false)}
+              >
+                <Text style={styles.confirmButtonText}>NO</Text>
+              </TouchableOpacity>
+            </View>
+          </>
+        )}
+        {confirmAction === "join" && (
+        <>
+          <TouchableOpacity
+            style={styles.closeButton}
+            onPress={() => setConfirmVisible(false)}
+            >
+              <Ionicons name="close-circle" size={20} color="black" />
+            </TouchableOpacity>
+          <Text style={styles.confirmTitle}>Club Joined!</Text>
+          <Text style={styles.confirmMessage}>
+            You have successfully joined this club.
+          </Text>
+            <TouchableOpacity
+              style={styles.confirmNoButton}
+              onPress={() => {
+                setConfirmVisible(false);
+                router.push({
+                  pathname: "/club-chat",
+                  params: {
+                    clubName: selectedClub,
+                  },
+                });
+              }}
+            >
+              <Text style={styles.confirmButtonText}>View Club Chat</Text>
+            </TouchableOpacity>
+
+        </>
+      )}
+       
+          </View>
+        </View>
+      </Modal>
+
+      <Modal visible={shareVisible} transparent animationType="fade">
+        <View style={styles.modalOverlay}>
+          <View style={styles.shareModalBox}>
+            <TouchableOpacity
+            style={styles.closeButton}
+            onPress={() => setShareVisible(false)}
+            >
+              <Ionicons name="close-circle" size={20} color="black" />
+            </TouchableOpacity>
+            
+            <Text style={styles.shareText}>Share: {shareClub}</Text>
+
+            <TextInput
+              style={styles.shareInput}
+              value={`Check out this club: ${shareClub}!`}
+              editable={false}
+            />
+
+            <View style={styles.shareUsersWrapper}>
+              <Text style={styles.shareToText}>TO:</Text>
+
+              <View style={styles.shareUsersContainer}>
+                {["Evelyn", "Jamie", "Alex"].map((userName, i) => (
+                  <TouchableOpacity
+                    key={i}
+                    style={styles.shareUserButton}
+                    onPress={() => {
+                      router.push({
+                        pathname: "/shared-chat",
+                        params: {
+                          userName: userName,
+                          clubName: shareClub,
+                          msg: `Check out this club: ${shareClub}!`,
+                        },
+                      });
+                      setShareVisible(false); 
+                    }}
+                  >
+                    <Text style={styles.shareUserText}>{userName}</Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
     </SafeAreaView>
   );
 } 
@@ -292,7 +423,7 @@ const styles = StyleSheet.create({
 
   searchContainer: {
     flexDirection: 'row',
-    marginTop: 100,
+    marginTop: 65,
     width: '90%',
     justifyContent: 'space-between',
   },
@@ -307,6 +438,7 @@ const styles = StyleSheet.create({
     borderColor: '#000',
     borderRadius: 4,
     paddingHorizontal: 10,
+    fontFamily: 'JetBrainsMono_400Regular',
     fontSize: 16,
     color: '#000',
   },
@@ -326,7 +458,7 @@ const styles = StyleSheet.create({
   filterButton: {
     width: '28%',
     height: 40,
-    backgroundColor: '#FFB3A7',
+    backgroundColor: '#B0CAEB',
     borderWidth: 2,
     borderColor: '#000',
     borderRadius: 4,
@@ -339,12 +471,14 @@ const styles = StyleSheet.create({
     marginTop: 10,
     width: '90%',
     height: 45,
-    backgroundColor: '#D9C8FF',
+    backgroundColor: '#96D696',
     borderWidth: 2,
     borderColor: '#000',
     borderRadius: 4,
     justifyContent: 'center',
     alignItems: 'center',
+    flexDirection: 'row',
+    gap: 10,
   },
   createText: {
     fontSize: 18,
@@ -384,7 +518,7 @@ const styles = StyleSheet.create({
   },
 
   joinButton: { backgroundColor: '#C9FDC9' },
-  leaveButton: { backgroundColor: '#CCCCCC' },  
+  leaveButton: { backgroundColor: '#E5505B' },  
   shareButton: { backgroundColor: '#D9E9FD' },
 
   buttonText: {
@@ -565,4 +699,76 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: "JetBrainsMono_400Regular",
   },
+
+  confirmBox: {
+    width: "80%",
+    backgroundColor: "white",
+    borderRadius: 12,
+    padding: 20,
+    alignItems: "center",
+  },
+  
+  confirmTitle: {
+    fontSize: 20,
+    fontWeight: "700",
+    marginBottom: 10,
+    textAlign: "center",
+  },
+  
+  confirmMessage: {
+    fontSize: 16,
+    color: "#444",
+    marginBottom: 20,
+    textAlign: "center",
+    fontFamily: "JetBrainsMono_400Regular",
+  },
+  
+  confirmButtons: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+  },
+  
+  confirmYesButton: {
+    flex: 1,
+    padding: 10,
+    backgroundColor: "#e63946",
+    marginRight: 10,
+    borderRadius: 8,
+    alignItems: "center",
+  },
+  
+  confirmNoButton: {
+    flex: 1,
+    padding: 10,
+    backgroundColor: "#457b9d",
+    marginLeft: 10,
+    borderRadius: 8,
+    alignItems: "center",
+  },
+  
+  confirmButtonText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "600",
+    fontFamily: "JetBrainsMono_400Regular",
+  },
+
+  shareModalBox: {
+    width: '85%',
+    backgroundColor: '#FFF',
+    padding: 20,
+    borderRadius: 12,
+    alignSelf: 'center',
+    marginTop: '30%',
+  },
+  
+  closeButton: {
+    position: 'absolute',
+    top: 10,       
+    right: 10,     
+    zIndex: 10,    
+    padding: 5,
+  },
+  
 });

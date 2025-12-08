@@ -3,6 +3,7 @@ import uuid from "react-native-uuid";
  
 export interface Club {
   name: string;
+  profileImage?: string | null;
   members: number;
   description: string;
   tags: string[];

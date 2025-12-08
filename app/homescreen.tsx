@@ -58,9 +58,14 @@ export default function HomeScreen() {
                   key={club.name}
                   style={[styles.friendRow, { justifyContent: 'flex-start' }]}
                   activeOpacity={0.8}
-                  onPress={() =>
-                    router.push(`/chat-room?club=${encodeURIComponent(club.name)}`)
-                  }
+                  onPress={() => {
+                    router.push({
+                      pathname: "/club-chat",
+                      params: {
+                        clubName: club.name,
+                      },
+                    });
+                  }}
                 >
                   <View
                     style={{
