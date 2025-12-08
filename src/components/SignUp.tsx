@@ -44,13 +44,12 @@ export default function SignUp() {
       // Store the current email in global context
       setCurrentEmail(cleanEmail);
 
-      // Navigate to verification page
+      // Navigate to verified page
       router.push({
         pathname: "/user-verified",
         params: { email: cleanEmail },
       });
     } else {
-      //Alert.alert("Invalid Email", "Please enter a valid school email address");
       setIsEmailValid(false);
     }
   };
@@ -59,7 +58,7 @@ export default function SignUp() {
     <View style={styles.container}>
       <Text style={styles.title}>sign up</Text>
 
-      <Text style={styles.label}>Enter school email:</Text>
+      <Text style={styles.label}>Enter School Email:</Text>
 
       <View
         style={[
@@ -85,7 +84,7 @@ export default function SignUp() {
       {!isEmailValid && (
         <Text style={styles.errorText}>
           {" "}
-          Invalid email address: {"\n"} Missing: '@' and '.edu'
+          Email must be a school email ending in '.edu' {"\n"} Please try again.
         </Text>
       )}
 
@@ -142,6 +141,17 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginBottom: 30,
   },
+  inputWrapperInvalid: {
+    width: "100%",
+    maxWidth: 294,
+    height: 50,
+    borderWidth: 2,
+    borderRadius: 8,
+    borderColor: "red",
+    backgroundColor: "#FFFAFA",
+    justifyContent: "center",
+    marginBottom: 10,
+  },
   input: {
     width: "100%",
     height: "100%",
@@ -170,7 +180,7 @@ const styles = StyleSheet.create({
   errorText: {
     color: "red",
     fontFamily: "Koulen_400Regular",
-    fontSize: Platform.select({ web: 28, default: 20 }),
+    fontSize: Platform.select({ web: 28, default: 18 }),
     marginBottom: 20,
     textAlign: "center",
   },
