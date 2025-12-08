@@ -1,6 +1,6 @@
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { Image, Platform, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Image, Keyboard, KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 
 export default function ScreenwritersChat() {
   const router = useRouter();
@@ -13,6 +13,8 @@ export default function ScreenwritersChat() {
   ];
 
   const friends = ["Evelyn H."];
+
+  const dismissKeyboard = () => Keyboard.dismiss();
 
   const [chatText, setChatText] = useState('');
 
@@ -30,6 +32,10 @@ export default function ScreenwritersChat() {
         <Text style={styles.backText}>BACK</Text>
       </TouchableOpacity>
 
+
+
+
+      {/* Title */}
       <Text style={styles.title}>Screen Writers - General Chat</Text>
 
       <ScrollView style={styles.messagesContainer}>
@@ -49,7 +55,7 @@ export default function ScreenwritersChat() {
             >
               {msg.sender === "Evelyn H." ? (
                 <TouchableOpacity onPress={() => router.push("/Evelyn")}>
-                  <Text style={styles.senderName}>{msg.sender}<Image style={styles.senderIcon} source={isFriend ? require('../assets/images/user-added.svg') : require('../assets/images/add-user.svg')} />
+                  <Text style={styles.senderName}>{msg.sender}<Image style={styles.senderIcon} source={isFriend ? require('../assets/images/user-added.png') : require('../assets/images/add-user.png')} />
                   </Text>
 
                 </TouchableOpacity>
@@ -81,21 +87,35 @@ export default function ScreenwritersChat() {
         })}
       </ScrollView>
 
-      {/* Dynamic Input Bar */}
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.textInput}
-          placeholder="Write a text message"
-          placeholderTextColor="#888"
-          value={chatText}
-          onChangeText={setChatText}
-        />
-        <View style={styles.addButton}>
-          <TouchableOpacity onPress={addMessage}>
-            <Text style={styles.addButtonText}>+</Text>
-          </TouchableOpacity>
+      <KeyboardAvoidingView
+        style={{ flex: 1, width: '100%' }}
+        behavior={Platform.OS === 'ios' ? 'padding' : "height"}
+        keyboardVerticalOffset={
+          Platform.OS === 'ios'
+            ? 0
+            : 0  // Android
+        }
+      >
+        {/* Dynamic Input Bar */}
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.textInput}
+            placeholder="Write a text message"
+            placeholderTextColor="#888"
+            value={chatText}
+            onChangeText={setChatText}
+            multiline={false}
+            returnKeyType="send"
+            onSubmitEditing={addMessage}
+          />
+          <View style={styles.addButton}>
+            <TouchableOpacity onPress={addMessage}>
+              <Text style={styles.addButtonText}>+</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
+      </KeyboardAvoidingView>
+
 
       {/* Footer */}
       <View style={styles.footerContainer}>
@@ -117,12 +137,13 @@ export default function ScreenwritersChat() {
           </TouchableOpacity>
         </View>
       </View>
-    </SafeAreaView>
+    </SafeAreaView >
   );
 }
 
 const styles = StyleSheet.create({
   safeArea: {
+    display: "flex",
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
@@ -154,7 +175,7 @@ const styles = StyleSheet.create({
   messagesContainer: {
     flex: 1,
     width: "90%",
-    marginTop: 30,
+    marginTop: 0,
     paddingBottom: 100,
   },
   messageWrapper: {
@@ -197,8 +218,9 @@ const styles = StyleSheet.create({
     textAlign: "right",
   },
   inputContainer: {
-    position: "absolute",
-    bottom: Platform.OS === "ios" ? 140 : 120,
+    flex: 1,
+    width: "90%",
+    display: "flex",
     left: 16,
     right: 16,
     flexDirection: "row",
@@ -231,7 +253,6 @@ const styles = StyleSheet.create({
     fontFamily: "JetBrainsMono_400Regular",
   },
   footerContainer: {
-    position: "absolute",
     bottom: 0,
     width: "100%",
     backgroundColor: "#FFFFFF",
