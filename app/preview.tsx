@@ -1,6 +1,7 @@
 import BackButton from "@/src/components/Button/BackButton";
 import Taskbar from "@/src/components/Taskbar";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
+import ClubbCardMinimal from "../src/components/InfoCard/ClubCardMinimal"; // <-- import
 import UserCardMinimal from "../src/components/InfoCard/UserCardMinimal";
 
 export default function Preview() {
@@ -11,6 +12,15 @@ export default function Preview() {
     avatar: "https://i.pravatar.cc/150?u=1",
     tags: ["music", "coding", "reading"],
     isFriend: false,
+  };
+
+  // Example props for ClubbCardMinimal
+  const exampleClub = {
+    name: "Chess Club",
+    description: "A club for chess enthusiasts to play and learn together.",
+    members: 42,
+    tags: ["strategy", "games", "social"],
+    joined: false,
   };
 
   return (
@@ -42,6 +52,17 @@ export default function Preview() {
         />
       </View>
 
+      {/* ClubCardMinimal preview */}
+      <View style={styles.componentWrapper}>
+        <Text style={styles.componentLabel}>ClubCardMinimal</Text>
+        <ClubbCardMinimal
+          club={exampleClub}
+          index={0}
+          toggleJoinClub={(clubName: string) => {
+            console.log(`Toggle join clicked for ${clubName}`);
+          }}
+        />
+      </View>
     </ScrollView>
   );
 }
