@@ -1,6 +1,7 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { sessionState } from '../store/session';
+import Screen from 'src/components/Screen';
 
 import {
   Dimensions,
@@ -49,6 +50,7 @@ export default function FriendsList() {
   );
 
   return (
+    <Screen>
     <SafeAreaView style={styles.safeArea}> 
 
       <View style={styles.container}>
@@ -103,6 +105,7 @@ export default function FriendsList() {
       </View>
 
     </SafeAreaView>
+    </Screen>
   );
 }
 

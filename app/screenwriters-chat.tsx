@@ -10,6 +10,7 @@ import {
   ScrollView,
 } from "react-native";
 import { useState, useRef, useEffect } from "react";
+import Screen from "src/components/Screen";
 
 export default function ScreenwritersChat() {
   const router = useRouter();
@@ -38,6 +39,7 @@ export default function ScreenwritersChat() {
   };
 
   return (
+    <Screen>
     <SafeAreaView style={styles.safeArea}>
       {/* BACK BUTTON */}
       <TouchableOpacity
@@ -113,28 +115,8 @@ export default function ScreenwritersChat() {
           <Text style={styles.addButtonText}>+</Text>
         </TouchableOpacity>
       </View>
-
-      {/* FOOTER */}
-      <View style={styles.footerContainer}>
-        <View style={styles.menu}>
-          <TouchableOpacity onPress={() => router.push("/homescreen")}>
-            <Text style={styles.menuIcon}>🏠</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => router.push("/connect")}>
-            <Text style={styles.menuIcon}>🧭</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => router.push("/chats")}>
-            <Text style={styles.menuIcon}>💬</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => router.push("/user-profile")}>
-            <Text style={styles.menuIcon}>👤</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
     </SafeAreaView>
+    </Screen>
   );
 }
 

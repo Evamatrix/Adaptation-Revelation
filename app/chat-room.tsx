@@ -13,6 +13,7 @@ import {
   View
 } from "react-native";
 import { useClubs } from "../src/context/ClubConText";
+import Screen from "src/components/Screen";
  
 const formatDateSeparator = (timestamp: number) => {
   const msgDate = new Date(timestamp);
@@ -74,6 +75,7 @@ export default function ChatRoom() {
   let prevDate: string | null = null;
 
   return (
+    <Screen>
   <SafeAreaView style={styles.safeArea}>
     {/* Header */}
     <View style={styles.header}>
@@ -160,7 +162,7 @@ export default function ChatRoom() {
       </View>
     </KeyboardAvoidingView>
   </SafeAreaView>
-
+      </Screen>
   );
 }
 

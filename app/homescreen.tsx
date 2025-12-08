@@ -9,6 +9,7 @@ import {
   View
 } from 'react-native';
 import { useClubs } from '../src/context/ClubConText';
+import Screen from 'src/components/Screen';
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -28,6 +29,7 @@ export default function HomeScreen() {
   ];
 
   return (
+    <Screen>
     <SafeAreaView style={styles.safeArea}> 
       <TouchableOpacity
         style={styles.signOutButton}
@@ -103,27 +105,8 @@ export default function HomeScreen() {
           </View>
         </View> 
       </ScrollView>
- 
-      <View style={styles.footerContainer}>
-        <View style={styles.menu}>
-          <TouchableOpacity onPress={() => router.push('/homescreen')}>
-            <Text style={styles.menuIcon}>🏠</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => router.push('/connect')}>
-            <Text style={styles.menuIcon}>🧭</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => router.push('/chats')}>
-            <Text style={styles.menuIcon}>💬</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => router.push('/user-profile')}>
-            <Text style={styles.menuIcon}>👤</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
     </SafeAreaView>
+    </Screen>
   );
 }
 

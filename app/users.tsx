@@ -9,6 +9,7 @@ import {
   View,
   Image,
 } from "react-native";
+import Screen from "src/components/Screen";
 
 type User = {
   id: number;
@@ -61,6 +62,7 @@ export default function UsersPage() {
   };
 
   return (
+    <Screen>
     <SafeAreaView style={styles.safeArea}>
 
       {/* BACK BUTTON */}
@@ -126,28 +128,8 @@ export default function UsersPage() {
           </View>
         ))}
       </ScrollView>
-
-      {/* FOOTER */}
-      <View style={styles.footerContainer}>
-        <View style={styles.menu}>
-          <TouchableOpacity onPress={() => router.push("/homescreen")}>
-            <Text style={styles.menuIcon}>🏠</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => router.push("/connect")}>
-            <Text style={styles.menuIcon}>🧭</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => router.push("/chats")}>
-            <Text style={styles.menuIcon}>💬</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => router.push("/user-profile")}>
-            <Text style={styles.menuIcon}>👤</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
     </SafeAreaView>
+    </Screen>
   );
 }
 

@@ -11,6 +11,7 @@ import {
   View
 } from 'react-native';
 import { useUser } from '../src/context/UserContext';
+import Screen from 'src/components/Screen';
 
 export default function UserProfile() {
   const { currentEmail, getUserDataForEmail, clearUserData, setCurrentEmail } = useUser();
@@ -80,6 +81,7 @@ export default function UserProfile() {
   };
 
   return (
+    <Screen>
     <SafeAreaView style={styles.safeArea}> 
       <TouchableOpacity
         style={styles.topRightButton}
@@ -143,27 +145,8 @@ export default function UserProfile() {
       </View>
       
       <View style={{ height: 100 }} />
-
-      <View style={styles.footerContainer}>
-        <View style={styles.menu}>
-          <TouchableOpacity onPress={() => router.push('/homescreen')}>
-            <Text style={styles.menuIcon}>🏠</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => router.push('/connect')}>
-            <Text style={styles.menuIcon}>🧭</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => router.push('/chats')}>
-            <Text style={styles.menuIcon}>💬</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => router.push('/user-profile')}>
-            <Text style={styles.menuIcon}>👤</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
     </SafeAreaView>
+    </Screen>
   );
 }
 

@@ -10,6 +10,7 @@ import {
   ScrollView,
 } from "react-native";
 import { useRef, useState, useEffect } from "react";
+import Screen from "src/components/Screen";
 
 export default function ClubChat() {
   const router = useRouter();
@@ -49,6 +50,7 @@ if (safeMsg) {
   };
 
   return (
+    <Screen>
     <SafeAreaView style={styles.safeArea}>
 
       {/* BACK BUTTON */}
@@ -135,6 +137,7 @@ if (safeMsg) {
         </View>
       </View>
     </SafeAreaView>
+    </Screen>
   );
 } 
 
