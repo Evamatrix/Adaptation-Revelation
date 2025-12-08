@@ -5,6 +5,7 @@ import MessageBubble from "./MessageBubble";
 interface Message {
   sender: string;
   text: string;
+  time: string;
 }
 
 interface MessageListProps {
@@ -30,6 +31,7 @@ export default function MessageList({ messages }: MessageListProps) {
           key={i}
           sender={msg.sender}
           text={msg.text}
+          time={msg.time}
           isMine={msg.sender === "Me"}
         />
       ))}

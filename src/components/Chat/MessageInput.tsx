@@ -25,7 +25,7 @@ export default function MessageInput({ value, onChange, onSend }: MessageInputPr
         onChangeText={onChange}
       />
       <TouchableOpacity style={styles.button} onPress={onSend}>
-        <Text style={styles.buttonText}>+</Text>
+        <Text style={styles.buttonText}>↑</Text>
       </TouchableOpacity>
     </View>
   );
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     borderWidth: 1.5,
     borderColor: Colors.border,
-    shadowColor: "#000",
+    shadowColor: Colors.border,
     shadowOpacity: 0.1,
     shadowRadius: 6,
     elevation: 4,
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     width: 42,
     height: 42,
     borderRadius: 8, // square with rounded corners
-    backgroundColor: Colors.primary,
+    backgroundColor: Colors.tertiary,
     justifyContent: "center",
     alignItems: "center",
   },
