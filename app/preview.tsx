@@ -1,9 +1,18 @@
-// app/preview.tsx
 import BackButton from "@/src/components/Button/BackButton";
 import Taskbar from "@/src/components/Taskbar";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
+import UserCardMinimal from "../src/components/InfoCard/UserCardMinimal";
 
 export default function Preview() {
+  // Example props for UserCardMinimal
+  const exampleUser = {
+    id: 1,
+    name: "Alex",
+    avatar: "https://i.pravatar.cc/150?u=1",
+    tags: ["music", "coding", "reading"],
+    isFriend: false,
+  };
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>Component Preview</Text>
@@ -22,7 +31,17 @@ export default function Preview() {
         <Taskbar />
       </View>
 
-      {/* Add more component previews below */}
+      {/* UserCardMinimal preview */}
+      <View style={styles.componentWrapper}>
+        <Text style={styles.componentLabel}>UserCardMinimal</Text>
+        <UserCardMinimal
+          user={exampleUser}
+          onAddFriend={() => {
+            console.log("Add friend clicked for preview");
+          }}
+        />
+      </View>
+
     </ScrollView>
   );
 }

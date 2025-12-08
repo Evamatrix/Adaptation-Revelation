@@ -1,26 +1,30 @@
-/**
- * Below are the colors that are used in the app. The colors are defined in the light and dark mode.
- */
-
-
 const tintColorLight = '#0a7ea4';
-const tintColorDark = '#fff';
 
-export const Colors = {
-  light: {
+const Colors = {
+    // Text colors
     text: '#11181C',
-    background: '#fff',
-    tint: tintColorLight,
+    placeholder: '#5C5C5C',
+
+    // Backgrounds
+    background: '#f0f0f0',
+
+    // Borders and lines
+    border: '#000000',
+    divider: '',
+
+    // Buttons and actions
+    primary: '#FFF8F9',
+    secondary: '#E0E0E0',
+    success: '#C9FDC9',
+    error: '',
+
+    // Icons
     icon: '#687076',
+
+    // Tabs and navigation
+    tint: tintColorLight,
     tabIconDefault: '#687076',
     tabIconSelected: tintColorLight,
-  },
-  dark: {
-    text: '#ECEDEE',
-    background: '#151718',
-    tint: tintColorDark,
-    icon: '#9BA1A6',
-    tabIconDefault: '#9BA1A6',
-    tabIconSelected: tintColorDark,
-  },
 };
+
+export default Colors;
