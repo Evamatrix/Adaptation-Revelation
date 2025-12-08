@@ -1,10 +1,16 @@
 import BackButton from "@/src/components/Button/BackButton";
 import Taskbar from "@/src/components/Taskbar";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-import ClubbCardMinimal from "../src/components/InfoCard/ClubCardMinimal"; // <-- import
+import ClubCardMinimal from "../src/components/InfoCard/ClubCardMinimal";
+import UserCardAdd from "../src/components/InfoCard/UserCardAdd"; // <-- new import
 import UserCardMinimal from "../src/components/InfoCard/UserCardMinimal";
+import Colors from "../src/constants/colors";
+import { getFont, useAppFonts } from "../src/constants/fonts";
 
 export default function Preview() {
+  const fontsLoaded = useAppFonts();
+  if (!fontsLoaded) return null;
+
   // Example props for UserCardMinimal
   const exampleUser = {
     id: 1,
@@ -14,7 +20,7 @@ export default function Preview() {
     isFriend: false,
   };
 
-  // Example props for ClubbCardMinimal
+  // Example props for ClubCardMinimal
   const exampleClub = {
     name: "Chess Club",
     description: "A club for chess enthusiasts to play and learn together.",
@@ -22,6 +28,36 @@ export default function Preview() {
     tags: ["strategy", "games", "social"],
     joined: false,
   };
+
+  const styles = StyleSheet.create({
+    container: {
+      padding: 20,
+      alignItems: "stretch",
+      backgroundColor: Colors.background,
+    },
+    title: {
+      fontSize: 24,
+      fontFamily: getFont("heading"),
+      marginBottom: 20,
+      color: Colors.text,
+    },
+    componentWrapper: {
+      marginBottom: 40,
+      backgroundColor: "#fff",
+      padding: 15,
+      borderRadius: 10,
+      shadowColor: Colors.text,
+      shadowOpacity: 0.1,
+      shadowRadius: 5,
+      elevation: 2,
+    },
+    componentLabel: {
+      fontSize: 16,
+      fontFamily: getFont("mono"),
+      marginBottom: 10,
+      color: Colors.text,
+    },
+  });
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -55,7 +91,7 @@ export default function Preview() {
       {/* ClubCardMinimal preview */}
       <View style={styles.componentWrapper}>
         <Text style={styles.componentLabel}>ClubCardMinimal</Text>
-        <ClubbCardMinimal
+        <ClubCardMinimal
           club={exampleClub}
           index={0}
           toggleJoinClub={(clubName: string) => {
@@ -63,34 +99,20 @@ export default function Preview() {
           }}
         />
       </View>
+
+      {/* UserCardAdd preview */}
+      <View style={styles.componentWrapper}>
+        <Text style={styles.componentLabel}>UserCardAdd</Text>
+        <UserCardAdd
+          name="Evelyn H."
+          clubs={6}
+          mutualFriends={3}
+          interests={6}
+          onAdd={() => {
+            console.log("Add Evelyn clicked for preview");
+          }}
+        />
+      </View>
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    padding: 20,
-    alignItems: "stretch",
-    backgroundColor: "#f5f5f5",
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 20,
-  },
-  componentWrapper: {
-    marginBottom: 40,
-    backgroundColor: "#fff",
-    padding: 15,
-    borderRadius: 10,
-    shadowColor: "#000",
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 2,
-  },
-  componentLabel: {
-    fontSize: 16,
-    fontWeight: "500",
-    marginBottom: 10,
-  },
-});

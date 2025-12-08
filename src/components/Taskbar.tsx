@@ -14,7 +14,7 @@ export default function Taskbar() {
         // bottom: 0,
         width: '100%',
         alignItems: 'center',
-        backgroundColor: Colors.background,
+        backgroundColor: Colors.backgroundColorful,
         paddingBottom: Platform.OS === 'ios' ? 30 : 20,
         paddingTop: 10,
       },
