@@ -104,6 +104,7 @@ export default function HomeScreen() {
         </View> 
       </ScrollView>
  
+ {/*
       <View style={styles.footerContainer}>
         <View style={styles.menu}>
           <TouchableOpacity onPress={() => router.push('/homescreen')}>
@@ -123,6 +124,7 @@ export default function HomeScreen() {
           </TouchableOpacity>
         </View>
       </View>
+    */}
     </SafeAreaView>
   );
 }

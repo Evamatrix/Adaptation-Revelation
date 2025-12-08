@@ -1,9 +1,19 @@
-import { Stack } from "expo-router";
+import { Stack, usePathname } from "expo-router";
+import { StyleSheet, View } from "react-native";
+import { UserProvider } from "../src/context/UserContext";
 
-export default function ChatLayout() {
+export default function RootLayout() {
+  const pathname = usePathname();
+
   return (
-    <Stack screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="[name]" />
-    </Stack>
+    <UserProvider>
+      <View style={styles.container}>
+        <Stack screenOptions={{ headerShown: false }} />
+      </View>
+    </UserProvider>
   );
 }
+
+const styles = StyleSheet.create({
+  container: { flex: 1 },
+});

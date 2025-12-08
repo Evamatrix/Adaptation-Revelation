@@ -1,4 +1,3 @@
-// src/context/UserContext.tsx
 import { createContext, ReactNode, useContext, useState } from 'react';
 
 interface UserData {

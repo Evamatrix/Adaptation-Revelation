@@ -4,8 +4,8 @@
     "target": "esnext",
     "module": "esnext",
     "moduleResolution": "bundler",
+    "lib": ["esnext"],
     "strict": true,
-    "allowJs": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
@@ -13,20 +13,10 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "types": [
-      "react",
-      "react-native"
-    ],
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./*"
-      ]
+      "@/*": ["./*"]
     }
   },
-  "include": [
-    "**/*.ts",
-    "**/*.tsx",
-    "App.tsx"
-  ]
+  "include": ["**/*.ts", "**/*.tsx"]
 }

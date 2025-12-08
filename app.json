@@ -4,8 +4,7 @@
     "slug": "native",
     "version": "1.0.0",
     "orientation": "portrait",
-    "entryPoint": "./index.js",
-    "icon": "./assets/images/icon.png",
+    "icon": "./src/assets/images/icon.png",
     "scheme": "native",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -16,9 +15,9 @@
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/images/android-icon-foreground.png",
-        "backgroundImage": "./assets/images/android-icon-background.png",
-        "monochromeImage": "./assets/images/android-icon-monochrome.png"
+        "foregroundImage": "./src/assets/images/android-icon-foreground.png",
+        "backgroundImage": "./src/assets/images/android-icon-background.png",
+        "monochromeImage": "./src/assets/images/android-icon-monochrome.png"
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
@@ -26,13 +25,13 @@
     },
     "web": {
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./src/assets/images/favicon.png"
     },
     "splash": {
-      "image": "./assets/images/splash-icon.png",
+      "image": "./src/assets/images/splash-icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
-    },    
+    },
     "plugins": [
       [
         "expo-splash-screen",
@@ -46,7 +45,8 @@
           }
         }
       ],
-      "expo-font"
+      "expo-font",
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": false,
