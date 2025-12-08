@@ -100,10 +100,10 @@ export default function UserProfile() {
  
         <View style={styles.info}>
           {[
-            { label: 'NATIONALITY', value: safeValue(nationality) },
-            { label: 'LANGUAGES', value: safeValue(languages) },
-            { label: 'RELIGION', value: safeValue(religion) },
-            { label: 'INTERESTS', value: safeValue(interests) },
+            { label: 'NATIONALITY', value: nationality},
+            { label: 'LANGUAGES', value: languages },
+            { label: 'RELIGION', value: religion },
+            { label: 'INTERESTS', value: interests},
           ].map((item, index) => (
             <View key={index} style={styles.infoBlock}>
               <Text style={styles.infoLabel}>{item.label}</Text>

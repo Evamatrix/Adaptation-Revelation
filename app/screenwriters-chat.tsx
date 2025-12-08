@@ -18,14 +18,20 @@ export default function ScreenwritersChat() {
 
   const friends = ["Evelyn H."];
 
+  const dismissKeyboard = () => Keyboard.dismiss();
+
   const [chatText, setChatText] = useState('');
 
   const [chatMessages, setChatMessages] = useState(messages);
 
   const addMessage = () => { setChatMessages([...chatMessages, { sender: 'Me', text: chatText }]); setChatText(''); }
 
+  useEffect(() => {
+    scrollViewRef.current?.scrollToEnd({ animated: true });
+    //setTimeout(() => {inputRef.current?.focus()}, 100);
+  }, [chatMessages]);
+  
   return (
-    <Screen>
     <SafeAreaView style={styles.safeArea}>
       <TouchableOpacity
         style={styles.backButton}
@@ -37,7 +43,17 @@ export default function ScreenwritersChat() {
 
       <Text style={styles.title}>{clubName}</Text>
 
-      <ScrollView style={styles.messagesContainer}>
+      <KeyboardAvoidingView
+        style={{ flex: 1, width: '100%', alignItems: 'center' }}
+        behavior={Platform.OS === 'ios' ? 'padding' : "height"}
+        keyboardVerticalOffset={
+          Platform.OS === 'ios'
+            ? 0
+            : 0  // Android
+        }
+      >
+
+      <ScrollView ref={scrollViewRef} style={styles.messagesContainer}>
         {chatMessages.map((msg, i) => {
           const isFriend = friends.includes(msg.sender);
 
@@ -54,7 +70,7 @@ export default function ScreenwritersChat() {
             >
               {msg.sender === "Evelyn H." ? (
                 <TouchableOpacity onPress={() => router.push("/Evelyn")}>
-                  <Text style={styles.senderName}>{msg.sender}<Image style={styles.senderIcon} source={isFriend ? require('../assets/images/user-added.svg') : require('../assets/images/add-user.svg')} />
+                  <Text style={styles.senderName}>{msg.sender}<Image style={styles.senderIcon} source={isFriend ? require('../assets/images/user-added.png') : require('../assets/images/add-user.png')} />
                   </Text>
 
                 </TouchableOpacity>
@@ -86,28 +102,54 @@ export default function ScreenwritersChat() {
         })}
       </ScrollView>
 
-      {/* Dynamic Input Bar */}
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.textInput}
-          placeholder="Write a text message"
-          placeholderTextColor="#888"
-          value={chatText}
-          onChangeText={setChatText}
-        />
-        <View style={styles.addButton}>
-          <TouchableOpacity onPress={addMessage}>
-            <Text style={styles.addButtonText}>+</Text>
+        {/* Dynamic Input Bar */}
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.textInput}
+            placeholder="Write a text message"
+            placeholderTextColor="#888"
+            value={chatText}
+            onChangeText={setChatText}
+            multiline={false}
+            returnKeyType="send"
+            onSubmitEditing={addMessage}
+          />
+          <View style={styles.addButton}>
+            <TouchableOpacity onPress={addMessage}>
+              <Text style={styles.addButtonText}>+</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </KeyboardAvoidingView>
+
+
+      {/* Footer */}
+      <View style={styles.footerContainer}>
+        <View style={styles.menu}>
+          <TouchableOpacity onPress={() => router.push("/homescreen")}>
+            <Text style={styles.menuIcon}>🏠</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => router.push("/connect")}>
+            <Text style={styles.menuIcon}>🧭</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => router.push("/chats")}>
+            <Text style={styles.menuIcon}>💬</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => router.push("/user-profile")}>
+            <Text style={styles.menuIcon}>👤</Text>
           </TouchableOpacity>
         </View>
       </View>
-    </SafeAreaView>
-    </Screen>
+    </SafeAreaView >
   );
 }
 
 const styles = StyleSheet.create({
   safeArea: {
+    display: "flex",
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
@@ -139,7 +181,8 @@ const styles = StyleSheet.create({
   messagesContainer: {
     flex: 1,
     width: "90%",
-    marginTop: 30,
+    marginTop: 0,
+    paddingBottom: 0,
   },
   messageWrapper: {
     marginBottom: 26,
@@ -182,10 +225,10 @@ const styles = StyleSheet.create({
     textAlign: "right",
   },
   inputContainer: {
-    position: "absolute",
-    bottom: Platform.OS === "ios" ? 135 : 115,
-    left: 16,
-    right: 16,
+    width: "90%",
+    display: "flex",
+    marginTop: 10,
+    marginBottom: 10,
     flexDirection: "row",
     alignItems: "center",
     padding: 8,
@@ -225,7 +268,6 @@ const styles = StyleSheet.create({
     fontFamily: "JetBrainsMono_400Regular",
   },
   footerContainer: {
-    position: "absolute",
     bottom: 0,
     width: "100%",
     backgroundColor: "#FFFFFF",
