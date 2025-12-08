@@ -325,10 +325,10 @@ export default function Clubs() {
             </TouchableOpacity>
           <Text style={styles.confirmTitle}>Club Joined!</Text>
           <Text style={styles.confirmMessage}>
-            You have successfully joined this club.
+            Successfully joined club.
           </Text>
             <TouchableOpacity
-              style={styles.confirmNoButton}
+              style={styles.confirmButton}
               onPress={() => {
                 setConfirmVisible(false);
                 router.push({
@@ -517,7 +517,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
   },
 
-  joinButton: { backgroundColor: '#C9FDC9' },
+  joinButton: { 
+    backgroundColor: '#C9FDC9'},
   leaveButton: { backgroundColor: '#E5505B' },  
   shareButton: { backgroundColor: '#D9E9FD' },
 
@@ -737,11 +738,21 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     alignItems: "center",
   },
+
+  confirmButton: {
+    backgroundColor: '#96D696', 
+    paddingVertical: 12,         
+    paddingHorizontal: 20,      
+    borderRadius: 8,
+    alignItems: 'center',        
+    justifyContent: 'center',    
+    minWidth: 120,
+  },
   
   confirmNoButton: {
     flex: 1,
     padding: 10,
-    backgroundColor: "#457b9d",
+    backgroundColor: "#B5BDC7",
     marginLeft: 10,
     borderRadius: 8,
     alignItems: "center",
