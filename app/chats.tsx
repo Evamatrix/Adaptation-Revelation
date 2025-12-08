@@ -1,7 +1,6 @@
+import Screen from '@/src/components/Screen';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { sessionState } from '../store/session';
-
 import {
   Dimensions,
   Image,
@@ -14,6 +13,7 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
+import { sessionState } from '../store/session';
 
 const friendsData = [
   { id: 1, name: 'Alex', avatar: 'https://i.pravatar.cc/100?img=1' },
@@ -29,7 +29,6 @@ const friendsData = [
 export default function FriendsList() {
   const [search, setSearch] = useState('');
   const router = useRouter();
-
   const params = useLocalSearchParams();
   const [hasEvelyn, setHasEvelyn] = useState(sessionState.hasEvelyn);
 
@@ -49,21 +48,11 @@ export default function FriendsList() {
   );
 
   return (
+    <Screen>
     <SafeAreaView style={styles.safeArea}>
-
-    <TouchableOpacity
-            style={styles.backButton}
-            onPress={() => router.back()}
-            activeOpacity={0.8}
-            >
-            <Text style={styles.backText}>BACK</Text>
-            </TouchableOpacity>
-
       <View style={styles.container}>
-        {/* Title */}
         <Text style={styles.title}>MY FRIENDS</Text>
 
-        {/* Search Bar */}
         <TextInput
           style={styles.searchInput}
           placeholder="Search friends..."
@@ -72,46 +61,26 @@ export default function FriendsList() {
           onChangeText={setSearch}
         />
 
-        {/* Scrollable Friends List */}
-        <ScrollView contentContainerStyle={[styles.scrollContainer, { paddingBottom: 100}]}>
+        <ScrollView contentContainerStyle={[styles.scrollContainer, { paddingBottom: 100 }]}>
           {filteredFriends.map((friend) => (
-            <TouchableOpacity 
-              key={friend.id} 
+            <TouchableOpacity
+              key={friend.id}
               style={styles.friendRow}
-              onPress={() => {
-                if (friend.name === "Evelyn") {
-                  router.push("/new-chat");
-                }
-              }}
-              >
+              onPress={() =>
+                router.push({
+                  pathname: "/chat/[name]",
+                  params: { name: friend.name },
+                })
+              }
+            >
               <Image source={{ uri: friend.avatar }} style={styles.avatar} />
               <Text style={styles.friendName}>{friend.name}</Text>
             </TouchableOpacity>
           ))}
         </ScrollView>
       </View>
-    
-        <View style={styles.footerContainer}>
-                <View style={styles.menu}>
-                  <TouchableOpacity onPress={() => router.push('/homescreen')}>
-                    <Text style={styles.menuIcon}>🏠</Text>
-                  </TouchableOpacity>
-        
-                  <TouchableOpacity onPress={() => router.push('/connect')}>
-                    <Text style={styles.menuIcon}>🧭</Text>
-                  </TouchableOpacity>
-        
-                  <TouchableOpacity onPress={() => router.push('/chats')}>
-                    <Text style={styles.menuIcon}>💬</Text>
-                  </TouchableOpacity>
-        
-                  <TouchableOpacity onPress={() => router.push('/user-profile')}>
-                    <Text style={styles.menuIcon}>👤</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-
     </SafeAreaView>
+    </Screen>
   );
 }
 
@@ -123,7 +92,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 20,
-    paddingTop: 10, // space for iPhone notch
+    paddingTop: 10,
   },
   title: {
     fontSize: 28,
@@ -145,9 +114,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     alignSelf: 'center',
   },
-  scrollContainer: {
-    paddingBottom: 40,
-  },
+  scrollContainer: { paddingBottom: 40 },
   friendRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -171,7 +138,6 @@ const styles = StyleSheet.create({
     fontFamily: 'Koulen',
     color: '#000',
   },
-
   footerContainer: {
     position: 'absolute',
     bottom: 0,
@@ -180,7 +146,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     paddingBottom: Platform.OS === 'ios' ? 30 : 20,
   },
-    menu: {
+  menu: {
     width: '90%',
     height: 80,
     backgroundColor: '#88E9FF',
@@ -190,22 +156,4 @@ const styles = StyleSheet.create({
     borderRadius: 25,
   },
   menuIcon: { fontSize: 28 },
-
-    backButton: {
-    position: 'absolute',
-    top: 60,
-    right: 20,
-    backgroundColor: '#FFF8F9',
-    borderWidth: 2,
-    borderColor: '#000',
-    borderRadius: 8,
-    paddingHorizontal: 14,
-    paddingVertical: 6,
-    zIndex: 10,
-  },
-    backText: {
-    fontSize: 16,
-    fontFamily: 'Koulen',
-    color: '#000',
-  },
 });

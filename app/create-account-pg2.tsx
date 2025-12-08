@@ -16,10 +16,10 @@ import { useUser } from '../src/context/UserContext';
 
 
 /*Options*/
-const NAT_OPTS = ["American", "Indian", "Chinese", "Vietnamese", "Mexican", "Other"];
-const LANG_OPTS = ["English", "Spanish", "Mandarin", "Hindi", "Vietnamese", "Arabic", "Other"];
-const REL_OPTS = ["Christian", "Muslim", "Hindu", "Jewish", "Other"];
-const INT_OPTS = ["Sports", "Music", "Reading", "Writing", "Film", "Cooking", "Finance", "Engineering", "Social"];
+const NAT_OPTS = ["Prefer not to answer", "American", "African American", "Hispanic/Latino", "South Asian", "Southeast Asian", "Native American"];
+const LANG_OPTS = ["Prefer not to answer", "English", "Spanish", "Chinese", "Tagalog", "Hindi", "Vietnamese", "Arabic", "Korean", "Russian", "German", "Urdu", "Telugu"];
+const REL_OPTS = ["Prefer not to answer", "None", "Christian", "Muslim", "Hindu", "Jewish", "Buddhist"];
+const INT_OPTS = ["Sports", "Music", "Reading", "Writing", "Film", "Cooking", "Finance", "Engineering", "Social", "Art", "Career", "Pre-med", "Science"];
 
 type CheckboxProps = {
   label: string;
@@ -167,7 +167,7 @@ export default function CreateAccountPg2() {
         <Text style={styles.title}>SELECT</Text>
  
         <DropdownSection
-          title="NATIONALITY"
+          title="CULTURE"
           expanded={showNationality}
           setExpanded={setShowNationality}
           options={NAT_OPTS}
@@ -220,12 +220,12 @@ export default function CreateAccountPg2() {
 
  
         <View style={styles.buttonRow}>
-          <TouchableOpacity style={styles.button} onPress={handleBack}>
+          <TouchableOpacity style={styles.backButton} onPress={handleBack}>
             <Text style={styles.buttonText}>BACK</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.button} onPress={handleFinish}>
-            <Text style={styles.buttonText}>FINISH</Text>
+          <TouchableOpacity style={styles.nextButton} onPress={handleFinish}>
+            <Text style={styles.buttonText}>FINISH PROFILE</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -283,10 +283,20 @@ const styles = StyleSheet.create({
     width: FIXED_WIDTH,
     marginTop: 10,
   },
-  button: {
+  backButton: {
     width: '48%',
     height: 44,
     backgroundColor: '#fff8f9',
+    borderWidth: 2,
+    borderColor: '#000',
+    borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  nextButton: {
+    width: '48%',
+    height: 44,
+    backgroundColor: '#a9f59f',
     borderWidth: 2,
     borderColor: '#000',
     borderRadius: 8,

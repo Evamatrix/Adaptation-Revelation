@@ -12,16 +12,25 @@ import {
   View,
 } from "react-native";
 
-export default function FriendChat() {
+export default function SharedChat() {
   const router = useRouter();
-  const { name, friendName } = useLocalSearchParams();
+  const { userName, clubName, msg } = useLocalSearchParams();
+  const initialMessages = [
+  { sender: userName, text: "Which club?", isSafeMsg: false}
+]; 
 
-  const chatName = friendName || name;
+const safeMsg = Array.isArray(msg) ? msg[0] : msg || null;  
 
-  const [messages, setMessages] = useState([
-    { sender: chatName, text: `Hey! It's ${chatName}.` },
-  ]);
+if (safeMsg) {
+  initialMessages.push({
+    sender: "Me",
+    text: safeMsg,
+    isSafeMsg: true,
+  });
+}
 
+
+  const [messages, setMessages] = useState(initialMessages);
   const [input, setInput] = useState("");
 
   const scrollRef = useRef<ScrollView>(null);
@@ -33,7 +42,11 @@ export default function FriendChat() {
   const handleSend = () => {
     if (!input.trim()) return;
 
-    setMessages((prev) => [...prev, { sender: "Me", text: input.trim() }]);
+    setMessages((prev) => [
+      ...prev,
+      { sender: "Me", text: input.trim(), isSafeMsg: false },
+    ]);
+
     setInput("");
   };
 
@@ -46,52 +59,80 @@ export default function FriendChat() {
         <Text style={styles.backText}>BACK</Text>
       </TouchableOpacity>
 
-      {/* TITLE */}
-      <Text style={styles.title}>{chatName}</Text>
+      <Text style={styles.title}>{userName}</Text>
 
-      {/* MESSAGES */}
+      {/* CHAT MESSAGES */}
       <ScrollView
         ref={scrollRef}
         style={styles.messagesScroll}
         contentContainerStyle={{ paddingBottom: 170 }}
         showsVerticalScrollIndicator={false}
       >
-        {messages.map((msg, index) => (
+        {messages.map((msgItem, i) => (
           <View
-            key={index}
+            key={i}
             style={[
               styles.messageWrapper,
-              msg.sender === "Me"
+              msgItem.sender === "Me"
                 ? { alignSelf: "flex-end" }
                 : { alignSelf: "flex-start" },
             ]}
           >
-            <Text style={styles.senderName}>{msg.sender}</Text>
+            <Text style={styles.senderName}>{msgItem.sender}</Text>
 
+            {msgItem.isSafeMsg ? (
+              <TouchableOpacity
+                style={[
+                  styles.messageBubble,
+                  styles.safeMsgBubble,
+                ]}
+                onPress={() => {
+                  router.push({
+                    pathname: "/club-chat",
+                    params: {
+                      clubName: clubName,
+                    },
+                  });
+                }}
+              >
+                <View style={styles.safeMsgTextWrapper}>
+                <Text style={[styles.safeMsgText, msgItem.sender === "Me" && { color: "#fff" }]}>
+                  {msgItem.text}
+                </Text>
+                <View style={styles.extraSquare}>
+                  <Text style={styles.clubLink}>{`Visit ${clubName}!`}</Text>
+                </View>
+                <Text style={styles.safeMsgTime}>
+                  {msgItem.sender === "Me" ? "now" : "earlier"}
+                </Text>
+                </View>
+              </TouchableOpacity>
+            ) : (
             <View
               style={[
                 styles.messageBubble,
-                msg.sender === "Me" ? styles.rightBubble : styles.leftBubble,
+                msgItem.sender === "Me" ? styles.rightBubble : styles.leftBubble,
               ]}
             >
               <Text
                 style={[
                   styles.messageText,
-                  msg.sender === "Me" && { color: "#fff" },
+                  msgItem.sender === "Me" && { color: "#fff" },
                 ]}
               >
-                {msg.text}
+                {msgItem.text}
               </Text>
 
               <Text style={styles.messageTime}>
-                {msg.sender === "Me" ? "now" : "earlier"}
+                {msgItem.sender === "Me" ? "now" : "earlier"}
               </Text>
             </View>
+            )}
           </View>
         ))}
       </ScrollView>
 
-      {/* INPUT */}
+      {/* TYPE MESSAGE */}
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.textInput}
@@ -100,7 +141,6 @@ export default function FriendChat() {
           value={input}
           onChangeText={setInput}
         />
-
         <TouchableOpacity style={styles.addButton} onPress={handleSend}>
           <Text style={styles.addButtonText}>+</Text>
         </TouchableOpacity>
@@ -108,8 +148,10 @@ export default function FriendChat() {
     </SafeAreaView>
     </Screen>
   );
-}
- 
+} 
+
+// STYLES
+
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
@@ -168,6 +210,49 @@ const styles = StyleSheet.create({
     borderRadius: 18,
   },
 
+  safeMsgContent: {
+    flexDirection: "row",
+    position: "relative",
+    padding: 10,
+    justifyContent: "space-between", 
+    alignItems: "center", 
+  },
+
+  safeMsgTextWrapper: {
+    position: "relative",
+    zIndex: 1, 
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+
+  extraSquare: {
+    flexDirection: "row",
+    alignItems: "center", 
+    position: "absolute",
+    height: 55,
+    width: 250,
+    backgroundColor: "#fff", 
+    marginLeft: 30,
+    borderRadius: 12,
+    zIndex: 0, 
+    marginTop: 40,
+  },
+
+  clubLink: {
+    fontFamily: "JetBrainsMono_400Regular",
+    fontSize: 16,
+    textAlign: "center",
+    marginLeft: 30,
+  },
+
+  safeMsgText: {
+    fontFamily: "JetBrainsMono_400Regular",
+    fontSize: 16,
+    marginTop: -70,
+    textAlign: "center",
+  },
+
   leftBubble: {
     backgroundColor: "#e5e5e5",
     borderTopLeftRadius: 4,
@@ -181,6 +266,24 @@ const styles = StyleSheet.create({
   messageText: {
     fontFamily: "JetBrainsMono_400Regular",
     fontSize: 16,
+  },
+
+  safeMsgBubble: {
+    minWidth: 80,
+    minHeight: 80,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 12,
+    backgroundColor: "#597aa4",
+  },
+
+  safeMsgTime: {
+    fontFamily: "JetBrainsMono_400Regular",
+    fontSize: 12,
+    color: "#5c5c5c",
+    marginTop: 90,
+    textAlign: "right",
+    marginRight: 20,
   },
 
   messageTime: {

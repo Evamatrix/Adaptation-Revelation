@@ -46,21 +46,36 @@ export default function UserVerified() {
         />
       </View>
  
-      <TouchableOpacity
-        style={styles.button}
-        activeOpacity={0.8}
-        onPress={() =>
-          router.push({
-            pathname: '/account-page1',
-            params: { email }, 
-          })
-        }
-      >
-        <Text style={styles.buttonText}>NEXT</Text>
-      </TouchableOpacity>
+      <View style={styles.buttonRow}>
+          <TouchableOpacity style={styles.backButton} 
+            onPress={() =>
+              router.push({
+                pathname: '/signup',
+              })
+            }
+            >
+            <Text style={styles.buttonText}>BACK</Text>
+          </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.nextButton}
+          activeOpacity={0.8}
+          onPress={() =>
+            router.push({
+              pathname: '/account-page1',
+              params: { email }, 
+            })
+          }
+        >
+          <Text style={styles.buttonText}>CREATE PROFILE</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
+
+const { width } = Dimensions.get('window');
+const FIXED_WIDTH = Math.min(width * 0.85, 380);
 
 const styles = StyleSheet.create({
   container: {
@@ -123,9 +138,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#5c5c5c',
   },
-  button: {
-    width: 160,
-    height: 48,
+  backButton: {
+    width: 180,
+    height: 55,
     backgroundColor: 'snow',
     borderWidth: 1,
     borderColor: '#000',
@@ -133,9 +148,25 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 10,
   },
+  nextButton: {
+    width: 180,
+    height: 55,
+    backgroundColor: '#a9f59f',
+    borderWidth: 1,
+    borderColor: '#000',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  buttonRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: FIXED_WIDTH,
+    marginTop: 10,
+  },
   buttonText: {
     fontFamily: 'Koulen_400Regular',
-    fontSize: Platform.select({ web: 30, default: 28 }),
+    fontSize: Platform.select({ web: 25, default: 25 }),
     textAlign: 'center',
     color: '#000',
   },

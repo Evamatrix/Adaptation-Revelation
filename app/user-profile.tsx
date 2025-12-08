@@ -1,3 +1,4 @@
+import Screen from '@/src/components/Screen';
 import * as ImagePicker from 'expo-image-picker';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
@@ -18,14 +19,9 @@ export default function UserProfile() {
   const params = useLocalSearchParams<{ from?: string }>();
   const from = params.from;
 
-  const handleBack = () => {
-    router.back();
-  }
-
   const [profileImage, setProfileImage] = useState<string | null>(null);
-  // Pick image function
+
   const pickImage = async () => {
-    console.log('Pick image pressed');
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== 'granted') {
       alert('Permission required to access photos.');
@@ -54,18 +50,11 @@ export default function UserProfile() {
     interests,
   } = userData;
 
-  console.log('Current email:', currentEmail);
-  console.log('User data:', userData);
-
   const safeValue = (value?: string | string[]) => {
     if (!value) return 'N/A';
-
-    if (Array.isArray(value)) {
-      return value.length > 0 ? value.join(',') : 'N/A';
-    }
-
+    if (Array.isArray(value)) return value.length > 0 ? value.join(',') : 'N/A';
     return value.trim() !== '' ? value : 'N/A';
-  }
+  };
 
   const handleSignOut = () => {
     if (currentEmail) clearUserData(currentEmail);
@@ -74,14 +63,8 @@ export default function UserProfile() {
   };
 
   return (
+    <Screen>
     <SafeAreaView style={styles.safeArea}>
-      <TouchableOpacity
-        style={styles.topRightButton}
-        onPress={handleBack}
-        activeOpacity={0.8}
-      >
-        <Text style={styles.signOutText}>BACK</Text>
-      </TouchableOpacity>
 
       <View style={styles.container}>
         <View style={styles.header}>
@@ -110,7 +93,7 @@ export default function UserProfile() {
 
         <View style={styles.info}>
           {[
-            { label: 'NATIONALITY', value: safeValue(nationality) },
+            { label: 'CULTURE', value: safeValue(nationality) },
             { label: 'LANGUAGES', value: safeValue(languages) },
             { label: 'RELIGION', value: safeValue(religion) },
             { label: 'INTERESTS', value: safeValue(interests) },
@@ -137,27 +120,8 @@ export default function UserProfile() {
       </View>
 
       <View style={{ height: 100 }} />
-
-      <View style={styles.footerContainer}>
-        <View style={styles.menu}>
-          <TouchableOpacity onPress={() => router.push('/homescreen')}>
-            <Text style={styles.menuIcon}>🏠</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => router.push('/connect')}>
-            <Text style={styles.menuIcon}>🧭</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => router.push('/chats')}>
-            <Text style={styles.menuIcon}>💬</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => router.push('/user-profile')}>
-            <Text style={styles.menuIcon}>👤</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
     </SafeAreaView>
+    </Screen>
   );
 }
 
@@ -166,23 +130,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#FFFFFF',
   },
-  topRightButton: {
-    position: 'absolute',
-    top: 60,
-    right: 20,
-    backgroundColor: '#FFF8F9',
-    borderWidth: 2,
-    borderColor: '#000',
-    borderRadius: 8,
-    paddingHorizontal: 14,
-    paddingVertical: 6,
-    zIndex: 10,
-  },
-  signOutText: {
-    fontSize: 16,
-    fontFamily: 'JetBrainsMono_400Regular',
-    color: '#000',
-  },
+
   container: {
     flex: 1,
     paddingHorizontal: 24,
@@ -228,8 +176,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 
-
-
   headerText: { flex: 1 },
 
   greeting: { fontSize: 26, fontFamily: 'Koulen_400Regular', color: '#000' },
@@ -248,6 +194,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     marginTop: -15,
   },
+
   bottomButton: {
     width: '48%',
     height: 52,
@@ -258,7 +205,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+
   buttonText: { fontSize: 20, fontFamily: 'JetBrainsMono_400Regular', color: '#000' },
+
   footerContainer: {
     position: 'absolute',
     bottom: 0,
@@ -267,6 +216,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     paddingBottom: Platform.OS === 'ios' ? 30 : 20,
   },
+
   menu: {
     width: '90%',
     height: 80,
@@ -276,6 +226,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 25,
   },
+
   menuIcon: {
     fontSize: 28,
   },

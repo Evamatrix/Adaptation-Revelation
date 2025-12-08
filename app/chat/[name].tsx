@@ -1,15 +1,14 @@
-import Screen from "@/src/components/Screen";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import {
-  Platform,
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
+    Platform,
+    SafeAreaView,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
 } from "react-native";
 
 export default function FriendChat() {
@@ -38,15 +37,13 @@ export default function FriendChat() {
   };
 
   return (
-    <Screen>
     <SafeAreaView style={styles.safeArea}>
 
       {/* BACK BUTTON */}
       <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
         <Text style={styles.backText}>BACK</Text>
       </TouchableOpacity>
-
-      {/* TITLE */}
+ 
       <Text style={styles.title}>{chatName}</Text>
 
       {/* MESSAGES */}
@@ -105,11 +102,32 @@ export default function FriendChat() {
           <Text style={styles.addButtonText}>+</Text>
         </TouchableOpacity>
       </View>
+
+      {/* FOOTER */}
+      <View style={styles.footerContainer}>
+        <View style={styles.menu}>
+          <TouchableOpacity onPress={() => router.push("/homescreen")}>
+            <Text style={styles.menuIcon}>🏠</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => router.push("/connect")}>
+            <Text style={styles.menuIcon}>🧭</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => router.push("/chats")}>
+            <Text style={styles.menuIcon}>💬</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => router.push("/user-profile")}>
+            <Text style={styles.menuIcon}>👤</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+
     </SafeAreaView>
-    </Screen>
   );
 }
- 
+
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
