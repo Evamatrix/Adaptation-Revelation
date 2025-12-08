@@ -6,7 +6,7 @@ import Taskbar from "./Taskbar";
 export default function Screen({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const hideBackOn = ["user-profile"];
-  const showTaskbar = ["/friends-list", "/club-explore", "/create-club", "/user-profile", "/joined-clubs-list", "/homescreen", "/connect"].includes(pathname) || pathname.startsWith("/chat/");
+  const showTaskbar = ["/friends-list", "/club-explore", "/create-club", "/user-profile", "/joined-clubs-list", "/homescreen", "/connect"].includes(pathname) || pathname.startsWith("/chat/") || pathname.startsWith("/club-chat/");
 
   return (
     <View style={styles.container}>

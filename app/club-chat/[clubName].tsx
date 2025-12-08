@@ -5,5 +5,5 @@ export default function ClubChatPage() {
   const { clubName } = useLocalSearchParams();
   const name = Array.isArray(clubName) ? clubName[0] : clubName || "Club";
 
-  return <ClubChat name={name} />; // ✅ matches ClubChatProps
+  return <ClubChat name={name} />; 
 }
