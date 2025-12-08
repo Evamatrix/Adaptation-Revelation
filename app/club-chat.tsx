@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
 
   backButton: {
     position: "absolute",
-    top: 60,
+    top: 20,
     left: 20,
     backgroundColor: "#FFF8F9",
     borderWidth: 2,
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
     fontSize: 36,
     fontFamily: "Koulen_400Regular",
     color: "#000",
-    marginTop: 100,
+    marginTop: 40,
     textAlign: "center",
   },
 

@@ -1,8 +1,8 @@
+import Screen from "@/src/components/Screen";
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import {
   Platform,
-  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function SharedClub() {
   const router = useRouter();
@@ -28,6 +29,7 @@ export default function SharedClub() {
   const addMessage = () => {setChatMessages([...chatMessages, { sender: 'Me', text: chatText }]); setChatText('');}
 
   return (
+    <Screen>
     <SafeAreaView style={styles.safeArea}>
       <TouchableOpacity
         style={styles.backButton}
@@ -73,27 +75,8 @@ export default function SharedClub() {
           </TouchableOpacity>
         </View>
       </View>
-
-      <View style={styles.footerContainer}>
-        <View style={styles.menu}>
-          <TouchableOpacity onPress={() => router.push('/homescreen')}>
-            <Text style={styles.menuIcon}>🏠</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => router.push('/connect')}>
-            <Text style={styles.menuIcon}>🧭</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => router.push('/chats')}>
-            <Text style={styles.menuIcon}>💬</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => router.push('/user-profile')}>
-            <Text style={styles.menuIcon}>👤</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
     </SafeAreaView>
+  </Screen>
   );
 }
 
@@ -105,7 +88,7 @@ const styles = StyleSheet.create({
   },
   backButton: {
     position: 'absolute',
-    top: 60,
+    top: 20,
     left: 20, 
     backgroundColor: '#FFF8F9',
     borderWidth: 2,
@@ -124,7 +107,7 @@ const styles = StyleSheet.create({
     fontSize: 36,
     fontFamily: 'Koulen_400Regular',
     color: '#000',
-    marginTop: 100,
+    marginTop: 40,
     textAlign: 'center',
   },
   content: {

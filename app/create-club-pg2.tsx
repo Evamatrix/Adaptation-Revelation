@@ -15,6 +15,7 @@ import { useClubs } from '../src/context/ClubConText';
 export default function CreateClubPg2() {
   const router = useRouter();
   const { addClub } = useClubs();
+  const { clubs, toggleJoinClub } = useClubs();
 
   const params = useLocalSearchParams<{
     name?: string;
@@ -65,6 +66,8 @@ export default function CreateClubPg2() {
       tags: selectedTags,
       joined: true,
     });
+
+    toggleJoinClub(name)
 
     router.push({
       pathname: '/club-confirm',

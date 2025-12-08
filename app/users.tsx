@@ -234,7 +234,7 @@ const styles = StyleSheet.create({
 
   backButton: {
     position: "absolute",
-    top: 60,
+    top: 20,
     left: 20,
     backgroundColor: "#FFF8F9",
     borderWidth: 2,
@@ -252,7 +252,7 @@ const styles = StyleSheet.create({
 
   searchContainer: {
     flexDirection: "row",
-    marginTop: 65,
+    marginTop: 60,
     width: "90%",
     justifyContent: "space-between",
   },
