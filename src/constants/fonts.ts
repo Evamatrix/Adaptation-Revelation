@@ -1,37 +1,57 @@
+import * as Font from 'expo-font';
+import { useEffect, useState } from 'react';
 import { Platform } from 'react-native';
 
-const Fonts = Platform.select({
+// Font names you want to use
+export type FontNames = 'Koulen' | 'JetBrainsMono' | 'SystemSans' | 'SystemSerif';
+
+export const Fonts = {
   ios: {
-    sans: 'system-ui',
-    serif: 'ui-serif',
-    rounded: 'ui-rounded',
-    mono: 'ui-monospace',
+    sans: 'SystemSans', 
+    serif: 'SystemSerif', 
+    rounded: 'SystemSans',
+    mono: 'JetBrainsMono', 
+    heading: 'Koulen',
   },
-  default: {
-    sans: 'normal',
-    serif: 'serif',
-    rounded: 'normal',
-    mono: 'monospace',
+  android: {
+    sans: 'SystemSans',
+    serif: 'SystemSerif',
+    rounded: 'SystemSans',
+    mono: 'JetBrainsMono',
+    heading: 'Koulen',
   },
-  /*
   web: {
-    sans: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
-    serif: "Georgia, 'Times New Roman', serif",
-    rounded: "'SF Pro Rounded', 'Hiragino Maru Gothic ProN', Meiryo, 'MS PGothic', sans-serif",
-    mono: "SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
-  },
-  */
-    web: {
-    sans: 'system-ui', // just the first choice
+    sans: 'system-ui',
     serif: 'Georgia',
-    rounded: 'Arial', // or a font you like
-    mono: 'Courier New',
-    },
-}) ?? {
-  sans: 'system',
-  serif: 'serif',
-  rounded: 'system',
-  mono: 'monospace',
+    rounded: 'Arial',
+    mono: 'JetBrainsMono',
+    heading: 'Koulen',
+  },
 };
 
-export const AppFonts = Fonts;
+// Hook to load fonts (returns true when fonts are ready)
+export function useAppFonts() {
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    async function load() {
+      await Font.loadAsync({
+        // Google Fonts you want to use
+        Koulen: require('../assets/fonts/Koulen-Regular.ttf'),
+        JetBrainsMono: require('../assets/fonts/JetBrainsMono-Regular.ttf'),
+      });
+      setLoaded(true);
+    }
+    load();
+  }, []);
+
+  return loaded;
+}
+
+// Get the right font for the current platform
+export function getFont(name: keyof typeof Fonts.ios) {
+  const platform = Platform.OS;
+  if (platform === 'ios') return Fonts.ios[name];
+  if (platform === 'android') return Fonts.android[name];
+  return Fonts.web[name];
+}

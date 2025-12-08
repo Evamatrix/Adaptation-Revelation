@@ -1,8 +1,13 @@
 import { useRouter } from 'expo-router';
 import { Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Colors } from '../constants/colors';
+import { getFont, useAppFonts } from '../constants/fonts';
 
 export default function Taskbar() {
   const router = useRouter();
+  const fontsLoaded = useAppFonts();
+
+  if (!fontsLoaded) return null; // wait until fonts load
 
   return (
     <View style={styles.footerContainer}>
@@ -35,7 +40,7 @@ const styles = StyleSheet.create({
     // bottom: 0,
     width: '100%',
     alignItems: 'center',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: Colors.light.background,
     paddingBottom: Platform.OS === 'ios' ? 30 : 20,
     paddingTop: 10,
   },
@@ -46,5 +51,7 @@ const styles = StyleSheet.create({
   },
   menuIcon: {
     fontSize: 28,
+    fontFamily: getFont('mono'),
+    color: Colors.light.tint,
   },
 });

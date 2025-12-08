@@ -1,7 +1,7 @@
 import { useRouter } from "expo-router";
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { Colors } from '../../constants/colors';
-import { AppFonts } from '../../constants/fonts';
+import { getFont, useAppFonts } from '../../constants/fonts';
 
 const router = useRouter();
 
@@ -12,6 +12,9 @@ type BackButtonProps = {
 
 export default function BackButton({ onPress, style }: BackButtonProps) {
   const router = useRouter();
+  const fontsLoaded = useAppFonts();
+  
+  if (!fontsLoaded) return null; // wait until fonts load
 
   return (
     <TouchableOpacity
@@ -38,7 +41,7 @@ button: {
   },
 text: {
     fontSize: 16,
-    fontFamily: AppFonts.sans,
+    fontFamily: getFont('heading'),
     color: Colors.light.tint,
   },
 })
