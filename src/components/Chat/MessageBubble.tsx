@@ -18,7 +18,11 @@ export default function MessageBubble({ sender, text, time, isMine }: MessageBub
     <View style={[styles.wrapper, isMine ? { alignSelf: "flex-end" } : { alignSelf: "flex-start" }]}>
       <Text style={styles.sender}>{sender}</Text>
       <View style={[styles.bubble, isMine ? styles.rightBubble : styles.leftBubble]}>
-        <Text style={[styles.text, isMine && { color: Colors.background }]}>{text}</Text>
+        {typeof text === "string" ? (
+          <Text style={[styles.text, isMine && { color: Colors.background }]}>{text}</Text>
+        ) : (
+          text 
+        )}
         <Text style={styles.time}>{time}</Text>
       </View>
     </View>

@@ -1,32 +1,17 @@
-import { FriendsProvider } from "@/src/context/FriendsContext";
-import { Stack, usePathname } from "expo-router";
-import { StyleSheet, View } from "react-native";
+import { Stack } from "expo-router";
+import { StyleSheet } from "react-native";
+import Providers from "../src/components/Providers";
 import { useAppFonts } from "../src/constants/fonts";
-import { ClubProvider } from "../src/context/ClubContext";
-import { UserProvider } from "../src/context/UserContext";
-
-//TODO: remove me
-console.log("LAYOUT LOADED");
 
 export default function RootLayout() {
-  const pathname = usePathname();
   const fontsLoaded = useAppFonts();
 
-  if (!fontsLoaded) {
-    // if the fonts aren't ready yet, can also return a splash screen until they are
-    return null;
-  }
+  if (!fontsLoaded) return null;
 
   return (
-    <UserProvider>
-      <FriendsProvider>
-        <ClubProvider>
-          <View style={styles.container}>
-            <Stack screenOptions={{ headerShown: false, animation: "none" }} />
-          </View>
-        </ClubProvider>
-      </FriendsProvider>
-    </UserProvider>
+    <Providers>
+      <Stack screenOptions={{ headerShown: false, animation: "none" }} />
+    </Providers>
   );
 }
 

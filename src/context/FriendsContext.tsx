@@ -8,77 +8,44 @@ export interface Friend {
   description?: string;
 }
 
+export interface FriendMessage {
+  id: string;
+  friendId: number | null; // which friend the message belongs to
+  text: string;
+  clubName?: string; // optional link target
+  timestamp: number;
+}
+
 interface FriendsContextType {
   friends: Friend[];
   addFriend: (friend: Friend) => void;
   removeFriend: (id: number) => void;
+
+  // new messaging API
+  messages: FriendMessage[];
+  addMessage: (msg: FriendMessage) => void;
+  clearMessagesForFriend: (friendId: number) => void;
 }
 
 const FriendsContext = createContext<FriendsContextType | undefined>(undefined);
 
 export const FriendsProvider = ({ children }: { children: ReactNode }) => {
   const [friends, setFriends] = useState<Friend[]>([
-    {
-      id: 1,
-      name: "Alex",
-      avatar: "https://i.pravatar.cc/100?img=1",
-      tags: ["Sports", "Music"],
-      description: "Loves basketball and playing guitar.",
-    },
-    {
-      id: 2,
-      name: "Jamie",
-      avatar: "https://i.pravatar.cc/100?img=2",
-      tags: ["Cooking", "Finance"],
-      description: "Enjoys experimenting with recipes and investing.",
-    },
-    {
-      id: 3,
-      name: "Taylor",
-      avatar: "https://i.pravatar.cc/100?img=3",
-      tags: ["Reading", "Film"],
-      description: "Avid reader and movie buff.",
-    },
-    {
-      id: 4,
-      name: "Jordan",
-      avatar: "https://i.pravatar.cc/100?img=4",
-      tags: ["Engineering", "Social"],
-      description: "Engineer who loves networking and meeting new people.",
-    },
-    {
-      id: 5,
-      name: "Riley",
-      avatar: "https://i.pravatar.cc/100?img=5",
-      tags: ["Writing", "Music"],
-      description: "Writes poetry and plays piano.",
-    },
-    {
-      id: 6,
-      name: "Sam",
-      avatar: "https://i.pravatar.cc/100?img=6",
-      tags: ["Sports", "Cooking"],
-      description: "Soccer player and foodie.",
-    },
-    {
-      id: 7,
-      name: "Casey",
-      avatar: "https://i.pravatar.cc/100?img=7",
-      tags: ["Finance", "Reading"],
-      description: "Enjoys reading about markets and history.",
-    },
-    {
-      id: 8,
-      name: "Morgan",
-      avatar: "https://i.pravatar.cc/100?img=8",
-      tags: ["Social", "Film"],
-      description: "Loves hosting movie nights.",
-    },
+    { id: 1, name: "Alex", avatar: "https://i.pravatar.cc/100?img=1", tags: ["Sports", "Music"], description: "Loves basketball and playing guitar." },
+    { id: 2, name: "Jamie", avatar: "https://i.pravatar.cc/100?img=2", tags: ["Cooking", "Finance"], description: "Enjoys experimenting with recipes and investing." },
+    { id: 3, name: "Taylor", avatar: "https://i.pravatar.cc/100?img=3", tags: ["Reading", "Film"], description: "Avid reader and movie buff." },
+    { id: 4, name: "Jordan", avatar: "https://i.pravatar.cc/100?img=4", tags: ["Engineering", "Social"], description: "Engineer who loves networking and meeting new people." },
+    { id: 5, name: "Riley", avatar: "https://i.pravatar.cc/100?img=5", tags: ["Writing", "Music"], description: "Writes poetry and plays piano." },
+    { id: 6, name: "Sam", avatar: "https://i.pravatar.cc/100?img=6", tags: ["Sports", "Cooking"], description: "Soccer player and foodie." },
+    { id: 7, name: "Casey", avatar: "https://i.pravatar.cc/100?img=7", tags: ["Finance", "Reading"], description: "Enjoys reading about markets and history." },
+    { id: 8, name: "Morgan", avatar: "https://i.pravatar.cc/100?img=8", tags: ["Social", "Film"], description: "Loves hosting movie nights." },
   ]);
+
+  const [messages, setMessages] = useState<FriendMessage[]>([]);
 
   const addFriend = (friend: Friend) => {
     setFriends((prev) => {
-      if (prev.some((f) => f.id === friend.id)) return prev; // avoid duplicates
+      if (prev.some((f) => f.id === friend.id)) return prev;
       return [...prev, friend];
     });
   };
@@ -87,14 +54,22 @@ export const FriendsProvider = ({ children }: { children: ReactNode }) => {
     setFriends((prev) => prev.filter((f) => f.id !== id));
   };
 
+  const addMessage = (msg: FriendMessage) => {
+    setMessages((prev) => [...prev, msg]);
+  };
+
+  const clearMessagesForFriend = (friendId: number) => {
+    setMessages((prev) => prev.filter((m) => m.friendId !== friendId));
+  };
+
   return (
-    <FriendsContext.Provider value={{ friends, addFriend, removeFriend }}>
+    <FriendsContext.Provider value={{ friends, addFriend, removeFriend, messages, addMessage, clearMessagesForFriend }}>
       {children}
     </FriendsContext.Provider>
   );
 };
 
-export const useFriends = () => {
+export const useFriends = (): FriendsContextType => {
   const ctx = useContext(FriendsContext);
   if (!ctx) {
     throw new Error("useFriends must be used within a FriendsProvider");

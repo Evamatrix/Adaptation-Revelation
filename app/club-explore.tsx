@@ -1,22 +1,23 @@
-// app/clubs/index.tsx
 import { useRouter } from "expo-router";
 import { useMemo, useState } from "react";
 import {
-    Modal,
-    SafeAreaView,
-    ScrollView,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View
+  Modal,
+  SafeAreaView,
+  ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
 } from "react-native";
 import ClubCardMinimal from "../src/components/InfoCard/ClubCardMinimal";
 import Screen from "../src/components/Screen";
 import Colors from "../src/constants/colors";
 import { getFont, useAppFonts } from "../src/constants/fonts";
 import { useClubs } from "../src/context/ClubContext";
+import { useFriends } from "../src/context/FriendsContext";
 
 export default function Clubs() {
+  const { friends } = useFriends();
   const router = useRouter();
   const fontsLoaded = useAppFonts();
   const { allClubs, setClubData } = useClubs();
@@ -101,6 +102,7 @@ export default function Clubs() {
                 members: (club.members || 0) + (club.joined ? -1 : 1),
                 })
             }
+            friends={friends}
             />
 
         ))}

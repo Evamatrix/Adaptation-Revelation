@@ -1,13 +1,20 @@
 import { useRouter } from "expo-router";
+import { useState } from "react";
 import {
+  FlatList,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
 import Colors from "../../constants/colors";
 import { getFont, useAppFonts } from "../../constants/fonts";
 import { useClubs } from "../../context/ClubContext";
+import { useFriends } from "../../context/FriendsContext";
+import { addMessage as addStoredMessage } from "../../store/chats";
+
+
 
 interface Club {
   name: string;
@@ -17,31 +24,81 @@ interface Club {
   joined?: boolean;
 }
 
+interface Friend {
+  id: number;
+  name: string;
+}
+
 interface ClubCardMinimalProps {
   club: Club;
   index: number;
   toggleJoinClub: (clubName: string) => void;
+  friends?: Friend[];
 }
 
-export default function ClubCardMinimal({ club, index, toggleJoinClub }: ClubCardMinimalProps) {
+export default function ClubCardMinimal({
+  club,
+  index,
+  toggleJoinClub,
+  friends = [],
+}: ClubCardMinimalProps) {
   const router = useRouter();
   const fontsLoaded = useAppFonts();
   const { setClubData } = useClubs();
 
+  const [showShare, setShowShare] = useState(false);
+  const [shareMessage, setShareMessage] = useState("");
+  const [selectedFriends, setSelectedFriends] = useState<number[]>([]);
+
+  const { addMessage } = useFriends();
+
   if (!fontsLoaded) return null;
 
   const handleJoin = () => {
-    // Toggle join state
     setClubData(club.name, {
       joined: !club.joined,
       members: (club.members || 0) + (club.joined ? -1 : 1),
     });
 
-    // Navigate straight to chat when joining
     if (!club.joined) {
       router.push(`/club-chat/${encodeURIComponent(club.name)}`);
     }
   };
+
+  const toggleFriendSelection = (id: number) => {
+    setSelectedFriends((prev) =>
+      prev.includes(id) ? prev.filter((f) => f !== id) : [...prev, id]
+    );
+  };
+
+  const handleSendShare = async () => {
+    if (!shareMessage.trim() || selectedFriends.length === 0) return;
+
+    const timestamp = new Date().toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+
+    for (const friendId of selectedFriends) {
+      const friend = friends.find((f) => f.id === friendId);
+      if (!friend) continue;
+
+      const fullMessage = {
+        sender: "Me",
+        text: `${shareMessage.trim()}\nCheck out this club → /club-card/${encodeURIComponent(club.name)}`, 
+        time: timestamp,
+      };
+      await addStoredMessage(friend.name, fullMessage);
+    }
+
+    // Reset UI
+    setShareMessage("");
+    setSelectedFriends([]);
+    setShowShare(false);
+  };
+
+
+
 
   const styles = StyleSheet.create({
     card: {
@@ -112,6 +169,42 @@ export default function ClubCardMinimal({ club, index, toggleJoinClub }: ClubCar
       fontSize: 12,
       color: Colors.text,
     },
+    sharePanel: {
+      marginTop: 12,
+      padding: 10,
+      backgroundColor: "#f4f4f4",
+      borderRadius: 6,
+    },
+    input: {
+      borderWidth: 1,
+      borderColor: Colors.border,
+      borderRadius: 6,
+      paddingHorizontal: 8,
+      paddingVertical: 6,
+      fontFamily: getFont("mono"),
+      fontSize: 14,
+      marginBottom: 8,
+      color: Colors.text,
+    },
+    friendsLabel: {
+      fontFamily: getFont("mono"),
+      fontSize: 12,
+      marginBottom: 4,
+      color: Colors.text,
+    },
+    friendButton: {
+      paddingHorizontal: 10,
+      paddingVertical: 6,
+      borderRadius: 8,
+      backgroundColor: Colors.secondary,
+      marginRight: 6,
+    },
+    friendSelected: { backgroundColor: Colors.tertiary },
+    friendText: { fontFamily: getFont("mono"), color: Colors.text },
+    friendTextSelected: { fontWeight: "bold", color: "#fff" },
+    shareActions: { flexDirection: "row", marginTop: 8 },
+    sendButton: { backgroundColor: Colors.success },
+    cancelButton: { backgroundColor: Colors.error, marginLeft: 8 },
   });
 
   return (
@@ -121,20 +214,15 @@ export default function ClubCardMinimal({ club, index, toggleJoinClub }: ClubCar
 
         <View style={styles.buttonGroup}>
           <TouchableOpacity
-            style={[
-              styles.actionButton,
-              club.joined ? styles.leaveButton : styles.joinButton,
-            ]}
+            style={[styles.actionButton, club.joined ? styles.leaveButton : styles.joinButton]}
             onPress={handleJoin}
           >
-            <Text style={styles.buttonText}>
-              {club.joined ? "LEAVE" : "JOIN"}
-            </Text>
+            <Text style={styles.buttonText}>{club.joined ? "LEAVE" : "JOIN"}</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={[styles.actionButton, styles.shareButton]}
-            onPress={() => router.push(`/club-chat/${encodeURIComponent(club.name)}`)}
+            onPress={() => setShowShare((prev) => !prev)}
           >
             <Text style={styles.buttonText}>SHARE</Text>
           </TouchableOpacity>
@@ -151,6 +239,47 @@ export default function ClubCardMinimal({ club, index, toggleJoinClub }: ClubCar
           </View>
         ))}
       </View>
+
+      {showShare && (
+        <View style={styles.sharePanel}>
+          <TextInput
+            style={styles.input}
+            placeholder="Write a message..."
+            placeholderTextColor="#888"
+            value={shareMessage}
+            onChangeText={setShareMessage}
+          />
+
+          <Text style={styles.friendsLabel}>Send to:</Text>
+          <FlatList
+            horizontal
+            data={friends}
+            keyExtractor={(f) => f.id.toString()}
+            renderItem={({ item }) => {
+              const selected = selectedFriends.includes(item.id);
+              return (
+                <TouchableOpacity
+                  onPress={() => toggleFriendSelection(item.id)}
+                  style={[styles.friendButton, selected && styles.friendSelected]}
+                >
+                  <Text style={[styles.friendText, selected && styles.friendTextSelected]}>
+                    {item.name}
+                  </Text>
+                </TouchableOpacity>
+              );
+            }}
+          />
+
+          <View style={styles.shareActions}>
+            <TouchableOpacity style={[styles.actionButton, styles.sendButton]} onPress={handleSendShare}>
+              <Text style={styles.buttonText}>Send</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={[styles.actionButton, styles.cancelButton]} onPress={() => setShowShare(false)}>
+              <Text style={styles.buttonText}>Cancel</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
     </View>
   );
 }
