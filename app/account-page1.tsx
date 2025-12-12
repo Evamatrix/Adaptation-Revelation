@@ -78,7 +78,7 @@ export default function AccountPage1() {
   };
 
   const handleBack = () => {
-    router.back();
+    router.push('/signup');
   }
 
   return (
