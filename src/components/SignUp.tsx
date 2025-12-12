@@ -6,11 +6,13 @@ import { useState } from 'react';
 import {
   Alert,
   Dimensions,
+  Keyboard,
   Platform,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   View,
 } from 'react-native';
 import { useUser } from '../context/UserContext'; // Import user context
@@ -56,6 +58,7 @@ export default function SignUp() {
   };
 
   return (
+  <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
     <View style={styles.container}>
       <Text style={styles.title}>sign up</Text>
 
@@ -82,6 +85,7 @@ export default function SignUp() {
         <Text style={styles.buttonText}>Verify</Text>
       </TouchableOpacity>
     </View>
+  </TouchableWithoutFeedback>
   );
 }
 
