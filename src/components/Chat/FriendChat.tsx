@@ -41,7 +41,7 @@ export default function FriendChat({ name }: FriendChatProps) {
   }
 
   const styles = StyleSheet.create({
-    safeArea: { flex: 1, backgroundColor: Colors.background, alignItems: "center", marginBottom: 20 },
+    safeArea: { display: "flex", flex: 1, backgroundColor: Colors.background, alignItems: "center", marginBottom: 20 },
     title: {
       fontSize: 28,
       fontFamily: getFont("heading"),
@@ -56,8 +56,11 @@ export default function FriendChat({ name }: FriendChatProps) {
     <Screen>
       <SafeAreaView style={styles.safeArea}>
         <Text style={styles.title}>{chatName}</Text>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"} style = {{ flex:1, width: "100%", alignItems: "center" }}
+        >
         <MessageList messages={messages} />
-        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style = {{ width: "90%" }}>
+        
           <MessageInput value={input} onChange={setInput} onSend={handleSend} />
         </KeyboardAvoidingView>
       </SafeAreaView>

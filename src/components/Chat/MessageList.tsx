@@ -23,7 +23,7 @@ export default function MessageList({ messages }: MessageListProps) {
     <ScrollView
       ref={scrollRef}
       style={styles.scroll}
-      contentContainerStyle={{ paddingBottom: 170 }}
+      contentContainerStyle={{ paddingBottom: 0 }}
       showsVerticalScrollIndicator={false}
     >
       {messages.map((msg, i) => (

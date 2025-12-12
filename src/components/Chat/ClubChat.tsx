@@ -53,6 +53,7 @@ export default function ClubChat({ name }: ClubChatProps) {
 
   const styles = StyleSheet.create({
     safeArea: {
+      display: "flex",
       flex: 1,
       backgroundColor: Colors.background,
       alignItems: "center",
@@ -72,10 +73,11 @@ export default function ClubChat({ name }: ClubChatProps) {
     <Screen>
       <SafeAreaView style={styles.safeArea}>
         <Text style={styles.title}>{chatName}</Text>
-        <MessageList messages={messages} />
         <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : undefined} style = {{ width: "90%" }}
+          behavior={Platform.OS === "ios" ? "padding" : "height"} style = {{ flex:1, width: "100%", alignItems: "center" }}
         >
+        <MessageList messages={messages} />
+        
           <MessageInput value={input} onChange={setInput} onSend={handleSend} />
         </KeyboardAvoidingView>
       </SafeAreaView>

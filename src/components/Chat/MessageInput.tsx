@@ -23,6 +23,7 @@ export default function MessageInput({ value, onChange, onSend }: MessageInputPr
         placeholderTextColor={Colors.muted}
         value={value}
         onChangeText={onChange}
+        onSubmitEditing={onSend}
       />
       <TouchableOpacity style={styles.button} onPress={onSend}>
         <Text style={styles.buttonText}>↑</Text>
@@ -46,6 +47,7 @@ const styles = StyleSheet.create({
     shadowRadius: 6,
     elevation: 4,
     marginTop: 10,
+    width: "90%"
   },
   input: {
     flex: 1,
