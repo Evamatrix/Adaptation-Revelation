@@ -59,7 +59,7 @@ export default function SignUp() {
     <View style={styles.container}>
       <Text style={styles.title}>sign up</Text>
 
-      <Text style={styles.label}>Enter school email:</Text>
+      <Text style={styles.label}>Enter school email (.edu):</Text>
 
       <View style={styles.inputWrapper}>
         <TextInput

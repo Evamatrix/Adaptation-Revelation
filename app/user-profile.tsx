@@ -54,9 +54,9 @@ export default function UserProfile() {
   } = userData;
 
   const safeValue = (value?: string | string[]) => {
-    if (!value) return "N/A";
-    if (Array.isArray(value)) return value.length > 0 ? value.join(", ") : "N/A";
-    return value.trim() !== "" ? value : "N/A";
+    if (!value) return "No information entered";
+    if (Array.isArray(value)) return value.length > 0 ? value.join(", ") : "No information entered";
+    return value.trim() !== "" ? value : "No information entered";
   };
 
   const handleSignOut = () => {

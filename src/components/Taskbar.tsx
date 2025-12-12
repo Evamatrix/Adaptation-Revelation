@@ -17,22 +17,34 @@ export default function Taskbar() {
       width: '100%',
       alignItems: 'center',
       backgroundColor: Colors.backgroundColorful,
-      paddingBottom: insets.bottom,
+      paddingBottom: insets.bottom + 10,
       paddingTop: 10,
+      // Floating effect
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: -3 },
+      shadowOpacity: 0.1,
+      shadowRadius: 4,
+      elevation: 5,
     },
     menu: {
       flexDirection: 'row',
-      justifyContent: 'space-between',
-      width: '70%',
+      justifyContent: 'space-around',
+      width: '100%',
+      backgroundColor: Colors.backgroundColorful,
+      borderRadius: 20, // pill shape
+      paddingVertical: 3,
+      paddingHorizontal: 10,
     },
     menuItem: {
       flex: 1,
       alignItems: 'center',
+      justifyContent: 'center',
+      marginHorizontal: 4,
       paddingVertical: 6,
-      borderRadius: 8,
+      borderRadius: 12,
     },
     menuIcon: {
-      fontSize: 15,
+      fontSize: 16,
       fontFamily: getFont('mono'),
       color: Colors.tint,
     },
@@ -41,9 +53,9 @@ export default function Taskbar() {
     },
     activeIcon: {
       color: Colors.text,
+      fontWeight: '600',
     },
   });
-
   const MenuItem = ({ label, path }: { label: string; path: string }) => {
     const isActive = pathname === path;
     return (
