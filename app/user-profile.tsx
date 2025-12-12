@@ -46,7 +46,7 @@ export default function UserProfile() {
   const {
     firstName = "First",
     lastName = "Last",
-    pronoun = "They/Them",
+    pronoun: pronoun = "They/Them",
     nationality,
     languages,
     religion,

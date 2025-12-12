@@ -6,9 +6,8 @@ import {
   Platform,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native';
 
 const windowHeight = Dimensions.get('window').height;
@@ -37,14 +36,9 @@ export default function UserVerified() {
       <Text style={styles.title}>user verified</Text>
       <Text style={styles.signInLabel}>verified email:</Text>
  
-      <View style={styles.inputWrapper}>
-        <TextInput
-          style={styles.input}
-          value={email || 'name@school.edu'}
-          editable={false} 
-          selectTextOnFocus={false}
-        />
-      </View>
+      <Text
+        style={styles.email}
+      >{email}</Text>
  
       <TouchableOpacity
         style={styles.button}
@@ -117,6 +111,15 @@ const styles = StyleSheet.create({
     backgroundColor: 'snow',
     borderWidth: 1,
     borderColor: '#000',
+    padding: 10,
+    fontFamily: 'JetBrainsMono_400Regular',
+    fontSize: Platform.select({ web: 22, default: 20 }),
+    textAlign: 'center',
+    color: '#5c5c5c',
+  },
+  email: {
+    width: '100%',
+    height: 80,
     padding: 10,
     fontFamily: 'JetBrainsMono_400Regular',
     fontSize: Platform.select({ web: 22, default: 20 }),

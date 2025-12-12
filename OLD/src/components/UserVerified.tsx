@@ -1,6 +1,6 @@
-import React, { useState, useEffect, JSX } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
-import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
+import { JSX, useEffect, useState } from 'react';
+import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { RootStackParamList } from '../types/navigation';
 
 type UserVerifiedRouteProp = RouteProp<RootStackParamList, 'UserVerified'>;
@@ -18,7 +18,7 @@ export default function UserVerified(): JSX.Element {
 
   const handleEnter = () => {
     if (email && email.includes('@') && email.includes('.edu')) {
-        // @ts-ignore
+      // @ts-ignore
       navigation.navigate('AccountPage1', { email });
     } else {
       Alert.alert('Invalid Email', 'Please enter a valid school email address');
@@ -36,17 +36,10 @@ export default function UserVerified(): JSX.Element {
       <Text style={styles.title}>user verified</Text>
       <Text style={styles.signInLabel}>sign in:</Text>
 
-      <View style={styles.inputWrapper}>
-        <TextInput
-          style={styles.input}
-          placeholder="name@school.edu"
-          value={email}
-          onChangeText={setEmail}
-          onSubmitEditing={handleEnter}
-          keyboardType="email-address"
-          autoCapitalize="none"
-        />
-      </View>
+      <Text
+        style={styles.signInLabel}
+      >{email}</Text>
+
 
       <TouchableOpacity style={styles.button} onPress={handleEnter}>
         <Text style={styles.buttonText}>Enter</Text>
