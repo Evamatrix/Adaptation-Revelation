@@ -144,13 +144,7 @@ export default function UserCardMinimal({ user, onAddFriend }: Props) {
         <TouchableOpacity
           style={[styles.actionButton, styles.messageButton]}
           onPress={() =>
-            router.push({
-              pathname: "/chat",
-              params: {
-                clubName: user.name,
-                msg: `Hey ${user.name}!`,
-              },
-            })
+            {router.push(`/chat/${user.name}`); }
           }
         >
           <Text style={styles.buttonText}>MESSAGE</Text>
