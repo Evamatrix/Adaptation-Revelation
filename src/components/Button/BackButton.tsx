@@ -9,7 +9,6 @@ type BackButtonProps = {
 };
 
 export default function BackButton({ onPress, style }: BackButtonProps) {
-  // ✅ Hooks are always called
   const router = useRouter();
   const fontsLoaded = useAppFonts();
 
@@ -20,7 +19,7 @@ export default function BackButton({ onPress, style }: BackButtonProps) {
           position: 'absolute',
           top: 50,
           left: 10, 
-          backgroundColor: Colors.primary,
+          backgroundColor: Colors.secondary,
           borderWidth: 2,
           borderColor: Colors.border,
           borderRadius: 8,
@@ -29,8 +28,8 @@ export default function BackButton({ onPress, style }: BackButtonProps) {
           zIndex: 10,
       },
       text: {
-          fontSize: 16,
-          fontFamily: getFont('heading'),
+          fontSize: 20,
+          fontFamily: getFont('sans'),
           color: Colors.text,
       },
   })
@@ -40,7 +39,7 @@ export default function BackButton({ onPress, style }: BackButtonProps) {
       style={[styles.button, style]}
       onPress={onPress ?? (() => router.back())} // fallback to router.back()
     >
-      <Text style={styles.text}>← Back</Text>
+      <Text style={styles.text}>←</Text>
     </TouchableOpacity>
   );
 }
