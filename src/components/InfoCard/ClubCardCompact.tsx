@@ -30,16 +30,13 @@ export default function ClubCardCompact({ name, image, onPress }: ClubCompactPro
   const fontsLoaded = useAppFonts();
   const { setClubData, allClubs } = useClubs();
   const { friends: allFriends } = useFriends();
+
+  const cardRef = useRef<View>(null);
   const [menuVisible, setMenuVisible] = useState(false);
-  const [menuPosition, setMenuPosition] = useState<{ x: number; y: number; width: number }>({
-    x: 0,
-    y: 0,
-    width: 0,
-  });
+  const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 });
   const [shareVisible, setShareVisible] = useState(false);
   const [selectedFriends, setSelectedFriends] = useState<number[]>([]);
   const [customMessage, setCustomMessage] = useState("");
-  const cardRef = useRef<View>(null);
 
   if (!fontsLoaded) return null;
 
@@ -56,8 +53,11 @@ export default function ClubCardCompact({ name, image, onPress }: ClubCompactPro
     if (nodeHandle) {
       UIManager.measure(nodeHandle, (x, y, width, height, pageX, pageY) => {
         const menuWidth = 160;
-        const left = pageX + width - menuWidth;
-        setMenuPosition({ x: left, y: pageY + height, width: menuWidth });
+        const menuHeight = 100; // approximate, adjust if needed
+        setMenuPosition({
+          top: pageY + height, // bottom of card
+          left: pageX + width - menuWidth, // right aligned
+        });
         setMenuVisible(true);
       });
     }
@@ -75,7 +75,7 @@ export default function ClubCardCompact({ name, image, onPress }: ClubCompactPro
   };
 
   const handleSendShare = async () => {
-    if (selectedFriends.length === 0) return;
+    if (!selectedFriends.length) return;
 
     const timestamp = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 
@@ -96,6 +96,9 @@ export default function ClubCardCompact({ name, image, onPress }: ClubCompactPro
     setCustomMessage("");
     setShareVisible(false);
   };
+
+  const selectedFriendBg = Colors.primary;
+  const selectedFriendText = "#fff";
 
   const styles = StyleSheet.create({
     card: {
@@ -123,16 +126,15 @@ export default function ClubCardCompact({ name, image, onPress }: ClubCompactPro
     name: { fontFamily: getFont("heading"), fontSize: 18, color: Colors.text },
     menuButton: { paddingHorizontal: 10, paddingVertical: 6 },
     menuText: { fontSize: 18, fontFamily: getFont("heading"), color: Colors.text },
+
     menuModalContainer: { flex: 1, backgroundColor: "transparent" },
     menuOverlay: { flex: 1, backgroundColor: "rgba(0,0,0,0.1)" },
     menuModal: {
       position: "absolute",
-      top: menuPosition.y,
-      left: menuPosition.x,
       backgroundColor: Colors.backgroundSecondary,
       borderRadius: 8,
       overflow: "hidden",
-      width: menuPosition.width,
+      width: 160,
       elevation: 10,
       shadowColor: "#000",
       shadowOffset: { width: 0, height: 2 },
@@ -143,35 +145,43 @@ export default function ClubCardCompact({ name, image, onPress }: ClubCompactPro
     menuOptionText: { fontSize: 16, fontFamily: getFont("mono"), color: Colors.text },
 
     shareModal: {
-      backgroundColor: Colors.backgroundSecondary,
-      marginHorizontal: 20,
-      borderRadius: 12,
+      backgroundColor: Colors.secondary,
+      marginHorizontal: 24,
+      borderRadius: 16,
       padding: 16,
-      maxHeight: "80%",
+      maxHeight: "75%",
+      alignSelf: "center",
+      width: "90%",
+    },
+    modalHeader: {
+      fontSize: 18,
+      fontFamily: getFont("heading"),
+      marginBottom: 12,
+      textAlign: "center",
+      color: Colors.text,
     },
     friendItem: {
-      paddingVertical: 8,
-      paddingHorizontal: 12,
+      paddingVertical: 10,
+      paddingHorizontal: 14,
       borderRadius: 8,
       marginVertical: 4,
       backgroundColor: Colors.background,
     },
     friendText: { fontFamily: getFont("mono"), fontSize: 16, color: Colors.text },
-    friendTextSelected: { fontWeight: "bold", color: "#fff" },
     input: {
       borderWidth: 1,
       borderColor: Colors.border,
-      borderRadius: 8,
-      padding: 8,
+      borderRadius: 10,
+      padding: 10,
       marginTop: 12,
       fontFamily: getFont("mono"),
       color: Colors.text,
     },
     sendButton: {
       backgroundColor: Colors.success,
-      paddingVertical: 10,
-      borderRadius: 8,
-      marginTop: 12,
+      paddingVertical: 12,
+      borderRadius: 10,
+      marginTop: 16,
       alignItems: "center",
     },
     sendButtonText: { fontFamily: getFont("mono"), color: Colors.text },
@@ -201,7 +211,7 @@ export default function ClubCardCompact({ name, image, onPress }: ClubCompactPro
         <TouchableWithoutFeedback onPress={() => setMenuVisible(false)}>
           <View style={styles.menuModalContainer}>
             <View style={styles.menuOverlay} />
-            <View style={styles.menuModal}>
+            <View style={[styles.menuModal, { top: menuPosition.top, left: menuPosition.left }]}>
               <TouchableOpacity style={styles.menuOption} onPress={handleLeave}>
                 <Text style={styles.menuOptionText}>Leave Club</Text>
               </TouchableOpacity>
@@ -218,14 +228,27 @@ export default function ClubCardCompact({ name, image, onPress }: ClubCompactPro
         <TouchableWithoutFeedback onPress={() => setShareVisible(false)}>
           <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : undefined}
-            style={styles.menuModalContainer}
+            style={{ flex: 1 }} // fill the screen
           >
-            <View style={styles.menuOverlay} />
-            <View style={styles.shareModal}>
-              <Text style={styles.friendText}>Select friends to share "{name}" with:</Text>
+            {/* Full-screen grey overlay */}
+            <View
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                backgroundColor: "rgba(0,0,0,0.1)",
+              }}
+            />
+
+            {/* Share modal panel */}
+            <View style={[styles.shareModal, { marginTop: 60, alignSelf: "center" }]}>
+              <Text style={styles.modalHeader}>Share "{name}" with friends</Text>
               <FlatList
                 data={allFriends}
                 keyExtractor={f => f.id.toString()}
+                style={{ maxHeight: 200 }}
                 renderItem={({ item }) => {
                   const selected = selectedFriends.includes(item.id);
                   return (
@@ -233,10 +256,15 @@ export default function ClubCardCompact({ name, image, onPress }: ClubCompactPro
                       onPress={() => toggleFriendSelection(item.id)}
                       style={[
                         styles.friendItem,
-                        selected && { backgroundColor: Colors.primary },
+                        selected && { backgroundColor: selectedFriendBg },
                       ]}
                     >
-                      <Text style={[styles.friendText, selected && styles.friendTextSelected]}>
+                      <Text
+                        style={[
+                          styles.friendText,
+                          selected && { color: selectedFriendText, fontWeight: "bold" },
+                        ]}
+                      >
                         {item.name}
                       </Text>
                     </TouchableOpacity>
@@ -257,6 +285,8 @@ export default function ClubCardCompact({ name, image, onPress }: ClubCompactPro
           </KeyboardAvoidingView>
         </TouchableWithoutFeedback>
       </Modal>
+
+
     </>
   );
 }

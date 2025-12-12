@@ -58,8 +58,7 @@ export default function FriendChat({ name }: FriendChatProps) {
         <MessageList messages={messages} onClubLinkPress={handleClubLinkPress} />
 
         <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : undefined}
-          style={styles.inputArea}
+          behavior={Platform.OS === "ios" ? "padding" : "height"} style = {{ flex:1, width: "100%", alignItems: "center" }}
         >
           <MessageInput value={input} onChange={setInput} onSend={handleSend} />
         </KeyboardAvoidingView>
