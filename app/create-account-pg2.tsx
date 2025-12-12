@@ -165,6 +165,7 @@ export default function CreateAccountPg2() {
         showsVerticalScrollIndicator={false}
       > 
         <Text style={styles.title}>SELECT</Text>
+        <Text style={styles.label}>You can always come back to this later!</Text>
  
         <DropdownSection
           title="NATIONALITY"
