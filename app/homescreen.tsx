@@ -1,28 +1,36 @@
 import { useRouter } from "expo-router";
+import * as SplashScreen from 'expo-splash-screen';
 import {
-    SafeAreaView,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Screen from "../src/components/Screen";
 import Colors from "../src/constants/colors";
 import { getFont, useAppFonts } from "../src/constants/fonts";
 import { useClubs } from "../src/context/ClubContext";
 
+
+// Prevent the splash screen from auto-hiding
+SplashScreen.preventAutoHideAsync();
+
+
 export default function HomeScreen() {
   const router = useRouter();
   const fontsLoaded = useAppFonts();
   const { allClubs } = useClubs();
+  const insets = useSafeAreaInsets();
 
   if (!fontsLoaded) return null;
-
+  SplashScreen.hideAsync();
+  
   const joinedClubs = Object.entries(allClubs).filter(([_, c]) => c.joined);
 
   const styles = StyleSheet.create({
-    safeArea: { flex: 1, backgroundColor: Colors.background },
+    safeArea: { flex: 1, backgroundColor: Colors.background, paddingBottom: insets.bottom },
     container: {
       flexGrow: 1,
       paddingHorizontal: 24,
@@ -99,7 +107,7 @@ export default function HomeScreen() {
 
   return (
     <Screen>
-    <SafeAreaView style={styles.safeArea}>
+    <View style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.container}>
         {/* My Network */}
         <Text style={styles.sectionTitle}>MY NETWORK</Text>
@@ -140,7 +148,7 @@ export default function HomeScreen() {
           </View>
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </View>
     </Screen>
   );
 }

@@ -1,5 +1,6 @@
 import { usePathname, useRouter } from 'expo-router';
-import { Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Colors from '../constants/colors';
 import { getFont, useAppFonts } from '../constants/fonts';
 
@@ -7,6 +8,7 @@ export default function Taskbar() {
   const router = useRouter();
   const pathname = usePathname(); // 👈 current route
   const fontsLoaded = useAppFonts();
+  const insets = useSafeAreaInsets();
 
   if (!fontsLoaded) return null;
 
@@ -15,7 +17,7 @@ export default function Taskbar() {
       width: '100%',
       alignItems: 'center',
       backgroundColor: Colors.backgroundColorful,
-      paddingBottom: Platform.OS === 'ios' ? 30 : 20,
+      paddingBottom: insets.bottom,
       paddingTop: 10,
     },
     menu: {
@@ -30,7 +32,7 @@ export default function Taskbar() {
       borderRadius: 8,
     },
     menuIcon: {
-      fontSize: 28,
+      fontSize: 14,
       fontFamily: getFont('mono'),
       color: Colors.tint,
     },

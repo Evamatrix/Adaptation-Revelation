@@ -1,4 +1,5 @@
 import { useRouter } from 'expo-router';
+import * as SplashScreen from 'expo-splash-screen';
 import {
   Platform,
   SafeAreaView,
@@ -10,6 +11,8 @@ import {
 } from 'react-native';
 import { useClubs } from '../src/context/ClubConText';
 
+// Prevent the splash screen from auto-hiding
+SplashScreen.preventAutoHideAsync();
 export default function HomeScreen() {
   const router = useRouter();
   const { clubs } = useClubs();
