@@ -34,7 +34,7 @@ export default function HomeScreen() {
     container: {
       flexGrow: 1,
       paddingHorizontal: 24,
-      paddingTop: 80, // 👈 extra space for back button
+      paddingTop: 100, 
       paddingBottom: 140,
     },
     sectionTitle: {

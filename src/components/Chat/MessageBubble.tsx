@@ -1,10 +1,11 @@
+import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import Colors from "../../constants/colors";
 import { getFont, useAppFonts } from "../../constants/fonts";
 
 interface MessageBubbleProps {
   sender: string;
-  text: string;
+  text: React.ReactNode;
   time: string;
   isMine: boolean;
 }
