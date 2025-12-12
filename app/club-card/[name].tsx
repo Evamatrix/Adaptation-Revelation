@@ -14,7 +14,9 @@ export default function ClubPage() {
   const clubName = decodeURIComponent(name || "");
   const club = getClubData(clubName);
 
-  if (!fontsLoaded || !clubName || !club) return null;
+  if (!fontsLoaded || !clubName || !club) {
+    return null;
+  }
 
   const handleJoin = () => {
     // Toggle joined state

@@ -1,5 +1,6 @@
-import { router } from "expo-router";
-import { useEffect, useRef } from "react";
+import { useFocusEffect } from '@react-navigation/native';
+import { router } from 'expo-router';
+import { useCallback, useRef } from "react";
 import { ScrollView, StyleSheet, Text } from "react-native";
 import Colors from "../../constants/colors";
 import { getFont } from "../../constants/fonts";
@@ -13,15 +14,20 @@ interface Message {
 
 interface MessageListProps {
   messages: Message[];
-  onClubLinkPress?: (name: string) => void; // optional is fine
+  onClubLinkPress?: (name: string) => void; 
 }
 
 export default function MessageList({ messages }: MessageListProps) {
   const scrollRef = useRef<ScrollView>(null);
 
-  useEffect(() => {
-    scrollRef.current?.scrollToEnd({ animated: true });
-  }, [messages]);
+  useFocusEffect(
+    useCallback(() => {
+      // Give it a tiny delay so layout is measured correctly
+      setTimeout(() => {
+        scrollRef.current?.scrollToEnd({ animated: false });
+      }, 50);
+    }, [])
+  );
 
   const renderMessageText = (text: string) => {
     const clubLinkRegex = /\/club-card\/([^\s\n]+)/;

@@ -29,6 +29,16 @@ export default function ClubChat({ name }: ClubChatProps) {
     getMessages(chatName).then(setMessages);
   }, [chatName]);
 
+  if (!fontsLoaded) {
+    return (
+      <SafeAreaView
+        style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+      >
+        <Text>Loading fonts…</Text>
+      </SafeAreaView>
+    );
+  }
+
   const handleSend = async () => {
     if (!input.trim()) return;
     const timestamp = new Date().toLocaleTimeString([], {
@@ -40,16 +50,6 @@ export default function ClubChat({ name }: ClubChatProps) {
     setMessages(updated);
     setInput("");
   };
-
-  if (!fontsLoaded) {
-    return (
-      <SafeAreaView
-        style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-      >
-        <Text>Loading fonts…</Text>
-      </SafeAreaView>
-    );
-  }
 
   const styles = StyleSheet.create({
     safeArea: {

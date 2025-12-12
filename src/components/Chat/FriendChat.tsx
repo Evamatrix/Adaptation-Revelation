@@ -27,6 +27,14 @@ export default function FriendChat({ name }: FriendChatProps) {
     getMessages(chatName).then(setMessages);
   }, [chatName]);
 
+  if (!fontsLoaded) {
+    return (
+      <SafeAreaView style={styles.loading}>
+        <Text>Loading fonts…</Text>
+      </SafeAreaView>
+    );
+  }
+
   // Handle sending a message
   const handleSend = async () => {
     if (!input.trim()) return;
@@ -41,14 +49,6 @@ export default function FriendChat({ name }: FriendChatProps) {
   const handleClubLinkPress = (clubName: string) => {
     router.push(`/club-card/${encodeURIComponent(clubName)}`);
   };
-
-  if (!fontsLoaded) {
-    return (
-      <SafeAreaView style={styles.loading}>
-        <Text>Loading fonts…</Text>
-      </SafeAreaView>
-    );
-  }
 
   return (
     <Screen>

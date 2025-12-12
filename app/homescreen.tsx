@@ -1,5 +1,7 @@
+import ClubCardCompact from "@/src/components/InfoCard/ClubCardCompact";
 import { useRouter } from "expo-router";
 import * as SplashScreen from 'expo-splash-screen';
+import { useEffect } from "react";
 import {
   ScrollView,
   StyleSheet,
@@ -23,9 +25,14 @@ export default function HomeScreen() {
   const fontsLoaded = useAppFonts();
   const { allClubs } = useClubs();
   const insets = useSafeAreaInsets();
+  useEffect(() => {
+    if (fontsLoaded) {
+      SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
 
   if (!fontsLoaded) return null;
-  SplashScreen.hideAsync();
+
   
   const joinedClubs = Object.entries(allClubs).filter(([_, c]) => c.joined);
 
@@ -111,34 +118,30 @@ export default function HomeScreen() {
       <ScrollView contentContainerStyle={styles.container}>
         {/* My Network */}
         <Text style={styles.sectionTitle}>MY NETWORK</Text>
-        <View style={styles.networkBox}>
-          <ScrollView contentContainerStyle={{ padding: 12 }}>
-            {joinedClubs.length > 0 ? (
-              joinedClubs.map(([name]) => (
-                <TouchableOpacity
-                  key={name}
-                  style={styles.clubRow}
-                  onPress={() => router.push(`/club-chat/${encodeURIComponent(name)}`)}
-                >
-                  <View style={styles.clubIcon}>
-                    <Text style={styles.clubIconText}>{name[0]}</Text>
-                  </View>
-                  <Text style={styles.clubName}>{name}</Text>
-                </TouchableOpacity>
-              ))
-            ) : (
-              <View style={{ alignItems: "center" }}>
-                <Text style={styles.emptyText}>You haven’t joined any clubs yet.</Text>
-                <TouchableOpacity
-                  onPress={() => router.push("/club-explore")}
-                  style={styles.joinClubButton}
-                >
-                  <Text style={styles.joinClubText}>Browse Clubs</Text>
-                </TouchableOpacity>
-              </View>
-            )}
-          </ScrollView>
-        </View>
+          <View style={styles.networkBox}>
+            <ScrollView contentContainerStyle={{ padding: 12 }}>
+              {joinedClubs.length > 0 ? (
+                joinedClubs.map(([name]) => (
+                  <ClubCardCompact
+                    key={name}
+                    name={name}
+                    image={null}
+                    onPress={() => router.push(`/club-chat/${encodeURIComponent(name)}`)}
+                  />
+                ))
+              ) : (
+                <View style={{ alignItems: "center" }}>
+                  <Text style={styles.emptyText}>You haven’t joined any clubs yet.</Text>
+                  <TouchableOpacity
+                    onPress={() => router.push("/club-explore")}
+                    style={styles.joinClubButton}
+                  >
+                    <Text style={styles.joinClubText}>Browse Clubs</Text>
+                  </TouchableOpacity>
+                </View>
+              )}
+            </ScrollView>
+          </View>
 
         {/* Notifications */}
         <View style={styles.infoBlock}>
