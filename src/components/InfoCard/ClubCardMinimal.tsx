@@ -105,7 +105,9 @@ export default function ClubCardMinimal({
       borderWidth: 2,
       borderColor: Colors.text,
       borderRadius: 6,
-      padding: 12,
+      paddingHorizontal: 12,
+      paddingTop: 5,
+      paddingRight: 5,
       marginBottom: 16,
       backgroundColor: Colors.background,
       marginHorizontal: 10,
@@ -121,7 +123,9 @@ export default function ClubCardMinimal({
       color: Colors.text,
     },
     buttonGroup: {
-      flexDirection: "row",
+      flexDirection: "column",
+      alignItems: "flex-end",
+      gap: 8,
     },
     actionButton: {
       borderWidth: 1.5,
@@ -227,6 +231,7 @@ export default function ClubCardMinimal({
             <Text style={styles.buttonText}>SHARE</Text>
           </TouchableOpacity>
         </View>
+
       </View>
 
       <Text style={styles.subtext}>MEMBERS: {club.members}</Text>
