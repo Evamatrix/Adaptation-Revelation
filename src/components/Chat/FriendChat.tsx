@@ -46,7 +46,7 @@ export default function FriendChat({ name }: FriendChatProps) {
       fontSize: 28,
       fontFamily: getFont("heading"),
       color: Colors.text,
-      marginTop: 100,
+      marginTop: 50,
       marginBottom: 10,
       textAlign: "center",
     },
@@ -57,7 +57,7 @@ export default function FriendChat({ name }: FriendChatProps) {
       <SafeAreaView style={styles.safeArea}>
         <Text style={styles.title}>{chatName}</Text>
         <MessageList messages={messages} />
-        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined}>
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style = {{ width: "90%" }}>
           <MessageInput value={input} onChange={setInput} onSend={handleSend} />
         </KeyboardAvoidingView>
       </SafeAreaView>
