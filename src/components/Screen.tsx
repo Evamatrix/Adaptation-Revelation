@@ -3,29 +3,27 @@ import { StyleSheet, View } from "react-native";
 import BackButton from "./Button/BackButton";
 import Taskbar from "./Taskbar";
 
-interface ScreenProps {
-  children: React.ReactNode;
-}
-
-export default function Screen({ children }: ScreenProps) {
+export default function Screen({ children }: { children: React.ReactNode }) {
+  // ✅ Hooks always at the top
   const pathname = usePathname();
 
-  // Decide visibility
+  // Determine UI flags based on pathname
   const hideBackOn = ["user-profile"];
-  const showTaskbar = ["/friends-list", "/club-explore", "/create-club", "/user-profile", "/joined-clubs-list", "/homescreen", "/connect"].includes(pathname)
-    || pathname.startsWith("/chat/")
-    || pathname.startsWith("/club-chat/");
+  const showTaskbar =
+    ["/friends-list", "/club-explore", "/create-club", "/user-profile", "/joined-clubs-list", "/homescreen", "/connect", "/discover-users"].includes(pathname) ||
+    pathname.startsWith("/chat/") ||
+    pathname.startsWith("/club-chat/");
 
   return (
     <View style={styles.container}>
-      {/* Always mounted, just hide visually if needed */}
-      <BackButton style={{ display: hideBackOn.includes(pathname) ? "none" : "flex" }} />
-      
+      {/* Conditional rendering only, hooks order preserved */}
+      {!hideBackOn.includes(pathname) && <BackButton />}
       <View style={styles.content}>{children}</View>
-      
-      <View style={[styles.taskbarContainer, { display: showTaskbar ? "flex" : "none" }]}>
-        <Taskbar />
-      </View>
+      {showTaskbar && (
+        <View style={styles.taskbarContainer}>
+          <Taskbar />
+        </View>
+      )}
     </View>
   );
 }
@@ -36,7 +34,7 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    paddingBottom: 80, // leave space for Taskbar
+    paddingBottom: 80, // leaves space so content doesn’t overlap Taskbar
   },
   taskbarContainer: {
     position: "absolute",

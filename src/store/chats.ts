@@ -17,13 +17,7 @@ export async function getMessages(chatName: string): Promise<Message[]> {
   try {
     const stored = await AsyncStorage.getItem(keyForChat(chatName));
     if (stored) return JSON.parse(stored);
-    return [
-      {
-        sender: chatName,
-        text: `Hey! It's ${chatName}.`,
-        time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
-      },
-    ];
+    return []; // return empty array, we’ll preload if needed
   } catch (e) {
     console.error("Error loading messages", e);
     return [];
@@ -40,4 +34,22 @@ export async function addMessage(chatName: string, message: Message) {
     console.error("Error saving message", e);
     return [];
   }
+}
+
+/**
+ * Preload initial messages into a chat if none exist.
+ * @param chatName name of the chat
+ * @param initialMessages array of messages to preload
+ * @returns the updated list of messages
+ */
+export async function preloadMessages(chatName: string, initialMessages: Message[]): Promise<Message[]> {
+  const existing = await getMessages(chatName);
+  if (existing.length > 0) return existing; // already have messages
+  if (initialMessages.length > 0) {
+    for (const msg of initialMessages) {
+      await addMessage(chatName, msg);
+    }
+    return await getMessages(chatName);
+  }
+  return [];
 }

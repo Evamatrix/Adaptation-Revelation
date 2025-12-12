@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import Colors from "../../constants/colors";
 import { getFont, useAppFonts } from "../../constants/fonts";
+import { useClubs } from "../../context/ClubContext";
 import { addMessage, getMessages, Message } from "../../store/chats";
 import Screen from "../Screen";
 import MessageInput from "./MessageInput";
@@ -19,45 +20,59 @@ interface ClubChatProps {
 
 export default function ClubChat({ name }: ClubChatProps) {
   const chatName = name || "Club";
-
   const fontsLoaded = useAppFonts();
+  const { getClubData, setClubData } = useClubs();
+
+  const clubData = getClubData(chatName);
+
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
 
-  // Load messages from AsyncStorage when component mounts
+  // Load messages from AsyncStorage or ClubData
   useEffect(() => {
-    getMessages(chatName).then(setMessages);
-  }, [chatName]);
+    (async () => {
+      const storedMessages = await getMessages(chatName);
+      if (storedMessages.length > 0) {
+        setMessages(storedMessages);
+      } else if (clubData.messages) {
+        setMessages(clubData.messages);
 
-  if (!fontsLoaded) {
-    return (
-      <SafeAreaView
-        style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-      >
-        <Text>Loading fonts…</Text>
-      </SafeAreaView>
-    );
-  }
+        // Also add them to AsyncStorage so they persist
+        for (const msg of clubData.messages) {
+          await addMessage(chatName, msg);
+        }
+      }
+    })();
+  }, [chatName]);
 
   const handleSend = async () => {
     if (!input.trim()) return;
+
     const timestamp = new Date().toLocaleTimeString([], {
       hour: "2-digit",
       minute: "2-digit",
     });
-    const newMsg = { sender: "Me", text: input.trim(), time: timestamp };
+
+    const newMsg: Message = { sender: "Me", text: input.trim(), time: timestamp };
+
+    // Save to AsyncStorage
     const updated = await addMessage(chatName, newMsg);
     setMessages(updated);
+
+    // Also save to ClubData in context
+    setClubData(chatName, {
+      messages: updated,
+    });
+
     setInput("");
   };
 
-  const styles = StyleSheet.create({
+    const styles = StyleSheet.create({
     safeArea: {
-      display: "flex",
       flex: 1,
       backgroundColor: Colors.background,
       alignItems: "center",
-      marginBottom: 20 
+      marginBottom: 20,
     },
     title: {
       fontSize: 28,
@@ -67,17 +82,31 @@ export default function ClubChat({ name }: ClubChatProps) {
       marginBottom: 20,
       textAlign: "center",
     },
+    loadingContainer: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: Colors.background,
+    },
   });
+
+  if (!fontsLoaded) {
+    return (
+      <SafeAreaView style={styles.loadingContainer}>
+        <Text>Loading fonts…</Text>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <Screen>
       <SafeAreaView style={styles.safeArea}>
         <Text style={styles.title}>{chatName}</Text>
         <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"} style = {{ flex:1, width: "100%", alignItems: "center" }}
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={{ flex: 1, width: "100%", alignItems: "center" }}
         >
-        <MessageList messages={messages} />
-        
+          <MessageList messages={messages} />
           <MessageInput value={input} onChange={setInput} onSend={handleSend} />
         </KeyboardAvoidingView>
       </SafeAreaView>

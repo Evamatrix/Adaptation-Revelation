@@ -5,6 +5,7 @@ export interface ClubData {
   members?: number;
   tags?: string[];
   joined?: boolean;
+  messages?: { sender: string; text: string; time: string }[]; // new field for messages
 }
 
 interface ClubContextType {
@@ -25,8 +26,21 @@ export const ClubProvider = ({ children }: { children: ReactNode }) => {
     "Coding Club": { description: "Learn to code together", members: 55, tags: ["tech", "education"], joined: false },
     "Music Club": { description: "Jam sessions and music appreciation", members: 18, tags: ["music", "arts"], joined: false },
     "Cooking Club": { description: "Explore recipes and cuisines", members: 25, tags: ["food", "social"], joined: false },
-    "Screenwriter's Club": { description: "Collaborate on scripts, share feedback, and explore storytelling together.", members: 12, tags: ["writing", "film", "storytelling"], joined: false },
+    
+    // New club with messages
+    "Screenwriters Club": {
+      description: "A place for aspiring screenwriters to share ideas and get feedback.",
+      members: 8,
+      tags: ["writing", "film", "storytelling"],
+      joined: false,
+      messages: [
+        { sender: "Evelyn", text: "Hey everyone, just finished the first draft of my script!", time: "10:15 AM" },
+        { sender: "Evelyn", text: "Would love some feedback on the dialogue in scene 3.", time: "10:20 AM" },
+        { sender: "Evelyn", text: "Also, who’s interested in doing a collaborative short film project?", time: "10:30 AM" },
+      ],
+    },
   });
+
   const [currentClub, setCurrentClub] = useState<string | null>(null);
 
   const getClubData = (clubName: string): ClubData => {

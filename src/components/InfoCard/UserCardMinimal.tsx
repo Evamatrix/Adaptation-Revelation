@@ -1,4 +1,3 @@
-import { useRouter } from "expo-router";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Colors from "../../constants/colors";
 import { getFont, useAppFonts } from "../../constants/fonts";
@@ -9,6 +8,7 @@ export type MinimalUser = {
   avatar: string;
   tags: string[];
   isFriend: boolean;
+  description?: string; // added description
 };
 
 type Props = {
@@ -17,7 +17,6 @@ type Props = {
 };
 
 export default function UserCardMinimal({ user, onAddFriend }: Props) {
-    const router = useRouter();
     const fontsLoaded = useAppFonts();
     
     if (!fontsLoaded) return null; // wait until fonts load
@@ -58,6 +57,13 @@ export default function UserCardMinimal({ user, onAddFriend }: Props) {
             fontFamily: getFont("heading"),
         },
 
+        userDescription: {
+            fontSize: 14,
+            color: Colors.subtext,
+            fontFamily: getFont("mono"),
+            marginTop: 4,
+        },
+
         tagContainer: {
             flexDirection: "row",
             flexWrap: "wrap",
@@ -78,7 +84,7 @@ export default function UserCardMinimal({ user, onAddFriend }: Props) {
 
         buttonRow: {
             flexDirection: "row",
-            justifyContent: "space-between",
+            justifyContent: "center", // center since there's only one button now
             marginTop: 12,
         },
 
@@ -100,10 +106,6 @@ export default function UserCardMinimal({ user, onAddFriend }: Props) {
             backgroundColor: Colors.error,
         },
 
-        messageButton: {
-            backgroundColor: Colors.primary,
-        },
-
         buttonText: {
             fontFamily: getFont("mono"),
             fontSize: 14,
@@ -116,7 +118,12 @@ export default function UserCardMinimal({ user, onAddFriend }: Props) {
       <View style={styles.userHeaderRow}>
         <View style={styles.userHeaderLeft}>
           <Image source={{ uri: user.avatar }} style={styles.userAvatar} />
-          <Text style={styles.userTitle}>{user.name}</Text>
+          <View>
+            <Text style={styles.userTitle}>{user.name}</Text>
+            {user.description && (
+              <Text style={styles.userDescription}>{user.description}</Text>
+            )}
+          </View>
         </View>
       </View>
 
@@ -139,15 +146,6 @@ export default function UserCardMinimal({ user, onAddFriend }: Props) {
           <Text style={styles.buttonText}>
             {user.isFriend ? "REMOVE FRIEND" : "ADD FRIEND"}
           </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[styles.actionButton, styles.messageButton]}
-          onPress={() =>
-            {router.push(`/chat/${user.name}`); }
-          }
-        >
-          <Text style={styles.buttonText}>MESSAGE</Text>
         </TouchableOpacity>
       </View>
     </View>

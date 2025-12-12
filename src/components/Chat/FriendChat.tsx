@@ -54,14 +54,15 @@ export default function FriendChat({ name }: FriendChatProps) {
     <Screen>
       <SafeAreaView style={styles.container}>
         <Text style={styles.title}>{chatName}</Text>
-
-        <MessageList messages={messages} onClubLinkPress={handleClubLinkPress} />
-
         <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"} style = {{ flex:1, width: "100%", alignItems: "center" }}
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={{ flex: 1, width: "100%", alignItems: "center" }}
         >
+          <MessageList messages={messages} onClubLinkPress={handleClubLinkPress}/>
           <MessageInput value={input} onChange={setInput} onSend={handleSend} />
-        </KeyboardAvoidingView>
+</KeyboardAvoidingView>
+
+
       </SafeAreaView>
     </Screen>
   );

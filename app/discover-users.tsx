@@ -10,29 +10,38 @@ export default function DiscoverUsers() {
   const { friends, addFriend, removeFriend } = useFriends();
 
   // Example discoverable users
-  const discoverableUsers: MinimalUser[] = [
-    {
-      id: 101,
-      name: "Chris",
-      avatar: "https://i.pravatar.cc/100?img=10",
-      tags: ["Sports", "Music"],
-      isFriend: friends.some((f) => f.id === 101),
-    },
-    {
-      id: 102,
-      name: "Pat",
-      avatar: "https://i.pravatar.cc/100?img=11",
-      tags: ["Cooking", "Finance"],
-      isFriend: friends.some((f) => f.id === 102),
-    },
-    {
-      id: 103,
-      name: "Dana",
-      avatar: "https://i.pravatar.cc/100?img=12",
-      tags: ["Reading", "Film"],
-      isFriend: friends.some((f) => f.id === 103),
-    },
-  ];
+const discoverableUsers: MinimalUser[] = [
+  {
+    id: 101,
+    name: "Chris",
+    avatar: "https://i.pravatar.cc/100?img=10",
+    tags: ["Sports", "Music"],
+    isFriend: friends.some((f) => f.id === 101),
+  },
+  {
+    id: 102,
+    name: "Pat",
+    avatar: "https://i.pravatar.cc/100?img=11",
+    tags: ["Cooking", "Finance"],
+    isFriend: friends.some((f) => f.id === 102),
+  },
+  {
+    id: 103,
+    name: "Dana",
+    avatar: "https://i.pravatar.cc/100?img=12",
+    tags: ["Reading", "Film"],
+    isFriend: friends.some((f) => f.id === 103),
+  },
+  // Added Evelyn
+  {
+    id: 104,
+    name: "Evelyn",
+    avatar: "https://i.pravatar.cc/100?img=9",
+    tags: ["Writing", "Film"],
+    isFriend: friends.some((f) => f.id === 104),
+  },
+];
+
 
   if (!fontsLoaded) {
     return (
