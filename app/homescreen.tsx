@@ -117,7 +117,7 @@ export default function HomeScreen() {
     <View style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.container}>
         {/* My Network */}
-        <Text style={styles.sectionTitle}>MY NETWORK</Text>
+        <Text style={styles.sectionTitle}>MY CLUBS</Text>
           <View style={styles.networkBox}>
             <ScrollView contentContainerStyle={{ padding: 12 }}>
               {joinedClubs.length > 0 ? (
