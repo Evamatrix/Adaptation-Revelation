@@ -17,7 +17,7 @@ import { useUser } from '../src/context/UserContext';
 
 /*Options*/
 const NAT_OPTS = ["American", "Indian", "Chinese", "Vietnamese", "Mexican", "Other"];
-const LANG_OPTS = ["English", "Spanish", "Mandarin", "Hindi", "Vietnamese", "Arabic", "Other"];
+const LANG_OPTS = ["English", "Spanish", "Mandarin", "Hindi", "Vietnamese", "Arabic", "Korean", "Japanese", "Other"];
 const REL_OPTS = ["Christian", "Muslim", "Hindu", "Jewish", "Not religious", "Other"];
 const INT_OPTS = ["Sports", "Music", "Reading", "Writing", "Film", "Cooking", "Finance", "Engineering", "Social"];
 
