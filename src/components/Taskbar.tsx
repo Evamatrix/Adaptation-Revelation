@@ -32,7 +32,7 @@ export default function Taskbar() {
       borderRadius: 8,
     },
     menuIcon: {
-      fontSize: 14,
+      fontSize: 15,
       fontFamily: getFont('mono'),
       color: Colors.tint,
     },

@@ -62,7 +62,7 @@ export default function ClubChat({ name }: ClubChatProps) {
       fontSize: 28,
       fontFamily: getFont("heading"),
       color: Colors.text,
-      marginTop: 100,
+      marginTop: 50,
       marginBottom: 20,
       textAlign: "center",
     },
@@ -74,7 +74,7 @@ export default function ClubChat({ name }: ClubChatProps) {
         <Text style={styles.title}>{chatName}</Text>
         <MessageList messages={messages} />
         <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : undefined}
+          behavior={Platform.OS === "ios" ? "padding" : undefined} style = {{ width: "90%" }}
         >
           <MessageInput value={input} onChange={setInput} onSend={handleSend} />
         </KeyboardAvoidingView>

@@ -1,4 +1,6 @@
-// app/index.tsx
-import HomeScreen from "./homescreen"; // adjust path if needed
+import SignUp from "./signup";
 
-export default HomeScreen;
+//TODO: remove me
+console.log("INDEX LOADED");
+
+export default SignUp;

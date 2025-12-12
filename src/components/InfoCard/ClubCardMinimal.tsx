@@ -51,6 +51,7 @@ export default function ClubCardMinimal({ club, index, toggleJoinClub }: ClubCar
       padding: 12,
       marginBottom: 16,
       backgroundColor: Colors.background,
+      marginHorizontal: 10,
     },
     header: {
       flexDirection: "row",

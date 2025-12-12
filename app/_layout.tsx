@@ -5,6 +5,9 @@ import { useAppFonts } from "../src/constants/fonts";
 import { ClubProvider } from "../src/context/ClubContext";
 import { UserProvider } from "../src/context/UserContext";
 
+//TODO: remove me
+console.log("LAYOUT LOADED");
+
 export default function RootLayout() {
   const pathname = usePathname();
   const fontsLoaded = useAppFonts();
@@ -19,7 +22,7 @@ export default function RootLayout() {
       <FriendsProvider>
         <ClubProvider>
           <View style={styles.container}>
-            <Stack screenOptions={{ headerShown: false }} />
+            <Stack screenOptions={{ headerShown: false, animation: "none" }} />
           </View>
         </ClubProvider>
       </FriendsProvider>

@@ -2,8 +2,9 @@ import * as ImagePicker from "expo-image-picker";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useState } from "react";
 import {
-  Alert, Image,
+  Alert, Dimensions, Image,
   SafeAreaView,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -74,10 +75,14 @@ export default function UserProfile() {
   }
 
   return (
-    <Screen>
-      <SafeAreaView style={styles.safeArea}>
+  <Screen>
+    <SafeAreaView style={styles.safeArea}>
+      <ScrollView
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
         <View style={styles.container}>
-          {/* Header with profile image */}
+          {/* Header */}
           <View style={styles.header}>
             <TouchableOpacity
               onPress={pickImage}
@@ -104,7 +109,7 @@ export default function UserProfile() {
 
           {/* Info blocks */}
           <View style={styles.info}>
-            {[
+            {[ 
               { label: "NATIONALITY", value: safeValue(nationality) },
               { label: "LANGUAGES", value: safeValue(languages) },
               { label: "RELIGION", value: safeValue(religion) },
@@ -116,24 +121,26 @@ export default function UserProfile() {
               </View>
             ))}
           </View>
-
-          {/* Buttons */}
-          <View style={styles.buttonRow}>
-            <TouchableOpacity style={styles.bottomButton} onPress={handleSignOut}>
-              <Text style={styles.buttonText}>SIGN OUT</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.bottomButton}
-              onPress={() => router.push("/account-page1")}
-            >
-              <Text style={styles.buttonText}>EDIT PROFILE</Text>
-            </TouchableOpacity>
-          </View>
         </View>
-      </SafeAreaView>
-    </Screen>
-  );
+      </ScrollView>
+
+      {/* Floating buttons */}
+      <View style={styles.floatingButtonRow}>
+        <TouchableOpacity style={styles.bottomButton} onPress={handleSignOut}>
+          <Text style={styles.buttonText}>SIGN OUT</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.bottomButton}
+          onPress={() => router.push("/account-page1")}
+        >
+          <Text style={styles.buttonText}>EDIT PROFILE</Text>
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
+  </Screen>
+);
+
 }
 
 const styles = StyleSheet.create({
@@ -142,10 +149,10 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.background,
   },
   container: {
-    flex: 1,
+    //flex: 1,
     paddingHorizontal: 24,
     paddingTop: 40,
-    paddingBottom: 100, // leave space for Taskbar
+    //paddingBottom: 100, // leave space for Taskbar
   },
   header: {
     flexDirection: "row",
@@ -198,6 +205,19 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     marginTop: -15,
   },
+  buttonText: { fontSize: 20, fontFamily: getFont("mono"), color: Colors.text },
+  scrollContent: {
+     paddingBottom: 120, // floating button height + margin
+     minHeight: Dimensions.get('window').height - 40, // optional, keeps content not stuck at top
+  },
+  floatingButtonRow: {
+  position: "absolute",
+  bottom: 20, // distance from bottom of screen
+  left: 24,
+  right: 24,
+  flexDirection: "row",
+  justifyContent: "space-between",
+  },
   bottomButton: {
     width: "48%",
     height: 52,
@@ -207,6 +227,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
+    zIndex: 10,
   },
-  buttonText: { fontSize: 20, fontFamily: getFont("mono"), color: Colors.text },
 });
