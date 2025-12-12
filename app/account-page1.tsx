@@ -91,7 +91,7 @@ export default function AccountPage1() {
         <Text style={styles.title}>WELCOME!</Text>
 
         {/* FIRST NAME */}
-        <Text style={styles.label}>FIRST NAME:</Text>
+        <Text style={styles.label}>FIRST NAME:*</Text>
         <TextInput
           style={styles.input}
           placeholder="First Name"
@@ -101,7 +101,7 @@ export default function AccountPage1() {
         />
 
         {/* LAST NAME */}
-        <Text style={styles.label}>LAST NAME:</Text>
+        <Text style={styles.label}>LAST NAME:*</Text>
         <TextInput
           style={styles.input}
           placeholder="Last Name"
@@ -111,7 +111,7 @@ export default function AccountPage1() {
         />
 
         {/* PRONOUNS */}
-        <Text style={styles.label}>PRONOUN(S):</Text>
+        <Text style={styles.label}>PRONOUN(S)*:</Text>
         {pronouns.map((item) => (
           <TouchableOpacity
             key={item}
