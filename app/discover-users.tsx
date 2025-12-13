@@ -88,11 +88,12 @@ const discoverableUsers: MinimalUser[] = [
 const styles = StyleSheet.create({
   safeArea: { flex: 1, backgroundColor: Colors.background },
   title: {
+    textAlign: "center",
     fontSize: 28,
     fontFamily: getFont("heading"),
     color: Colors.text,
+    marginTop: 50,
     marginBottom: 20,
-    textAlign: "center",
   },
   scrollContainer: { paddingBottom: 100, paddingHorizontal: 20 },
 });
