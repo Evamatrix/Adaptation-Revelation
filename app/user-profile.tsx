@@ -103,7 +103,7 @@ export default function UserProfile() {
               <Text style={styles.name}>
                 {`${firstName.toUpperCase()} ${lastName.toUpperCase()}`}
               </Text>
-              <Text style={styles.pronouns}>{pronoun.toUpperCase()}</Text>
+              <Text style={styles.pronouns}>{safeValue(pronoun)}</Text>
             </View>
           </View>
 

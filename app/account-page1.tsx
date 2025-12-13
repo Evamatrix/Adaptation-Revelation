@@ -27,8 +27,8 @@ export default function AccountPage1() {
   const [firstName, setFirstName] = useState(userData.firstName || "");
   const [lastName, setLastName] = useState(userData.lastName || "");
   const [otherPronoun, setOtherPronoun] = useState("");
-  const [selectedPronoun, setSelectedPronoun] = useState<string | null>(
-    userData.pronoun || null
+  const [selectedPronoun, setSelectedPronoun] = useState(
+    userData.pronoun || []
   );
 
   useEffect(() => {
@@ -36,7 +36,7 @@ export default function AccountPage1() {
       const existingData = getUserDataForEmail(currentEmail);
       setFirstName(existingData.firstName || "");
       setLastName(existingData.lastName || "");
-      setSelectedPronoun(existingData.pronoun || null);
+      setSelectedPronoun(existingData.pronoun || []);
     }
   }, [currentEmail]);
 
@@ -69,10 +69,14 @@ export default function AccountPage1() {
     }
 
     if (currentEmail) {
+      let pronouns = selectedPronoun;
+      if (otherPronoun.trim()) {
+        pronouns = [...pronouns, otherPronoun.trim()];
+      }
       setUserDataForEmail(currentEmail, {
         firstName,
         lastName,
-        pronoun: otherPronoun || selectedPronoun || "",
+        pronoun: pronouns
       });
     }
 
@@ -82,6 +86,65 @@ export default function AccountPage1() {
   const handleBack = () => {
     router.push("/signup");
   };
+
+  type CheckboxProps = {
+    label: string;
+    checked: boolean;
+    onChange: () => void;
+  };
+  /*Checkboxes for options instead of textbox for easier recommending*/
+  const Checkbox = ({ label, checked, onChange }: CheckboxProps) => (
+    <TouchableOpacity
+      onPress={onChange}
+      style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 6 }}
+    >
+      <View
+        style={{
+          width: 20,
+          height: 20,
+          borderWidth: 2,
+          borderColor: '#000',
+          backgroundColor: checked ? '#000' : 'transparent',
+          marginRight: 10,
+        }}
+      />
+      <Text style={{ fontFamily: 'JetBrainsMono_400Regular', fontSize: 16 }}>
+        {label}
+      </Text>
+    </TouchableOpacity>
+  );
+  type DropdownSectionProps = {
+    title: string;
+    expanded: boolean;
+    options: string[];
+    selected: string[];
+    toggleSelection: (opt: string) => void;
+  };
+
+  const DropdownSection = ({
+    expanded,
+    options,
+    selected,
+    toggleSelection,
+  }: DropdownSectionProps) => (
+    <View style={{ width: FIXED_WIDTH, marginBottom: 20 }}>
+
+      {expanded && (
+        <View style={{ marginTop: 10 }}>
+          {options.map((opt) => (
+            <Checkbox
+              key={opt}
+              label={opt}
+              checked={selected.includes(opt)}
+              onChange={() => toggleSelection(opt)}
+            />
+          ))}
+        </View>
+      )}
+    </View>
+  );
+
+
 
   return (
     <View style={styles.screenWrapper}>
@@ -120,7 +183,18 @@ export default function AccountPage1() {
         <Text style={styles.label}>
           PRONOUN(S): <Text style={styles.asterisk}>*</Text>
         </Text>
-        {pronouns.map((item) => (
+        <DropdownSection
+          title="PRONOUNS"
+          expanded={true}
+          options={pronouns}
+          selected={selectedPronoun}
+          toggleSelection={(opt) =>
+            setSelectedPronoun((prev) =>
+              prev.includes(opt) ? prev.filter(i => i != opt) : [...prev, opt]
+            )
+          }
+        />
+        {/* {pronouns.map((item) => (
           <TouchableOpacity
             key={item}
             style={[
@@ -139,7 +213,7 @@ export default function AccountPage1() {
               {item}
             </Text>
           </TouchableOpacity>
-        ))}
+        ))} */}
 
         {/* OTHER PRONOUN */}
         <View style={styles.otherContainer}>
