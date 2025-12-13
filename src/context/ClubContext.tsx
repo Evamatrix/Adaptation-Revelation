@@ -9,6 +9,7 @@ export interface ClubData {
   tags?: string[];
   joined?: boolean;
   messages?: { sender: string; text: string; time: string }[]; // new field for messages
+  createer?: string;
 }
 
 interface ClubContextType {
@@ -69,13 +70,13 @@ export const ClubProvider = ({ children }: { children: ReactNode }) => {
 
   const createClub = (clubName: string, data: ClubData) => {
     setAllClubs(prev => ({
-      ...prev,
       [clubName]: {
         ...data,
         joined: true,
         members: 1,
         messages: [],
       },
+      ...prev,
     }));
   };
 

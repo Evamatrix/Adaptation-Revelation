@@ -24,6 +24,7 @@ export default function MessageInput({ value, onChange, onSend }: MessageInputPr
         value={value}
         onChangeText={onChange}
         onSubmitEditing={onSend}
+        multiline={true}
       />
       <TouchableOpacity style={styles.button} onPress={onSend}>
         <Text style={styles.buttonText}>↑</Text>
