@@ -40,10 +40,10 @@ export default function CreateClub() {
   }
 
   const availableTags = [
-    "American", "Indian", "Chinese", "Vietnamese", "Mexican", 
-    "English", "Spanish", "Mandarin", "Hindi", "Arabic",
-    "Christian", "Muslim", "Hindu", "Jewish",
-    "Sports", "Music", "Reading", "Writing", "Film", "Cooking", "Finance", "Engineering", "Social"
+    "American", "African American", "Hispanic/Latino", "South Asian", "Southeast Asian", "Native American", 
+    "English", "Spanish", "Chinese", "Tagalog", "Hindi", "Vietnamese", "Arabic", "Korean", "Russian", "German", "Urdu", "Telugu",
+    "Christian", "Muslim", "Hindu", "Jewish", "Buddhist",
+    "Sports", "Music", "Reading", "Writing", "Film", "Cooking", "Finance", "Engineering", "Social", "Art", "Career", "Pre-med", "Science,", "Games"
   ];
 
   const toggleTag = (tag: string) => {

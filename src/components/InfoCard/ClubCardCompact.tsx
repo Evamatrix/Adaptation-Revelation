@@ -20,6 +20,7 @@ import { useClubs } from "../../context/ClubContext";
 import { useFriends } from "../../context/FriendsContext";
 import { addMessage as addStoredMessage } from "../../store/chats";
 
+
 interface ClubCompactProps {
   name: string;
   image?: any;

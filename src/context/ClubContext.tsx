@@ -27,17 +27,17 @@ const ClubContext = createContext<ClubContextType | undefined>(undefined);
 
 export const ClubProvider = ({ children }: { children: ReactNode }) => {
   const [allClubs, setAllClubs] = useState<Record<string, ClubData>>({
-    "Chess Club": { description: "For chess lovers", members: 42, tags: ["games", "strategy"], joined: false },
-    "Book Club": { description: "Discuss novels", members: 30, tags: ["reading", "literature"], joined: false },
-    "Coding Club": { description: "Learn to code together", members: 55, tags: ["tech", "education"], joined: false },
-    "Music Club": { description: "Jam sessions and music appreciation", members: 18, tags: ["music", "arts"], joined: false },
-    "Cooking Club": { description: "Explore recipes and cuisines", members: 25, tags: ["food", "social"], joined: false },
+    "Chess Club": { description: "For chess lovers", members: 42, tags: ["Games", "Social"], joined: false },
+    "Book Club": { description: "Discuss novels", members: 30, tags: ["Reading"], joined: false },
+    "Coding Club": { description: "Learn to code together", members: 55, tags: ["Engineering"], joined: false },
+    "Music Club": { description: "Jam sessions and music appreciation", members: 18, tags: ["Music", "Art"], joined: false },
+    "Cooking Club": { description: "Explore recipes and cuisines", members: 25, tags: ["Cooking", "Social"], joined: false },
     
     // New club with messages
     "Screenwriters Club": {
       description: "A place for aspiring screenwriters to share ideas and get feedback.",
       members: 8,
-      tags: ["writing", "film", "storytelling"],
+      tags: ["Writing", "Film"],
       joined: false,
       messages: [
         { sender: "Evelyn", text: "Hey everyone, just finished the first draft of my script!", time: "10:15 AM" },
