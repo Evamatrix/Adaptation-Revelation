@@ -174,6 +174,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     overflow: "hidden",
     marginRight: 20,
+    marginLeft: 30,
+    marginTop: 20,
   },
   photoImage: {
     width: "100%",

@@ -77,7 +77,7 @@ export default function Clubs() {
     <Screen>
       <SafeAreaView style={{ flex: 1, backgroundColor: Colors.background }}>
         {/* Search + Filter */}
-        <View style={{ flexDirection: "row", marginHorizontal: 16, marginTop: 70, marginBottom: 10 }}>
+        <View style={{ flexDirection: "row", marginHorizontal: 16, marginTop: 100, marginBottom: 10 }}>
           <TextInput
             style={{
               flex: 1,
