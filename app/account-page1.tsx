@@ -49,7 +49,7 @@ export default function AccountPage1() {
 
   SplashScreen.hideAsync();
 
-  const pronouns = ["She/Her", "He/Him", "They/Them", "Prefer Not To Say"];
+  const pronouns = ["She/Her", "He/Him", "They/Them"];
 
   const handleNext = () => {
     if (!firstName.trim() || !lastName.trim()) {
@@ -181,7 +181,7 @@ export default function AccountPage1() {
 
         {/* PRONOUNS */}
         <Text style={styles.label}>
-          PRONOUN(S): <Text style={styles.asterisk}>*</Text>
+          PRONOUN(S):
         </Text>
         <DropdownSection
           title="PRONOUNS"
