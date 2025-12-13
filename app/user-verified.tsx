@@ -58,7 +58,7 @@ export default function UserVerified() {
             })
           }
         >
-          <Text style={styles.buttonText}>NEXT</Text>
+          <Text style={styles.buttonText}>CREATE PROFILE</Text>
         </TouchableOpacity>
       </View>
     </BackToSignInScreen>
@@ -117,11 +117,6 @@ const styles = StyleSheet.create({
   input: {
     width: "100%",
     height: 48,
-    // backgroundColor: "snow",
-    // borderWidth: 2,
-    // borderRadius: 8,
-    // borderColor: "#000",
-    // padding: 10,
     fontFamily: "JetBrainsMono_400Regular",
     fontSize: Platform.select({ web: 22, default: 20 }),
     textAlign: "center",
@@ -138,8 +133,8 @@ const styles = StyleSheet.create({
     color: "#5c5c5c",
   },
   button: {
-    width: 160,
-    height: 48,
+    // width: 300,
+    // height: 120,
     backgroundColor: "snow",
     borderWidth: 2,
     borderRadius: 8,
@@ -147,6 +142,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: 10,
+    paddingHorizontal: 20,
   },
   buttonText: {
     fontFamily: "Koulen_400Regular",
