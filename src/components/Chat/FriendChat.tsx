@@ -58,18 +58,16 @@ export default function FriendChat({ name }: FriendChatProps) {
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           style={{ flex: 1, width: "100%", alignItems: "center" }}
         >
-          <MessageList messages={messages} onClubLinkPress={handleClubLinkPress}/>
+          <MessageList messages={messages} onClubLinkPress={handleClubLinkPress} />
           <MessageInput value={input} onChange={setInput} onSend={handleSend} />
-</KeyboardAvoidingView>
-
-
+        </KeyboardAvoidingView>
       </SafeAreaView>
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, alignItems: "center", backgroundColor: Colors.background },
+  container: { flex: 1, alignItems: "center", backgroundColor: Colors.background, marginBottom: 20 },
   loading: { flex: 1, justifyContent: "center", alignItems: "center" },
   title: { fontSize: 28, fontFamily: getFont("heading"), color: Colors.text, marginTop: 50, marginBottom: 10 },
   messageArea: { width: "90%", flex: 1 },

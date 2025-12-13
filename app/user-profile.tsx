@@ -46,7 +46,7 @@ export default function UserProfile() {
   const {
     firstName = "First",
     lastName = "Last",
-    pronoun: pronoun = "They/Them",
+    pronoun: pronoun = "",
     nationality,
     languages,
     religion,
@@ -57,6 +57,12 @@ export default function UserProfile() {
     if (!value) return "No information entered";
     if (Array.isArray(value)) return value.length > 0 ? value.join(", ") : "No information entered";
     return value.trim() !== "" ? value : "No information entered";
+  };
+
+  const safePronounValue = (value?: string | string[]) => {
+    if (!value) return "";
+    if (Array.isArray(value)) return value.length > 0 ? value.join(", ") : "";
+    return value.trim() !== "" ? value : "";
   };
 
   const handleSignOut = () => {
@@ -75,71 +81,71 @@ export default function UserProfile() {
   }
 
   return (
-  <Screen>
-    <SafeAreaView style={styles.safeArea}>
-      <ScrollView
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
-      >
-        <View style={styles.container}>
-          {/* Header */}
-          <View style={styles.header}>
-            <TouchableOpacity
-              onPress={pickImage}
-              activeOpacity={0.8}
-              style={styles.photoContainer}
-            >
-              {profileImage ? (
-                <Image source={{ uri: profileImage }} style={styles.photoImage} />
-              ) : (
-                <View style={styles.plusWrapper}>
-                  <Text style={styles.plusSign}>+</Text>
-                </View>
-              )}
-            </TouchableOpacity>
+    <Screen>
+      <SafeAreaView style={styles.safeArea}>
+        <ScrollView
+          contentContainerStyle={styles.scrollContent}
+          showsVerticalScrollIndicator={false}
+        >
+          <View style={styles.container}>
+            {/* Header */}
+            <View style={styles.header}>
+              <TouchableOpacity
+                onPress={pickImage}
+                activeOpacity={0.8}
+                style={styles.photoContainer}
+              >
+                {profileImage ? (
+                  <Image source={{ uri: profileImage }} style={styles.photoImage} />
+                ) : (
+                  <View style={styles.plusWrapper}>
+                    <Text style={styles.plusSign}>+</Text>
+                  </View>
+                )}
+              </TouchableOpacity>
 
-            <View style={styles.headerText}>
-              <Text style={styles.greeting}>HELLO,</Text>
-              <Text style={styles.name}>
-                {`${firstName.toUpperCase()} ${lastName.toUpperCase()}`}
-              </Text>
-              <Text style={styles.pronouns}>{safeValue(pronoun)}</Text>
+              <View style={styles.headerText}>
+                <Text style={styles.greeting}>HELLO,</Text>
+                <Text style={styles.name}>
+                  {`${firstName.toUpperCase()} ${lastName.toUpperCase()}`}
+                </Text>
+                <Text style={styles.pronouns}>{safePronounValue(pronoun)}</Text>
+              </View>
+            </View>
+
+            {/* Info blocks */}
+            <View style={styles.info}>
+              {[
+                { label: "NATIONALITY", value: safeValue(nationality) },
+                { label: "LANGUAGES", value: safeValue(languages) },
+                { label: "RELIGION", value: safeValue(religion) },
+                { label: "INTERESTS", value: safeValue(interests) },
+              ].map((item, index) => (
+                <View key={index} style={styles.infoBlock}>
+                  <Text style={styles.infoLabel}>{item.label}</Text>
+                  <Text style={styles.infoValue}>{item.value}</Text>
+                </View>
+              ))}
             </View>
           </View>
+        </ScrollView>
 
-          {/* Info blocks */}
-          <View style={styles.info}>
-            {[ 
-              { label: "NATIONALITY", value: safeValue(nationality) },
-              { label: "LANGUAGES", value: safeValue(languages) },
-              { label: "RELIGION", value: safeValue(religion) },
-              { label: "INTERESTS", value: safeValue(interests) },
-            ].map((item, index) => (
-              <View key={index} style={styles.infoBlock}>
-                <Text style={styles.infoLabel}>{item.label}</Text>
-                <Text style={styles.infoValue}>{item.value}</Text>
-              </View>
-            ))}
-          </View>
+        {/* Floating buttons */}
+        <View style={styles.floatingButtonRow}>
+          <TouchableOpacity style={styles.bottomButton} onPress={handleSignOut}>
+            <Text style={styles.buttonText}>SIGN OUT</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.bottomButton}
+            onPress={() => router.push("/account-page1")}
+          >
+            <Text style={styles.buttonText}>EDIT PROFILE</Text>
+          </TouchableOpacity>
         </View>
-      </ScrollView>
-
-      {/* Floating buttons */}
-      <View style={styles.floatingButtonRow}>
-        <TouchableOpacity style={styles.bottomButton} onPress={handleSignOut}>
-          <Text style={styles.buttonText}>SIGN OUT</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.bottomButton}
-          onPress={() => router.push("/account-page1")}
-        >
-          <Text style={styles.buttonText}>EDIT PROFILE</Text>
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
-  </Screen>
-);
+      </SafeAreaView>
+    </Screen>
+  );
 
 }
 
@@ -207,16 +213,16 @@ const styles = StyleSheet.create({
   },
   buttonText: { fontSize: 20, fontFamily: getFont("mono"), color: Colors.text },
   scrollContent: {
-     paddingBottom: 120, // floating button height + margin
-     minHeight: Dimensions.get('window').height - 40, // optional, keeps content not stuck at top
+    paddingBottom: 120, // floating button height + margin
+    minHeight: Dimensions.get('window').height - 40, // optional, keeps content not stuck at top
   },
   floatingButtonRow: {
-  position: "absolute",
-  bottom: 20, // distance from bottom of screen
-  left: 24,
-  right: 24,
-  flexDirection: "row",
-  justifyContent: "space-between",
+    position: "absolute",
+    bottom: 20, // distance from bottom of screen
+    left: 24,
+    right: 24,
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   bottomButton: {
     width: "48%",
