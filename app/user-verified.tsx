@@ -2,7 +2,6 @@ import { JetBrainsMono_400Regular } from "@expo-google-fonts/jetbrains-mono";
 import { Koulen_400Regular, useFonts } from "@expo-google-fonts/koulen";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import {
-  Alert,
   Dimensions,
   Platform,
   StyleSheet,
@@ -27,23 +26,6 @@ export default function UserVerified() {
   if (!fontsLoaded) {
     return null;
   }
-
-  const clickBack = () => {
-    Alert.alert(
-      "Going Back to Sign In",
-      "Are you sure you want to go back? You will be asked to enter email again.",
-      [
-        {
-          text: "Cancel",
-          style: "cancel",
-        },
-        {
-          text: "Yes",
-          onPress: () => router.push("/signup"),
-        },
-      ]
-    );
-  };
 
   return (
     <BackToSignInScreen>
