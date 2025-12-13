@@ -6,6 +6,7 @@ import { useState } from "react";
 import {
   Dimensions,
   Keyboard,
+  KeyboardAvoidingView,
   Platform,
   StyleSheet,
   Text,
@@ -63,50 +64,55 @@ export default function SignUp() {
   };
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <View style={styles.container}>
-        <Text style={styles.title}>sign up</Text>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+        <View style={styles.container}>
+          <Text style={styles.title}>sign up</Text>
 
-        <Text style={styles.label}>Enter school email (.edu):</Text>
+          <Text style={styles.label}>Enter school email (.edu):</Text>
 
-        <View
-          style={[
-            styles.inputWrapper,
-            !isEmailValid && styles.inputWrapperInvalid,
-          ]}
-        >
-          <TextInput
-            style={styles.input}
-            placeholder="name@school.edu"
-            placeholderTextColor="#5C5C5C"
-            value={email}
-            onChangeText={(text) => {
-              setEmail(text);
-              setIsEmailValid(validateEmail(text));
-            }}
-            keyboardType="email-address"
-            autoCapitalize="none"
-            onSubmitEditing={handleVerify}
-          />
+          <View
+            style={[
+              styles.inputWrapper,
+              !isEmailValid && styles.inputWrapperInvalid,
+            ]}
+          >
+            <TextInput
+              style={styles.input}
+              placeholder="name@school.edu"
+              placeholderTextColor="#5C5C5C"
+              value={email}
+              onChangeText={(text) => {
+                setEmail(text);
+                setIsEmailValid(validateEmail(text));
+              }}
+              keyboardType="email-address"
+              autoCapitalize="none"
+              onSubmitEditing={handleVerify}
+            />
+          </View>
+
+          {!isEmailValid && (
+            <Text style={styles.errorText}>
+              {" "}
+              Email must be a school email ending in '.edu' {"\n"} Please try
+              again.
+            </Text>
+          )}
+
+          <TouchableOpacity
+            style={styles.button}
+            onPress={handleVerify}
+            activeOpacity={0.8}
+          >
+            <Text style={styles.buttonText}>Verify</Text>
+          </TouchableOpacity>
         </View>
-
-        {!isEmailValid && (
-          <Text style={styles.errorText}>
-            {" "}
-            Email must be a school email ending in '.edu' {"\n"} Please try
-            again.
-          </Text>
-        )}
-
-        <TouchableOpacity
-          style={styles.button}
-          onPress={handleVerify}
-          activeOpacity={0.8}
-        >
-          <Text style={styles.buttonText}>Verify</Text>
-        </TouchableOpacity>
-      </View>
-    </TouchableWithoutFeedback>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -191,7 +197,7 @@ const styles = StyleSheet.create({
   errorText: {
     color: "red",
     fontFamily: "Koulen_400Regular",
-    fontSize: Platform.select({ web: 28, default: 18 }),
+    fontSize: Platform.select({ web: 28, default: 15 }),
     marginBottom: 20,
     textAlign: "center",
   },
