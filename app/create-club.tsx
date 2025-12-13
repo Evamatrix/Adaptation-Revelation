@@ -23,10 +23,9 @@ export default function CreateClub() {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
-  const { setClubData } = useClubs();
+  const { allClubs, createClub } = useClubs();
   const [showDropdown, setShowDropdown] = useState(false);
   const scrollViewRef = useRef<ScrollView>(null);
-  const [tags, setTags] = useState("")
 
   if (!fontsLoaded) {
     // render a simple loading view instead of returning null
@@ -61,21 +60,25 @@ export default function CreateClub() {
   };
 
   const handleAddClub = () => {
-    if (!name.trim()) {
-      Alert.alert('Please enter a club name.');
+    const clubName = name.trim();
+
+    if (!clubName) {
+      Alert.alert("Please enter a club name.");
       return;
     }
 
+    if (allClubs[clubName]) {
+      Alert.alert("A club with this name already exists.");
+      return;
+    }
 
-    setClubData(name.trim(), {
+    createClub(clubName, {
       description: description.trim(),
-      members: 1,
-      tags: tags.split(",").map(t => t.trim()).filter(Boolean),
-      joined: true,
+      tags: selectedTags,
     });
 
-    router.push('/club-explore');
-  };
+    router.push("/club-explore");
+};
 
   return (
     <SafeAreaView style={styles.safeArea}>

@@ -18,12 +18,6 @@ export default function Taskbar() {
       alignItems: 'center',
       backgroundColor: Colors.backgroundColorful,
       paddingBottom: insets.bottom,
-      // Floating effect
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: -3 },
-      shadowOpacity: 0.1,
-      shadowRadius: 4,
-      elevation: 5,
     },
     menu: {
       flexDirection: 'row',
@@ -31,7 +25,7 @@ export default function Taskbar() {
       width: '100%',
       backgroundColor: Colors.backgroundColorful,
       borderRadius: 20, // pill shape
-      paddingVertical: 5,
+      paddingVertical: 7,
       paddingHorizontal: 10,
     },
     menuItem: {

@@ -16,6 +16,7 @@ import { getFont, useAppFonts } from "../src/constants/fonts";
 import { useClubs } from "../src/context/ClubContext";
 import { useFriends } from "../src/context/FriendsContext";
 
+
 export default function Clubs() {
   const { friends } = useFriends();
   const router = useRouter();
@@ -25,6 +26,12 @@ export default function Clubs() {
   const [search, setSearch] = useState("");
   const [filterVisible, setFilterVisible] = useState(false);
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
+
+  const [createVisible, setCreateVisible] = useState(false);
+  const [clubName, setClubName] = useState("");
+  const [clubDescription, setClubDescription] = useState("");
+  const [clubTags, setClubTags] = useState("");
+
 
   if (!fontsLoaded) return null;
 
@@ -67,6 +74,7 @@ export default function Clubs() {
           value={search}
           onChangeText={setSearch}
         />
+
         <TouchableOpacity
           style={{
             marginLeft: 8,
@@ -82,6 +90,33 @@ export default function Clubs() {
           </Text>
         </TouchableOpacity>
       </View>
+
+      <TouchableOpacity
+        onPress={() => router.push("/create-club")}
+        activeOpacity={0.85}
+        style={{
+          marginHorizontal: 16,
+          marginBottom: 14,
+          paddingVertical: 8,
+          borderWidth: 1.5,
+          borderColor: Colors.text,
+          borderRadius: 6,
+          alignItems: "center",
+          backgroundColor: Colors.tertiary,
+        }}
+      >
+        <Text
+          style={{
+            fontFamily: getFont("mono"),
+            fontSize: 14,
+            color: Colors.background,
+            letterSpacing: 1,
+          }}
+        >
+          + CREATE CLUB
+        </Text>
+      </TouchableOpacity>
+
 
       {/* Club List */}
       <ScrollView contentContainerStyle={{ paddingBottom: 140 }}>
