@@ -2,13 +2,13 @@ import { useRouter } from "expo-router";
 import { useMemo, useState } from "react";
 import {
   Modal,
-  SafeAreaView,
   ScrollView,
   Text,
   TextInput,
   TouchableOpacity,
   View
 } from "react-native";
+import { SafeAreaView } from 'react-native-safe-area-context';
 import Toast, { BaseToast, BaseToastProps } from 'react-native-toast-message';
 import ClubCardMinimal from "../src/components/InfoCard/ClubCardMinimal";
 import Screen from "../src/components/Screen";
