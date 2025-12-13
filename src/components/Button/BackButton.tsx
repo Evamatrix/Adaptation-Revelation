@@ -17,15 +17,16 @@ export default function BackButton({ onPress, style }: BackButtonProps) {
   const styles = StyleSheet.create({
       button: {
           position: 'absolute',
-          top: 50,
+          top: 30,
           left: 10, 
           backgroundColor: Colors.secondary,
           borderWidth: 2,
           borderColor: Colors.border,
           borderRadius: 8,
-          paddingHorizontal: 14,
-          paddingVertical: 6,
+          paddingHorizontal: 10,
+          paddingBottom: 4,
           zIndex: 10,
+          alignItems: 'center',
       },
       text: {
           fontSize: 20,
