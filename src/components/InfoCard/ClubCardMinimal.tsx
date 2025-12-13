@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import Toast from "react-native-toast-message";
 import Colors from "../../constants/colors";
 import { getFont, useAppFonts } from "../../constants/fonts";
 import { useClubs } from "../../context/ClubContext";
@@ -72,7 +73,7 @@ export default function ClubCardMinimal({
   };
 
   const handleSendShare = async () => {
-    if (!shareMessage.trim() || selectedFriends.length === 0) return;
+    if (/*!shareMessage.trim() ||*/ selectedFriends.length === 0) return;
 
     const timestamp = new Date().toLocaleTimeString([], {
       hour: "2-digit",
@@ -85,7 +86,7 @@ export default function ClubCardMinimal({
 
       const fullMessage = {
         sender: "Me",
-        text: `${shareMessage.trim()}\nCheck out this club → /club-card/${encodeURIComponent(club.name)}`, 
+        text: `${shareMessage.trim()}\nCheck out this club → /club-card/${encodeURIComponent(club.name)}`,
         time: timestamp,
       };
       await addStoredMessage(friend.name, fullMessage);
@@ -95,9 +96,15 @@ export default function ClubCardMinimal({
     setShareMessage("");
     setSelectedFriends([]);
     setShowShare(false);
+
+    //Toast message
+    Toast.show({
+      type: 'success',
+      text2: 'Club shared successfully!',
+      visibilityTime: 2000,
+      topOffset: 68
+    });
   };
-
-
 
 
   const styles = StyleSheet.create({
@@ -180,6 +187,7 @@ export default function ClubCardMinimal({
       borderRadius: 6,
     },
     input: {
+      marginTop: 8,
       borderWidth: 1,
       borderColor: Colors.border,
       borderRadius: 6,
@@ -187,7 +195,7 @@ export default function ClubCardMinimal({
       paddingVertical: 6,
       fontFamily: getFont("mono"),
       fontSize: 14,
-      marginBottom: 8,
+      marginBottom: 0,
       color: Colors.text,
     },
     friendsLabel: {
@@ -247,13 +255,6 @@ export default function ClubCardMinimal({
 
       {showShare && (
         <View style={styles.sharePanel}>
-          <TextInput
-            style={styles.input}
-            placeholder="Write a message..."
-            placeholderTextColor="#888"
-            value={shareMessage}
-            onChangeText={setShareMessage}
-          />
 
           <Text style={styles.friendsLabel}>Send to:</Text>
           <FlatList
@@ -273,6 +274,14 @@ export default function ClubCardMinimal({
                 </TouchableOpacity>
               );
             }}
+          />
+
+          <TextInput
+            style={styles.input}
+            placeholder="Write a message..."
+            placeholderTextColor="#888"
+            value={shareMessage}
+            onChangeText={setShareMessage}
           />
 
           <View style={styles.shareActions}>
