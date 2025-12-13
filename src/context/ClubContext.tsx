@@ -1,5 +1,8 @@
 import { createContext, ReactNode, useContext, useState } from "react";
 
+console.log("🔥 ClubContext file loaded");
+
+
 export interface ClubData {
   description?: string;
   members?: number;
@@ -15,7 +18,9 @@ interface ClubContextType {
   getClubData: (clubName: string) => ClubData;
   setClubData: (clubName: string, data: Partial<ClubData>) => void;
   clearClubData: (clubName: string) => void;
+  createClub: (clubName: string, data: ClubData) => void;
 }
+
 
 const ClubContext = createContext<ClubContextType | undefined>(undefined);
 
@@ -62,6 +67,19 @@ export const ClubProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
+  const createClub = (clubName: string, data: ClubData) => {
+    setAllClubs(prev => ({
+      ...prev,
+      [clubName]: {
+        ...data,
+        joined: true,
+        members: 1,
+        messages: [],
+      },
+    }));
+  };
+
+
   return (
     <ClubContext.Provider
       value={{
@@ -71,6 +89,7 @@ export const ClubProvider = ({ children }: { children: ReactNode }) => {
         getClubData,
         setClubData,
         clearClubData,
+        createClub,
       }}
     >
       {children}

@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import BackToSignInScreen from "../src/components/BackToSignInScreen";
 
 const windowHeight = Dimensions.get("window").height;
 
@@ -45,47 +46,40 @@ export default function UserVerified() {
   };
 
   return (
-    <View style={styles.container}>
-      {
-        <TouchableOpacity
-          style={styles.topLeftButton}
-          onPress={clickBack}
-          activeOpacity={0.8}
-        >
-          <Text style={styles.signOutText}>BACK</Text>
-        </TouchableOpacity>
-      }
-      <View style={styles.checkIcon}>
-        <View style={styles.checkCircle}>
-          <Text style={styles.checkMark}>✓</Text>
+    <BackToSignInScreen>
+      <View style={styles.container}>
+        <View style={styles.checkIcon}>
+          <View style={styles.checkCircle}>
+            <Text style={styles.checkMark}>✓</Text>
+          </View>
         </View>
+
+        <Text style={styles.title}>user verified</Text>
+        <Text style={styles.signInLabel}>verified email:</Text>
+
+        <View style={styles.inputWrapper}>
+          <TextInput
+            style={styles.input}
+            value={email || "name@school.edu"}
+            editable={false}
+            selectTextOnFocus={false}
+          />
+        </View>
+
+        <TouchableOpacity
+          style={styles.button}
+          activeOpacity={0.8}
+          onPress={() =>
+            router.push({
+              pathname: "/account-page1",
+              params: { email },
+            })
+          }
+        >
+          <Text style={styles.buttonText}>NEXT</Text>
+        </TouchableOpacity>
       </View>
-
-      <Text style={styles.title}>user verified</Text>
-      <Text style={styles.signInLabel}>verified email:</Text>
-
-      <View style={styles.inputWrapper}>
-        <TextInput
-          style={styles.input}
-          value={email || "name@school.edu"}
-          editable={false}
-          selectTextOnFocus={false}
-        />
-      </View>
-
-      <TouchableOpacity
-        style={styles.button}
-        activeOpacity={0.8}
-        onPress={() =>
-          router.push({
-            pathname: "/account-page1",
-            params: { email },
-          })
-        }
-      >
-        <Text style={styles.buttonText}>NEXT</Text>
-      </TouchableOpacity>
-    </View>
+    </BackToSignInScreen>
   );
 }
 
@@ -122,7 +116,7 @@ const styles = StyleSheet.create({
     fontFamily: "Koulen_400Regular",
     fontSize: Platform.select({ web: 50, default: 45 }),
     textAlign: "center",
-    marginBottom: 30,
+    marginBottom: 10,
     color: "#000",
     textTransform: "lowercase",
   },
