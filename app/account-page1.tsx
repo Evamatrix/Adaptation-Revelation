@@ -1,8 +1,8 @@
-import { JetBrainsMono_400Regular } from '@expo-google-fonts/jetbrains-mono';
-import { Koulen_400Regular, useFonts } from '@expo-google-fonts/koulen';
-import { router } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { useEffect, useState } from 'react';
+import { JetBrainsMono_400Regular } from "@expo-google-fonts/jetbrains-mono";
+import { Koulen_400Regular, useFonts } from "@expo-google-fonts/koulen";
+import { router } from "expo-router";
+import * as SplashScreen from "expo-splash-screen";
+import { useEffect, useState } from "react";
 import {
   Alert,
   Dimensions,
@@ -13,24 +13,20 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-} from 'react-native';
-import { useUser } from '../src/context/UserContext';
+} from "react-native";
+import { useUser } from "../src/context/UserContext";
 
 // Prevent the splash screen from auto-hiding
 SplashScreen.preventAutoHideAsync();
 
 export default function AccountPage1() {
-  const {
-    currentEmail,
-    getUserDataForEmail,
-    setUserDataForEmail,
-  } = useUser();
- 
+  const { currentEmail, getUserDataForEmail, setUserDataForEmail } = useUser();
+
   const userData = currentEmail ? getUserDataForEmail(currentEmail) : {};
 
-  const [firstName, setFirstName] = useState(userData.firstName || '');
-  const [lastName, setLastName] = useState(userData.lastName || '');
-  const [otherPronoun, setOtherPronoun] = useState('');
+  const [firstName, setFirstName] = useState(userData.firstName || "");
+  const [lastName, setLastName] = useState(userData.lastName || "");
+  const [otherPronoun, setOtherPronoun] = useState("");
   const [selectedPronoun, setSelectedPronoun] = useState<string | null>(
     userData.pronoun || null
   );
@@ -38,8 +34,8 @@ export default function AccountPage1() {
   useEffect(() => {
     if (currentEmail) {
       const existingData = getUserDataForEmail(currentEmail);
-      setFirstName(existingData.firstName || '');
-      setLastName(existingData.lastName || '');
+      setFirstName(existingData.firstName || "");
+      setLastName(existingData.lastName || "");
       setSelectedPronoun(existingData.pronoun || null);
     }
   }, [currentEmail]);
@@ -50,19 +46,25 @@ export default function AccountPage1() {
   });
 
   if (!fontsLoaded) return null;
-  
+
   SplashScreen.hideAsync();
 
-  const pronouns = ['She/Her', 'He/Him', 'They/Them', 'Prefer Not To Say'];
+  const pronouns = ["She/Her", "He/Him", "They/Them", "Prefer Not To Say"];
 
   const handleNext = () => {
     if (!firstName.trim() || !lastName.trim()) {
-      Alert.alert('Missing Information', 'Please enter both first and last name.');
+      Alert.alert(
+        "Missing Information",
+        "Please enter both first and last name."
+      );
       return;
     }
 
     if (!selectedPronoun && !otherPronoun.trim()) {
-      Alert.alert('Missing Information', 'Please select or enter your pronoun.');
+      Alert.alert(
+        "Missing Information",
+        "Please select or enter your pronoun."
+      );
       return;
     }
 
@@ -70,16 +72,16 @@ export default function AccountPage1() {
       setUserDataForEmail(currentEmail, {
         firstName,
         lastName,
-        pronoun: otherPronoun || selectedPronoun || '',
+        pronoun: otherPronoun || selectedPronoun || "",
       });
     }
 
-    router.push('/create-account-pg2');
+    router.push("/create-account-pg2");
   };
 
   const handleBack = () => {
-    router.push('/signup');
-  }
+    router.push("/signup");
+  };
 
   return (
     <View style={styles.screenWrapper}>
@@ -91,7 +93,9 @@ export default function AccountPage1() {
         <Text style={styles.title}>WELCOME!</Text>
 
         {/* FIRST NAME */}
-        <Text style={styles.label}>FIRST NAME:*</Text>
+        <Text style={styles.label}>
+          FIRST NAME:<Text style={styles.asterisk}>*</Text>
+        </Text>
         <TextInput
           style={styles.input}
           placeholder="First Name"
@@ -101,7 +105,9 @@ export default function AccountPage1() {
         />
 
         {/* LAST NAME */}
-        <Text style={styles.label}>LAST NAME:*</Text>
+        <Text style={styles.label}>
+          LAST NAME:<Text style={styles.asterisk}>*</Text>
+        </Text>
         <TextInput
           style={styles.input}
           placeholder="Last Name"
@@ -111,7 +117,9 @@ export default function AccountPage1() {
         />
 
         {/* PRONOUNS */}
-        <Text style={styles.label}>PRONOUN(S)*:</Text>
+        <Text style={styles.label}>
+          PRONOUN(S): <Text style={styles.asterisk}>*</Text>
+        </Text>
         {pronouns.map((item) => (
           <TouchableOpacity
             key={item}
@@ -147,10 +155,7 @@ export default function AccountPage1() {
 
         {/* BUTTONS */}
         <View style={styles.buttonRow}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={handleBack}
-          >
+          <TouchableOpacity style={styles.button} onPress={handleBack}>
             <Text style={styles.buttonText}>BACK</Text>
           </TouchableOpacity>
 
@@ -162,48 +167,51 @@ export default function AccountPage1() {
     </View>
   );
 }
- 
-const { width } = Dimensions.get('window');
+
+const { width } = Dimensions.get("window");
 const FIXED_WIDTH = Math.min(width * 0.85, 380);
 
 const styles = StyleSheet.create({
   screenWrapper: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
   },
   container: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     paddingVertical: 32,
     paddingHorizontal: 24,
   },
   title: {
-    fontFamily: 'Koulen_400Regular',
-    color: '#000',
-    textAlign: 'center',
+    fontFamily: "Koulen_400Regular",
+    color: "#000",
+    textAlign: "center",
     fontSize: Platform.select({ web: 48, default: 36 }),
     marginVertical: 30,
   },
   label: {
-    color: '#000',
-    alignSelf: 'flex-start',
-    fontFamily: 'JetBrainsMono_400Regular',
+    color: "#000",
+    alignSelf: "flex-start",
+    fontFamily: "JetBrainsMono_400Regular",
     fontSize: Platform.select({ web: 20, default: 16 }),
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 8,
     width: FIXED_WIDTH,
+  },
+  asterisk: {
+    color: "#ff0000",
   },
   input: {
     width: FIXED_WIDTH,
     height: 44,
     borderWidth: 2,
-    borderColor: '#000',
+    borderColor: "#000",
     borderRadius: 8,
-    backgroundColor: '#fff8f9',
-    textAlign: 'center',
-    color: '#000',
-    fontFamily: 'JetBrainsMono_400Regular',
+    backgroundColor: "#fff8f9",
+    textAlign: "center",
+    color: "#000",
+    fontFamily: "JetBrainsMono_400Regular",
     fontSize: Platform.select({ web: 20, default: 16 }),
     marginBottom: 16,
   },
@@ -211,69 +219,69 @@ const styles = StyleSheet.create({
     width: FIXED_WIDTH,
     height: 44,
     borderWidth: 2,
-    borderColor: '#000',
+    borderColor: "#000",
     borderRadius: 8,
-    backgroundColor: '#fff8f9',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "#fff8f9",
+    justifyContent: "center",
+    alignItems: "center",
     marginBottom: 10,
   },
   pronounSelected: {
-    backgroundColor: '#cdf0ffff',
-    borderColor: '#4bd2ffff',
+    backgroundColor: "#cdf0ffff",
+    borderColor: "#4bd2ffff",
   },
   pronounText: {
-    fontFamily: 'JetBrainsMono_400Regular',
+    fontFamily: "JetBrainsMono_400Regular",
     fontSize: Platform.select({ web: 20, default: 16 }),
-    color: '#000',
+    color: "#000",
   },
   pronounTextSelected: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   otherContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     width: FIXED_WIDTH,
     marginTop: 10,
     marginBottom: 24,
   },
   otherLabel: {
-    fontFamily: 'JetBrainsMono_400Regular',
+    fontFamily: "JetBrainsMono_400Regular",
     fontSize: Platform.select({ web: 20, default: 16 }),
-    color: '#000',
+    color: "#000",
     marginRight: 8,
   },
   otherInput: {
     flex: 1,
     height: 42,
     borderWidth: 2,
-    borderColor: '#000',
+    borderColor: "#000",
     borderRadius: 8,
-    backgroundColor: '#fff8f9',
-    color: '#000',
-    textAlign: 'center',
-    fontFamily: 'JetBrainsMono_400Regular',
+    backgroundColor: "#fff8f9",
+    color: "#000",
+    textAlign: "center",
+    fontFamily: "JetBrainsMono_400Regular",
     fontSize: Platform.select({ web: 18, default: 14 }),
   },
   buttonRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     width: FIXED_WIDTH,
     marginTop: 10,
   },
   button: {
-    width: '48%',
+    width: "48%",
     height: 44,
-    backgroundColor: '#fff8f9',
+    backgroundColor: "#fff8f9",
     borderWidth: 2,
-    borderColor: '#000',
+    borderColor: "#000",
     borderRadius: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   buttonText: {
-    fontFamily: 'JetBrainsMono_400Regular',
+    fontFamily: "JetBrainsMono_400Regular",
     fontSize: Platform.select({ web: 20, default: 16 }),
-    color: '#000',
+    color: "#000",
   },
 });
