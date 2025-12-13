@@ -27,6 +27,10 @@ export default function CreateClub() {
   const [showDropdown, setShowDropdown] = useState(false);
   const scrollViewRef = useRef<ScrollView>(null);
 
+  const clubs = useClubs();
+  console.log(clubs);
+
+
   if (!fontsLoaded) {
     // render a simple loading view instead of returning null
     return (
