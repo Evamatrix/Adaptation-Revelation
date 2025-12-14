@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
   View
 } from "react-native";
-import Screen from "../src/components/Screen"; // ✅ shared layout wrapper
+import Screen from "../src/components/Screen";
 import Colors from "../src/constants/colors";
 import { getFont, useAppFonts } from "../src/constants/fonts";
 import { useUser } from "../src/context/UserContext";
@@ -88,6 +88,16 @@ export default function UserProfile() {
           showsVerticalScrollIndicator={false}
         >
           <View style={styles.container}>
+            {/* Edit Profile Button */}
+            <TouchableOpacity
+              style={styles.editButton}
+              onPress={() => router.push("/account-page1")}
+              accessibilityLabel={"Edit Profile"}
+            >
+              <Image source={require("../src/assets/images/edit.png")}
+                style={{ width: 24, height: 24 }} />
+            </TouchableOpacity>
+
             {/* Header */}
             <View style={styles.header}>
               <TouchableOpacity
@@ -105,6 +115,7 @@ export default function UserProfile() {
               </TouchableOpacity>
 
               <View style={styles.headerText}>
+                {/* User Greeting */}
                 <Text style={styles.greeting}>HELLO,</Text>
                 <Text style={styles.name}>
                   {`${firstName.toUpperCase()} ${lastName.toUpperCase()}`}
@@ -130,17 +141,10 @@ export default function UserProfile() {
           </View>
         </ScrollView>
 
-        {/* Floating buttons */}
+        {/* Sign Out Button */}
         <View style={styles.floatingButtonRow}>
-          <TouchableOpacity style={styles.bottomButton} onPress={handleSignOut}>
+          <TouchableOpacity style={styles.signOutButton} onPress={handleSignOut}>
             <Text style={styles.buttonText}>SIGN OUT</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.bottomButton}
-            onPress={() => router.push("/account-page1")}
-          >
-            <Text style={styles.buttonText}>EDIT PROFILE</Text>
           </TouchableOpacity>
         </View>
       </SafeAreaView>
@@ -202,11 +206,27 @@ const styles = StyleSheet.create({
     fontFamily: getFont("heading"),
     color: Colors.text,
   },
-  pronouns: { fontSize: 20, color: "#5C5C5C", fontFamily: getFont("heading") },
-  info: { marginBottom: 30 },
-  infoBlock: { marginBottom: 22 },
-  infoLabel: { fontSize: 22, fontFamily: getFont("heading"), color: Colors.text },
-  infoValue: { fontSize: 18, fontFamily: getFont("mono"), color: "#5C5C5C" },
+  pronouns: {
+    fontSize: 20,
+    color: "#5C5C5C",
+    fontFamily: getFont("heading")
+  },
+  info: {
+    marginBottom: 30
+  },
+  infoBlock: {
+    marginBottom: 22
+  },
+  infoLabel: {
+    fontSize: 22,
+    fontFamily: getFont("heading"),
+    color: Colors.text
+  },
+  infoValue: {
+    fontSize: 18,
+    fontFamily: getFont("mono"),
+    color: "#5C5C5C"
+  },
   buttonRow: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -226,9 +246,20 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
   },
-  bottomButton: {
-    width: "48%",
-    height: 52,
+  signOutButton: {
+    width: "100%",
+    // height: 52,
+    backgroundColor: Colors.error,
+    borderWidth: 2,
+    borderColor: Colors.border,
+    borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 10,
+    paddingVertical: 8,
+  },
+  editButton: {
+    padding: 6,
     backgroundColor: "#FFF8F9",
     borderWidth: 2,
     borderColor: Colors.border,
@@ -236,5 +267,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     zIndex: 10,
+    top: 12,
+    right: 24,
+    position: "absolute",
+    marginTop: 30
   },
 });
