@@ -87,7 +87,7 @@ export default function CreateClub() {
           <View style={styles.safeArea}>
             <Text style={styles.title}>CREATE CLUB</Text>
 
-            <Image source={require('../src/assets/images/splash-icon.png')} style={styles.icon} />
+            <Image source={require('../src/assets/images/create-club.png')} style={styles.icon} />
 
             <ScrollView
               ref={scrollViewRef}

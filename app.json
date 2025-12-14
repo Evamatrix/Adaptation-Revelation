@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "native",
+    "name": "Adaptation Revelation",
     "slug": "native",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./src/assets/images/icon.png",
+    "icon": "./src/assets/images/Logo.png",
     "scheme": "native",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
