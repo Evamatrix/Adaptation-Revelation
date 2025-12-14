@@ -1,4 +1,5 @@
 import Screen from '@/src/components/Screen';
+import showSuccess from '@/src/utils/showToast';
 import { useRouter } from 'expo-router';
 import { useRef, useState } from 'react';
 import {
@@ -71,89 +72,91 @@ export default function CreateClub() {
       tags: selectedTags,
     });
 
+    // notify success and navigate back to club explore
+    showSuccess('Club created successfully!');
     router.push("/club-explore");
   };
 
   return (
     <Screen>
-    <KeyboardAvoidingView
-      style={{ flex: 1 }}
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-    >
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.safeArea}>
-          <Text style={styles.title}>CREATE CLUB</Text>
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={styles.safeArea}>
+            <Text style={styles.title}>CREATE CLUB</Text>
 
-          <Image source={require('../src/assets/images/splash-icon.png')} style={styles.icon} />
+            <Image source={require('../src/assets/images/create-club.png')} style={styles.icon} />
 
-          <ScrollView
-            ref={scrollViewRef}
-            contentContainerStyle={styles.formContainer}
-            keyboardShouldPersistTaps="handled"
-            showsVerticalScrollIndicator={true}
-          >
-            <Text style={styles.label}>CLUB NAME</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Enter club name"
-              placeholderTextColor={Colors.placeholder}
-              value={name}
-              onChangeText={setName}
-            />
+            <ScrollView
+              ref={scrollViewRef}
+              contentContainerStyle={styles.formContainer}
+              keyboardShouldPersistTaps="handled"
+              showsVerticalScrollIndicator={true}
+            >
+              <Text style={styles.label}>CLUB NAME</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Enter club name"
+                placeholderTextColor={Colors.placeholder}
+                value={name}
+                onChangeText={setName}
+              />
 
-            <Text style={styles.label}>DESCRIPTION</Text>
-            <TextInput
-              style={[styles.input, styles.descriptionInput]}
-              placeholder="Enter description"
-              placeholderTextColor={Colors.placeholder}
-              multiline
-              value={description}
-              onChangeText={setDescription}
-            />
+              <Text style={styles.label}>DESCRIPTION</Text>
+              <TextInput
+                style={[styles.input, styles.descriptionInput]}
+                placeholder="Enter description"
+                placeholderTextColor={Colors.placeholder}
+                multiline
+                value={description}
+                onChangeText={setDescription}
+              />
 
-            <Text style={styles.label}>Select Tags</Text>
-            <TouchableOpacity style={styles.dropdownButton} onPress={handleToggleDropdown}>
-              <Text style={styles.dropdownButtonText}>Select Tags</Text>
-            </TouchableOpacity>
+              <Text style={styles.label}>Select Tags</Text>
+              <TouchableOpacity style={styles.dropdownButton} onPress={handleToggleDropdown}>
+                <Text style={styles.dropdownButtonText}>Select Tags</Text>
+              </TouchableOpacity>
 
-            {showDropdown && (
-              <View style={styles.dropdownList}>
-                <ScrollView style={{ maxHeight: 200 }}>
-                  <View style={styles.dropdownButtonContainer}>
-                    {availableTags.map(tag => {
-                      const isSelected = selectedTags.includes(tag);
-                      return (
-                        <TouchableOpacity
-                          key={tag}
-                          style={[styles.dropdownItem, isSelected && styles.dropdownItemSelected]}
-                          onPress={() => toggleTag(tag)}
-                        >
-                          <Text style={[styles.dropdownItemText, isSelected && styles.dropdownItemTextSelected]}>
-                            {tag}
-                          </Text>
-                        </TouchableOpacity>
-                      );
-                    })}
-                  </View>
-                </ScrollView>
-              </View>
-            )}
-
-            <View style={styles.selectedTagsContainer}>
-              {selectedTags.map(tag => (
-                <View key={tag} style={styles.tagChip}>
-                  <Text style={styles.tagChipText}>{tag}</Text>
+              {showDropdown && (
+                <View style={styles.dropdownList}>
+                  <ScrollView style={{ maxHeight: 200 }}>
+                    <View style={styles.dropdownButtonContainer}>
+                      {availableTags.map(tag => {
+                        const isSelected = selectedTags.includes(tag);
+                        return (
+                          <TouchableOpacity
+                            key={tag}
+                            style={[styles.dropdownItem, isSelected && styles.dropdownItemSelected]}
+                            onPress={() => toggleTag(tag)}
+                          >
+                            <Text style={[styles.dropdownItemText, isSelected && styles.dropdownItemTextSelected]}>
+                              {tag}
+                            </Text>
+                          </TouchableOpacity>
+                        );
+                      })}
+                    </View>
+                  </ScrollView>
                 </View>
-              ))}
-            </View>
+              )}
 
-            <TouchableOpacity style={styles.addButton} onPress={handleAddClub} activeOpacity={0.8}>
-              <Text style={styles.addText}>ADD</Text>
-            </TouchableOpacity>
-          </ScrollView>
-        </View>
-      </TouchableWithoutFeedback>
-    </KeyboardAvoidingView>
+              <View style={styles.selectedTagsContainer}>
+                {selectedTags.map(tag => (
+                  <View key={tag} style={styles.tagChip}>
+                    <Text style={styles.tagChipText}>{tag}</Text>
+                  </View>
+                ))}
+              </View>
+
+              <TouchableOpacity style={styles.addButton} onPress={handleAddClub} activeOpacity={0.8}>
+                <Text style={styles.addText}>ADD</Text>
+              </TouchableOpacity>
+            </ScrollView>
+          </View>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
     </Screen>
   );
 }

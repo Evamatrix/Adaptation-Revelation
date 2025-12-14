@@ -9,33 +9,12 @@ import {
   View
 } from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
-import Toast, { BaseToast, BaseToastProps } from 'react-native-toast-message';
 import ClubCardMinimal from "../src/components/InfoCard/ClubCardMinimal";
 import Screen from "../src/components/Screen";
 import Colors from "../src/constants/colors";
 import { getFont, useAppFonts } from "../src/constants/fonts";
 import { useClubs } from "../src/context/ClubContext";
 import { useFriends } from "../src/context/FriendsContext";
-
-{/* Notification styling for shared club */}
-const toastConfig = {
-    /*
-      Overwrite 'success' type,
-      by modifying the existing `BaseToast` component
-    */
-    success: (props: BaseToastProps) => (
-      <BaseToast
-        {...props}
-        style={{ borderLeftColor: Colors.success }}
-        contentContainerStyle={{ paddingHorizontal: 15 }}
-        text2Style={{
-          fontFamily: getFont("mono"), 
-          fontSize: 14, 
-          color: Colors.subtext
-        }}
-      />
-    ),
-  };
 
 export default function Clubs() {
   const { friends } = useFriends();
@@ -210,7 +189,6 @@ export default function Clubs() {
           </View>
         </Modal>
       </SafeAreaView>
-      <Toast config={toastConfig}/>
     </Screen>
   );
 }
