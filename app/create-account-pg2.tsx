@@ -166,6 +166,7 @@ export default function CreateAccountPg2() {
       > 
         <Text style={styles.title}>SELECT</Text>
         <Text style={styles.label}>You can always come back to this later!</Text>
+        <Text style={styles.disclaimer}>Information will only be used for recommendations.</Text>
  
         <DropdownSection
           title="CULTURES"
@@ -256,9 +257,20 @@ const styles = StyleSheet.create({
     fontSize: Platform.select({ web: 48, default: 36 }),
     marginVertical: 30,
   },
+    disclaimer: {
+    color: '#7e7777ff',
+    alignSelf: 'flex-start',
+    textAlign: 'center',
+    fontFamily: 'JetBrainsMono_400Regular',
+    fontSize: Platform.select({ web: 14, default: 10 }),
+    fontWeight: 'bold',
+    marginBottom: 8,
+    width: FIXED_WIDTH,
+  },
   label: {
     color: '#000',
     alignSelf: 'flex-start',
+    textAlign: 'center',
     fontFamily: 'JetBrainsMono_400Regular',
     fontSize: Platform.select({ web: 20, default: 16 }),
     fontWeight: 'bold',
