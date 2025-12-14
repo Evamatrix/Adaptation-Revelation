@@ -14,8 +14,8 @@ interface MessageBubbleProps {
 
 export default function MessageBubble({ sender, text, time, isMine }: MessageBubbleProps) {
   const fontsLoaded = useAppFonts();
-  if (!fontsLoaded) return null;
   const { friends, addFriend, removeFriend } = useFriends();
+  if (!fontsLoaded) return null;
   const isFriend = friends.some((f) => f.name === sender);
 
   const handleToggleFriend = () => {
