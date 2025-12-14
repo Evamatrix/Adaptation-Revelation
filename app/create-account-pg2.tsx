@@ -16,10 +16,10 @@ import { useUser } from '../src/context/UserContext';
 
 
 /*Options*/
-const NAT_OPTS = ["American", "Indian", "Chinese", "Vietnamese", "Mexican", "Other"];
-const LANG_OPTS = ["English", "Spanish", "Mandarin", "Hindi", "Vietnamese", "Arabic", "Korean", "Japanese", "Other"];
-const REL_OPTS = ["Christian", "Muslim", "Hindu", "Jewish", "Not religious", "Other"];
-const INT_OPTS = ["Sports", "Music", "Reading", "Writing", "Film", "Cooking", "Finance", "Engineering", "Social"];
+const NAT_OPTS = ["Prefer not to answer", "American", "African American", "Hispanic/Latino", "South Asian", "Southeast Asian", "Native American"];
+const LANG_OPTS = ["Prefer not to answer", "English", "Spanish", "Chinese", "Tagalog", "Hindi", "Vietnamese", "Arabic", "Korean", "Russian", "German", "Urdu", "Telugu"];
+const REL_OPTS = ["Prefer not to answer", "None", "Christian", "Muslim", "Hindu", "Jewish", "Buddhist"];
+const INT_OPTS = ["Sports", "Music", "Reading", "Writing", "Film", "Cooking", "Finance", "Engineering", "Social", "Art", "Career", "Pre-med", "Science"];
 
 type CheckboxProps = {
   label: string;
@@ -168,7 +168,7 @@ export default function CreateAccountPg2() {
         <Text style={styles.label}>You can always come back to this later!</Text>
  
         <DropdownSection
-          title="NATIONALITY"
+          title="CULTURES"
           expanded={showNationality}
           setExpanded={setShowNationality}
           options={NAT_OPTS}
@@ -194,7 +194,7 @@ export default function CreateAccountPg2() {
         />
 
         <DropdownSection
-          title="RELIGION"
+          title="RELIGIONS"
           expanded={showReligion}
           setExpanded={setShowReligion}
           options={REL_OPTS}

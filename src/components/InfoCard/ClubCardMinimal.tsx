@@ -1,3 +1,4 @@
+import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import {
@@ -236,7 +237,7 @@ export default function ClubCardMinimal({
             style={[styles.actionButton, styles.shareButton]}
             onPress={() => setShowShare((prev) => !prev)}
           >
-            <Text style={styles.buttonText}>SHARE</Text>
+            <Ionicons name="share" size={20} color="black" />
           </TouchableOpacity>
         </View>
 
