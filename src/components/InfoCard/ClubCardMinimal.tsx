@@ -223,7 +223,15 @@ export default function ClubCardMinimal({
   return (
     <View style={styles.card}>
       <View style={styles.header}>
-        <Text style={styles.title}>{club.name}</Text>
+        <TouchableOpacity
+          onPress={() =>
+            router.push(`/club-chat/${encodeURIComponent(club.name)}`)
+          }
+          activeOpacity={0.7}
+        >
+          <Text style={styles.title}>{club.name}</Text>
+        </TouchableOpacity>
+
 
         <View style={styles.buttonGroup}>
           <TouchableOpacity
