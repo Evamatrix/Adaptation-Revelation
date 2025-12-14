@@ -32,3 +32,19 @@ In order to sign up for the app, users will need to input a school email. Any em
 
 Our Mobile Application’s Walk Through: https://youtu.be/yzNrD26Wp-s
 
+# Future Implementations/Issues we would have addressed given more time
+- Allowing creators of clubs to have admin roles/permissions
+- Adding tags for newly added friends
+- Creating a friend request system
+- Storing user information securely/include terms of use
+- Giving users the ability to edit sent messages
+- Expanding message box to fit larger messages
+- Including more confirmation messages
+- Including walkthrough directions for first-time users
+- Adding filtering options to find friends more easily
+- Adding loading animations
+- Creating a separate section/tab for notifications
+- Adding a mutuals section for each club
+- Changing profile options to dropdowns for more selections
+- Adding messaging options like attachments and stickers
+
